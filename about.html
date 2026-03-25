@@ -120,7 +120,7 @@
       .ab-hero-img-inner {
         position: absolute;
         inset: -12%;
-        background: url("aboutImage.jpg") center 20% / cover no-repeat;
+        background: url("assets/aboutImage.jpg") center 20% / cover no-repeat;
         will-change: transform;
       }
       .ab-hero-content {
@@ -975,6 +975,11 @@
           gap: 16px;
         }
 
+        /* Quote */
+        .ab-quote {
+          padding: 60px 24px;
+        }
+
         /* Photo carousel */
         .ab-photo-carousel {
           padding: 60px 24px;
@@ -1024,7 +1029,9 @@
       <ul class="nav-links">
         <li><a href="work.html">Work</a></li>
         <li><a href="about.html">About</a></li>
-        <li><a href="mailto:khoiqnguyen27@gmail.com">Contact</a></li>
+        <li>
+          <a href="mailto:khoiqnguyen27@gmail.com" class="f-cta">Contact</a>
+        </li>
       </ul>
       <button class="nav-menu-btn" id="navMenuBtn" aria-label="Open menu">
         Menu
@@ -1039,7 +1046,7 @@
       </div>
       <a href="work.html">Work</a>
       <a href="about.html">About</a>
-      <a href="mailto:khoiqnguyen27@gmail.com">Contact</a>
+      <a href="mailto:khoiqnguyen27@gmail.com" class="f-cta">Contact</a>
     </div>
 
     <!-- HERO -->
@@ -1250,10 +1257,10 @@
               </div>
             </div>
             <div class="ab-tl-img" data-tl-img="1">
-              <img src="timeline2.jpg" alt="ACM UC San Diego" />
+              <img src="assets/timeline2.jpg" alt="ACM UC San Diego" />
             </div>
             <div class="ab-tl-img" data-tl-img="2">
-              <img src="timeline3.jpg" alt="COMPASS Institution" />
+              <img src="assets/timeline3.jpg" alt="COMPASS Institution" />
             </div>
             <div class="ab-tl-img" data-tl-img="3">
               <div class="ab-tl-card">
@@ -1264,11 +1271,11 @@
               </div>
             </div>
             <div class="ab-tl-img" data-tl-img="4">
-              <img src="timeline5.jpg" alt="San Diego Public Library" />
+              <img src="assets/timeline5.jpg" alt="San Diego Public Library" />
             </div>
             <div class="ab-tl-img" data-tl-img="5">
               <video
-                src="timeline5.mp4"
+                src="assets/timeline5.mp4"
                 autoplay
                 muted
                 loop
@@ -1276,13 +1283,16 @@
               ></video>
             </div>
             <div class="ab-tl-img" data-tl-img="6">
-              <img src="timeline6.jpg" alt="Labora Cafe" />
+              <img src="assets/timeline6.jpg" alt="Labora Cafe" />
             </div>
             <div class="ab-tl-img" data-tl-img="7">
-              <img src="timeline7.jpg" alt="KHOI App" />
+              <img src="assets/timeline7.jpg" alt="KHOI App" />
             </div>
             <div class="ab-tl-img" data-tl-img="8">
-              <img src="timeline8.jpg" alt="USC Iovine and Young Academy" />
+              <img
+                src="assets/timeline8.jpg"
+                alt="USC Iovine and Young Academy"
+              />
             </div>
           </div>
         </div>
@@ -1330,7 +1340,11 @@
       </div>
       <div class="ab-resume-row rv">
         <p class="ab-resume-label">Want the full picture?</p>
-        <a href="Khoi_Nguyen_Resume.pdf" target="_blank" class="ab-resume-btn">
+        <a
+          href="assets/Khoi_Nguyen_Resume.pdf"
+          target="_blank"
+          class="ab-resume-btn"
+        >
           Download Resume
           <svg viewBox="0 0 24 24">
             <line x1="7" y1="17" x2="17" y2="7" />
@@ -1368,7 +1382,7 @@
           <div class="ab-photo-track" id="photoTrack">
             <div class="ab-photo-slide">
               <img
-                src="g_TC_03948_Original.jpg"
+                src="assets/g_TC_03948_Original.jpg"
                 alt="Khoi — UC San Diego graduation"
               />
               <p class="ab-photo-caption">
@@ -1378,7 +1392,7 @@
             </div>
             <div class="ab-photo-slide">
               <img
-                src="g_TC_03622_Original.jpg"
+                src="assets/g_TC_03622_Original.jpg"
                 alt="Khoi at the cliffs, San Diego"
               />
               <p class="ab-photo-caption">
@@ -1387,7 +1401,7 @@
             </div>
             <div class="ab-photo-slide">
               <img
-                src="g_TC_03530_Original.jpg"
+                src="assets/g_TC_03530_Original.jpg"
                 alt="Khoi with flowers at the cliffs"
               />
               <p class="ab-photo-caption">
@@ -1395,7 +1409,10 @@
               </p>
             </div>
             <div class="ab-photo-slide">
-              <img src="aboutImage.jpg" alt="Khoi — graduation portrait" />
+              <img
+                src="assets/aboutImage.jpg"
+                alt="Khoi — graduation portrait"
+              />
               <p class="ab-photo-caption">
                 The journey continues at USC IYA.<br />M.S. Integrated Design,
                 Business &amp; Technology.
@@ -1467,6 +1484,10 @@
       </footer>
     </div>
 
+    <script
+      data-cfasync="false"
+      src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"
+    ></script>
     <script>
       var cur = document.getElementById("cur");
       document.addEventListener("mousemove", function (e) {

@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Khoi Nguyen</title>
+    <link rel="icon" type="image/png" href="favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -272,7 +273,7 @@
         inset: -20%;
         width: 140%;
         height: 140%;
-        background: url("noise texture GIF by hoppip.gif");
+        background: url("assets/noise texture GIF by hoppip.gif");
         background-size: 200px 200px;
         opacity: 0.16;
         mix-blend-mode: soft-light;
@@ -953,7 +954,9 @@
       <ul class="nav-links">
         <li><a href="work.html">Work</a></li>
         <li><a href="about.html">About</a></li>
-        <li><a href="mailto:khoiqnguyen27@gmail.com">Contact</a></li>
+        <li>
+          <a href="mailto:khoiqnguyen27@gmail.com" class="f-cta">Contact</a>
+        </li>
       </ul>
       <button class="nav-menu-btn" id="navMenuBtn" aria-label="Open menu">
         Menu
@@ -968,7 +971,7 @@
       </div>
       <a href="work.html">Work</a>
       <a href="about.html">About</a>
-      <a href="mailto:khoiqnguyen27@gmail.com">Contact</a>
+      <a href="mailto:khoiqnguyen27@gmail.com" class="f-cta">Contact</a>
     </div>
 
     <!-- HERO -->
@@ -1010,7 +1013,7 @@
                 object-position: center top;
               "
             >
-              <source src="previewkhoi.mp4" type="video/mp4" />
+              <source src="assets/previewkhoi.mp4" type="video/mp4" />
             </video>
             <div class="cscrim"></div>
             <span class="cnum">01 / 03</span>
@@ -1050,7 +1053,7 @@
                 object-position: center top;
               "
             >
-              <source src="previewlabora.mp4" type="video/mp4" />
+              <source src="assets/previewlabora.mp4" type="video/mp4" />
             </video>
             <div class="cscrim"></div>
             <span class="cnum">02 / 03</span>
@@ -1092,7 +1095,7 @@
                 object-position: center top;
               "
             >
-              <source src="previewscentsync.mp4" type="video/mp4" />
+              <source src="assets/previewscentsync.mp4" type="video/mp4" />
             </video>
             <div class="cscrim"></div>
             <span class="cnum">03 / 03</span>
@@ -1160,11 +1163,15 @@
     </section>
 
     <div class="footer-scroll-zone">
+      <script
+        data-cfasync="false"
+        src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"
+      ></script>
       <script>
         document.getElementById("heroImg").style.backgroundImage =
-          "url('heroImage.jpg')";
+          "url('assets/heroImage.jpg')";
         document.getElementById("aboutImg").style.backgroundImage =
-          "url('aboutImage.jpg')";
+          "url('assets/aboutImage.jpg')";
 
         const cur = document.getElementById("cur");
         document.addEventListener("mousemove", (e) => {
@@ -1318,6 +1325,10 @@
         </div>
       </footer>
     </div>
+    <script
+      data-cfasync="false"
+      src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"
+    ></script>
     <script>
       (function () {
         var navMenuBtn = document.getElementById("navMenuBtn");
