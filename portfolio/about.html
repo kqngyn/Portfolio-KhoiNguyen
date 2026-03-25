@@ -1,0 +1,1713 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About — Khoi Nguyen</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --almond: #cdbbb7;
+        --emerald: #23583a;
+        --onyx: #0a0a0b;
+        --snow: #f8f8f8;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Roboto Mono", monospace;
+        background: var(--snow);
+        color: var(--onyx);
+        overflow-x: hidden;
+        cursor: none;
+      }
+
+      .cur {
+        position: fixed;
+        width: 8px;
+        height: 8px;
+        background: var(--almond);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition:
+          width 0.28s,
+          height 0.28s,
+          background 0.28s;
+        mix-blend-mode: difference;
+      }
+      .cur.g {
+        width: 48px;
+        height: 48px;
+        background: rgba(205, 187, 183, 0.4);
+      }
+
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        padding: 30px 52px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        mix-blend-mode: exclusion;
+      }
+      .nav-logo {
+        font-family: "Manrope", sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--snow);
+        text-decoration: none;
+      }
+      .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 40px;
+      }
+      .nav-links a {
+        font-family: "Roboto Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--snow);
+        text-decoration: none;
+        position: relative;
+      }
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: var(--snow);
+        transition: width 0.3s cubic-bezier(0.76, 0, 0.24, 1);
+      }
+      .nav-dropdown {
+        display: none;
+      }
+      .nav-menu-btn {
+        display: none;
+      }
+
+      /* Hero */
+      .ab-hero {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        height: 100vh;
+        overflow: hidden;
+      }
+      .ab-hero-img {
+        position: relative;
+        overflow: hidden;
+      }
+      .ab-hero-img-inner {
+        position: absolute;
+        inset: -12%;
+        background: url("aboutImage.jpg") center 20% / cover no-repeat;
+        will-change: transform;
+      }
+      .ab-hero-content {
+        background: var(--onyx);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 52px;
+        position: relative;
+      }
+      .ab-hero-eyebrow {
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--almond);
+        margin-bottom: 20px;
+      }
+      .ab-hero-title {
+        font-family: "Manrope", sans-serif;
+        font-size: clamp(40px, 5.5vw, 88px);
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        line-height: 0.9;
+        color: var(--snow);
+        margin-bottom: 24px;
+      }
+      .ab-hero-title em {
+        font-style: italic;
+        font-weight: 300;
+        color: var(--almond);
+      }
+      .ab-hero-sub {
+        font-family: "Roboto Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.06em;
+        color: rgba(248, 248, 248, 0.4);
+        line-height: 1.8;
+      }
+
+      /* Scroll reveal */
+      .rv {
+        opacity: 0;
+        transform: translateY(32px);
+        transition:
+          opacity 0.85s cubic-bezier(0.76, 0, 0.24, 1),
+          transform 0.85s cubic-bezier(0.76, 0, 0.24, 1);
+      }
+      .rv.in {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .rv-d1 {
+        transition-delay: 0.1s;
+      }
+      .rv-d2 {
+        transition-delay: 0.2s;
+      }
+      .rv-d3 {
+        transition-delay: 0.3s;
+      }
+
+      /* Sections */
+      .ab-section {
+        padding: 80px 52px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .ab-eyebrow {
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--emerald);
+        margin-bottom: 24px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .ab-eyebrow::after {
+        content: "";
+        flex: 0 0 32px;
+        height: 1px;
+        background: var(--emerald);
+      }
+      .ab-intro-title {
+        font-family: "Manrope", sans-serif;
+        font-size: clamp(32px, 4vw, 56px);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1;
+        color: var(--onyx);
+        margin-bottom: 32px;
+      }
+      .ab-intro-title em {
+        font-style: italic;
+        font-weight: 300;
+        color: var(--emerald);
+      }
+
+      /* Intro */
+      .ab-intro-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+        align-items: start;
+      }
+      .ab-intro-body p {
+        font-size: 12px;
+        line-height: 1.9;
+        color: rgba(10, 10, 11, 0.6);
+        margin-bottom: 20px;
+        letter-spacing: -0.01em;
+      }
+      .ab-intro-body p strong {
+        color: var(--onyx);
+        font-weight: 600;
+      }
+      .ab-currently {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding: 32px;
+        border: 1px solid rgba(10, 10, 11, 0.07);
+        border-radius: 2px;
+        margin-top: 40px;
+      }
+      .ab-currently-label {
+        font-family: "Roboto Mono", monospace;
+        font-size: 8px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--emerald);
+      }
+      .ab-currently-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      .ab-currently-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--emerald);
+        flex-shrink: 0;
+        margin-top: 5px;
+      }
+      .ab-currently-text {
+        font-size: 11px;
+        line-height: 1.5;
+        color: rgba(10, 10, 11, 0.65);
+        letter-spacing: -0.01em;
+      }
+
+      /* Timeline */
+      .ab-tl-section {
+        padding: 80px 52px 0;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .ab-tl-body {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+        align-items: start;
+      }
+      .ab-tl-left {
+        position: relative;
+      }
+      .ab-tl-right-col {
+        position: relative;
+        align-self: stretch;
+      }
+      .ab-tl-header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: var(--snow);
+        padding: 80px 0 32px;
+      }
+      .ab-tl-header::before {
+        content: "";
+        position: absolute;
+        top: -120px;
+        left: -52px;
+        right: -52px;
+        bottom: 0;
+        background: var(--snow);
+        z-index: -1;
+      }
+      .ab-tl-header::after {
+        content: "";
+        position: absolute;
+        bottom: -48px;
+        left: -52px;
+        right: -52px;
+        height: 48px;
+        background: linear-gradient(to bottom, var(--snow) 40%, transparent);
+        pointer-events: none;
+      }
+      .ab-tl-right {
+        position: sticky;
+        top: 120px;
+        height: 520px;
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .ab-tl-img {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        transition: opacity 0.6s cubic-bezier(0.76, 0, 0.24, 1);
+      }
+      .ab-tl-img.active {
+        opacity: 1;
+      }
+      .ab-tl-img img,
+      .ab-tl-img video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .ab-tl-card {
+        width: 100%;
+        height: 100%;
+        background: var(--onyx);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 40px;
+        box-sizing: border-box;
+      }
+      .ab-tl-card-eyebrow {
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--almond);
+        margin-bottom: 16px;
+      }
+      .ab-tl-card-title {
+        font-family: "Manrope", sans-serif;
+        font-size: clamp(28px, 3vw, 48px);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1;
+        color: var(--snow);
+      }
+      .ab-tl-card-title em {
+        font-style: italic;
+        font-weight: 300;
+        color: var(--almond);
+      }
+      .ab-timeline {
+        position: relative;
+        padding-left: 0;
+        padding-top: 16px;
+      }
+      .ab-timeline-line {
+        position: absolute;
+        left: 0;
+        top: 8px;
+        bottom: 0;
+        width: 1px;
+        background: rgba(10, 10, 11, 0.1);
+      }
+      .ab-timeline-fill {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1px;
+        height: 0%;
+        background: var(--emerald);
+        transition: height 0.1s linear;
+      }
+      .ab-tl-item {
+        position: relative;
+        padding: 0 0 52px 40px;
+        opacity: 0;
+        transform: translateX(-16px);
+        transition:
+          opacity 0.6s cubic-bezier(0.76, 0, 0.24, 1),
+          transform 0.6s cubic-bezier(0.76, 0, 0.24, 1);
+        cursor: default;
+      }
+      .ab-tl-item.in {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      .ab-tl-dot {
+        position: absolute;
+        left: -4px;
+        top: 6px;
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: var(--snow);
+        border: 1px solid rgba(10, 10, 11, 0.2);
+        transition:
+          background 0.3s,
+          border-color 0.3s;
+      }
+      .ab-tl-item.current .ab-tl-dot {
+        background: var(--emerald);
+        border-color: var(--emerald);
+      }
+      .ab-tl-year {
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.1em;
+        color: rgba(10, 10, 11, 0.35);
+        margin-bottom: 6px;
+      }
+      .ab-tl-item.current .ab-tl-year {
+        color: var(--emerald);
+      }
+      .ab-tl-role {
+        font-family: "Manrope", sans-serif;
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: var(--onyx);
+        margin-bottom: 2px;
+      }
+      .ab-tl-org {
+        font-family: "Roboto Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.04em;
+        color: rgba(10, 10, 11, 0.45);
+        margin-bottom: 10px;
+      }
+      .ab-tl-desc {
+        font-size: 10px;
+        line-height: 1.7;
+        color: rgba(10, 10, 11, 0.5);
+        letter-spacing: -0.01em;
+      }
+
+      /* Skills */
+      .ab-skills-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        background: rgba(10, 10, 11, 0.07);
+        border: 1px solid rgba(10, 10, 11, 0.07);
+        border-radius: 2px;
+        overflow: hidden;
+        margin-top: 40px;
+      }
+      .ab-skill-cell {
+        background: var(--snow);
+        padding: 28px;
+        transition: background 0.25s;
+      }
+      .ab-skill-cell:hover {
+        background: rgba(10, 10, 11, 0.02);
+      }
+      .ab-skill-cat {
+        font-family: "Roboto Mono", monospace;
+        font-size: 8px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--emerald);
+        margin-bottom: 14px;
+      }
+      .ab-skill-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .ab-skill-list li {
+        font-family: "Manrope", sans-serif;
+        font-size: 12px;
+        font-weight: 500;
+        color: rgba(10, 10, 11, 0.65);
+        letter-spacing: -0.01em;
+      }
+      .ab-resume-row {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        margin-top: 56px;
+        padding-top: 56px;
+        border-top: 1px solid rgba(10, 10, 11, 0.07);
+      }
+      .ab-resume-label {
+        font-family: "Roboto Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(10, 10, 11, 0.4);
+        flex: 1;
+      }
+      .ab-resume-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-family: "Roboto Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--snow);
+        background: var(--onyx);
+        text-decoration: none;
+        padding: 14px 24px;
+        border-radius: 2px;
+        transition: background 0.25s;
+      }
+      .ab-resume-btn:hover {
+        background: var(--emerald);
+      }
+      .ab-resume-btn svg {
+        width: 14px;
+        height: 14px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 1.5;
+        transition: transform 0.25s;
+      }
+      .ab-resume-btn:hover svg {
+        transform: translate(2px, -2px);
+      }
+
+      /* Stat Strip */
+      .ab-stats-wrap {
+        padding: 0 52px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .ab-stats {
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1px;
+        background: rgba(10, 10, 11, 0.07);
+        border: 1px solid rgba(10, 10, 11, 0.07);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .ab-stat {
+        background: var(--snow);
+        padding: 40px 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .ab-stat-num {
+        font-family: "Manrope", sans-serif;
+        font-size: clamp(36px, 4vw, 64px);
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        line-height: 1;
+        color: var(--onyx);
+      }
+      .ab-stat-num em {
+        font-style: italic;
+        font-weight: 300;
+        color: var(--emerald);
+        font-size: 0.6em;
+      }
+      .ab-stat-label {
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.08em;
+        color: rgba(10, 10, 11, 0.4);
+        line-height: 1.5;
+      }
+
+      /* Photo Carousel */
+      .ab-photo-carousel {
+        padding: 80px 52px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .ab-photo-carousel-label {
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(10, 10, 11, 0.35);
+        margin-bottom: 24px;
+      }
+      .ab-photo-track-wrap {
+        overflow: hidden;
+        cursor: grab;
+        user-select: none;
+      }
+      .ab-photo-track-wrap:active {
+        cursor: grabbing;
+      }
+      .ab-photo-track {
+        display: flex;
+        gap: 16px;
+        transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1);
+      }
+      .ab-photo-slide {
+        flex-shrink: 0;
+        width: 340px;
+      }
+      .ab-photo-slide img {
+        width: 100%;
+        height: 460px;
+        object-fit: cover;
+        border-radius: 2px;
+        display: block;
+      }
+      .ab-photo-caption {
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.06em;
+        color: rgba(10, 10, 11, 0.4);
+        margin-top: 12px;
+        line-height: 1.6;
+      }
+      .ab-photo-controls {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-top: 24px;
+      }
+      .cs-carousel-btn {
+        background: none;
+        border: 1px solid rgba(10, 10, 11, 0.15);
+        border-radius: 2px;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: none;
+        color: var(--onyx);
+        font-size: 14px;
+        transition:
+          border-color 0.25s,
+          color 0.25s;
+        flex-shrink: 0;
+      }
+      .cs-carousel-btn:hover {
+        border-color: var(--emerald);
+        color: var(--emerald);
+      }
+
+      /* Sticky + footer */
+      .ab-sticky-wrap {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background: var(--snow);
+      }
+      .footer-scroll-zone {
+        position: relative;
+        z-index: 2;
+      }
+
+      /* Footer */
+      .site-footer {
+        background: var(--onyx);
+        padding: 80px 52px 52px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 100vh;
+        border-top: 1px solid rgba(255, 255, 255, 0.07);
+      }
+      .f-label {
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--almond);
+        margin-bottom: 18px;
+      }
+      .f-cta {
+        font-family: "Manrope", sans-serif;
+        font-size: clamp(46px, 8vw, 124px);
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        line-height: 0.88;
+        color: var(--snow);
+        text-decoration: none;
+        display: block;
+      }
+      .f-cta .vn {
+        font-weight: 300;
+        font-style: italic;
+        color: var(--almond);
+        display: block;
+      }
+      .f-bottom {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: auto;
+        padding-top: 48px;
+        border-top: 1px solid rgba(255, 255, 255, 0.07);
+      }
+      .f-copy {
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.04em;
+        color: rgba(255, 255, 255, 0.18);
+      }
+      .f-soc {
+        display: flex;
+        gap: 32px;
+      }
+      .f-soc a {
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.35);
+        text-decoration: none;
+        position: relative;
+        padding-bottom: 3px;
+        transition: color 0.3s;
+      }
+      .f-soc a::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: var(--almond);
+        transition: width 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+      }
+      .f-soc a:hover {
+        color: var(--snow);
+      }
+      .f-soc a:hover::after {
+        width: 100%;
+      }
+      .f-top {
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.35);
+        background: none;
+        border: none;
+        cursor: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        position: relative;
+        padding-bottom: 3px;
+        transition: color 0.3s;
+      }
+      .f-top::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: var(--almond);
+        transition: width 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+      }
+      .f-top:hover {
+        color: var(--snow);
+      }
+      .f-top:hover::after {
+        width: 100%;
+      }
+      .f-top svg {
+        width: 11px;
+        height: 11px;
+        stroke: currentColor;
+        fill: none;
+      }
+      @media (max-width: 768px) {
+        /* Nav */
+        nav {
+          padding: 24px 24px;
+        }
+        .nav-links {
+          display: none;
+        }
+        .nav-menu-btn {
+          display: flex;
+          font-family: "Roboto Mono", monospace;
+          font-size: 10px;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: var(--snow);
+          background: none;
+          border: none;
+          cursor: none;
+          align-items: center;
+          gap: 8px;
+        }
+        .nav-menu-btn::after {
+          content: "";
+          width: 16px;
+          height: 1px;
+          background: var(--snow);
+          display: block;
+          transition: width 0.3s;
+        }
+        .nav-menu-btn.open::after {
+          width: 10px;
+        }
+        .nav-dropdown {
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: var(--onyx);
+          z-index: 1001;
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: flex-end;
+          padding: 52px 24px;
+          gap: 8px;
+        }
+        .nav-dropdown-top {
+          position: absolute;
+          top: 28px;
+          left: 24px;
+          right: 24px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+        .nav-dropdown-logo {
+          font-family: "Manrope", sans-serif;
+          font-size: 12px;
+          font-weight: 700;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: var(--snow);
+          text-decoration: none;
+        }
+        .nav-dropdown.open {
+          display: flex;
+        }
+        .nav-dropdown a:not(.nav-dropdown-logo) {
+          font-family: "Manrope", sans-serif;
+          font-size: clamp(40px, 12vw, 72px);
+          font-weight: 800;
+          letter-spacing: -0.03em;
+          color: var(--snow);
+          text-decoration: none;
+          line-height: 1;
+          opacity: 0;
+          transform: translateY(20px);
+          transition:
+            opacity 0.4s,
+            transform 0.4s;
+        }
+        .nav-dropdown.open a:not(.nav-dropdown-logo) {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        .nav-dropdown.open a:nth-child(2) {
+          transition-delay: 0.05s;
+        }
+        .nav-dropdown.open a:nth-child(3) {
+          transition-delay: 0.1s;
+        }
+        .nav-dropdown.open a:nth-child(4) {
+          transition-delay: 0.15s;
+        }
+        .nav-dropdown-close {
+          font-family: "Roboto Mono", monospace;
+          font-size: 10px;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: rgba(248, 248, 248, 0.4);
+          background: none;
+          border: none;
+          cursor: none;
+        }
+
+        /* Hero */
+        .ab-hero {
+          grid-template-columns: 1fr;
+          height: auto;
+        }
+        .ab-hero-img {
+          height: 60vw;
+        }
+        .ab-hero-img-inner {
+          inset: 0;
+        }
+        .ab-hero-content {
+          padding: 40px 24px;
+        }
+        .ab-hero-title {
+          font-size: clamp(36px, 10vw, 56px);
+        }
+
+        /* Sections */
+        .ab-section {
+          padding: 60px 24px;
+        }
+
+        /* Intro */
+        .ab-intro-grid {
+          grid-template-columns: 1fr;
+          gap: 40px;
+        }
+        .ab-intro-title {
+          font-size: clamp(28px, 7vw, 44px);
+        }
+        .ab-currently {
+          padding: 24px;
+        }
+
+        /* Timeline */
+        .ab-tl-section {
+          padding: 60px 24px 0;
+        }
+        .ab-tl-body {
+          grid-template-columns: 1fr;
+          gap: 0;
+        }
+        .ab-tl-right-col {
+          display: none;
+        }
+        .ab-tl-header {
+          padding: 60px 0 24px;
+        }
+        .ab-tl-header::before {
+          left: -24px;
+          right: -24px;
+        }
+        .ab-tl-header::after {
+          left: -24px;
+          right: -24px;
+        }
+
+        /* Skills */
+        .ab-skills-grid {
+          grid-template-columns: 1fr;
+        }
+
+        /* Stats */
+        .ab-stats {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        /* Resume row */
+        .ab-resume-row {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 16px;
+        }
+
+        /* Photo carousel */
+        .ab-photo-carousel {
+          padding: 60px 24px;
+        }
+        .ab-photo-slide {
+          width: 260px;
+        }
+        .ab-photo-slide img {
+          height: 360px;
+        }
+
+        /* Footer */
+        .site-footer {
+          padding: 60px 24px 40px;
+        }
+        .f-bottom {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 24px;
+        }
+        .f-soc {
+          gap: 20px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .ab-stats {
+          grid-template-columns: 1fr;
+        }
+        .ab-photo-slide {
+          width: calc(100vw - 48px);
+        }
+        .ab-photo-slide img {
+          height: 300px;
+        }
+        .ab-hero-img {
+          height: 70vw;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="cur" id="cur"></div>
+
+    <nav>
+      <a href="index.html" class="nav-logo">Khoi Nguyen</a>
+      <ul class="nav-links">
+        <li><a href="work.html">Work</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="mailto:khoiqnguyen27@gmail.com">Contact</a></li>
+      </ul>
+      <button class="nav-menu-btn" id="navMenuBtn" aria-label="Open menu">
+        Menu
+      </button>
+    </nav>
+
+    <!-- Mobile dropdown -->
+    <div class="nav-dropdown" id="navDropdown">
+      <div class="nav-dropdown-top">
+        <a href="index.html" class="nav-dropdown-logo">Khoi Nguyen</a>
+        <button class="nav-dropdown-close" id="navDropdownClose">Close</button>
+      </div>
+      <a href="work.html">Work</a>
+      <a href="about.html">About</a>
+      <a href="mailto:khoiqnguyen27@gmail.com">Contact</a>
+    </div>
+
+    <!-- HERO -->
+    <section class="ab-hero">
+      <div class="ab-hero-img">
+        <div class="ab-hero-img-inner" id="abHeroImg"></div>
+      </div>
+      <div class="ab-hero-content">
+        <p class="ab-hero-eyebrow rv">Khoi Nguyen</p>
+        <h1 class="ab-hero-title rv rv-d1">
+          Interdisciplinary<br /><em>by design.</em>
+        </h1>
+        <p class="ab-hero-sub rv rv-d2">
+          Product Designer<br />
+          Front-End Developer<br />
+          USC Iovine and Young Academy<br />
+          UCSD Cognitive Science
+        </p>
+      </div>
+    </section>
+
+    <!-- INTRO -->
+    <section class="ab-section">
+      <div class="ab-intro-grid">
+        <div>
+          <p class="ab-eyebrow rv">About</p>
+          <h2 class="ab-intro-title rv rv-d1">
+            Designer who codes.<br /><em>Researcher</em> who ships.
+          </h2>
+          <div class="ab-currently rv rv-d2">
+            <p class="ab-currently-label">Currently</p>
+            <div class="ab-currently-item">
+              <span class="ab-currently-dot"></span>
+              <p class="ab-currently-text">
+                M.S. Integrated Design, Business &amp; Technology — USC Iovine
+                and Young Academy
+              </p>
+            </div>
+            <div class="ab-currently-item">
+              <span class="ab-currently-dot"></span>
+              <p class="ab-currently-text">
+                Freelance Product Designer + Front-End Developer
+              </p>
+            </div>
+            <div class="ab-currently-item">
+              <span class="ab-currently-dot"></span>
+              <p class="ab-currently-text">
+                Seeking full-time opportunities starting Summer 2027.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="ab-intro-body rv rv-d2">
+          <p>
+            I'm a freelance product designer and front-end developer based in
+            Los Angeles. I graduated from <strong>UC San Diego</strong> in June
+            2025 with a B.S. in Cognitive Science (Design &amp; Interaction) and
+            am now pursuing my M.S. at the
+            <strong>USC Iovine and Young Academy</strong> in Integrated Design,
+            Business &amp; Technology.
+          </p>
+          <p>
+            My path started junior year of high school as a marketing intern at
+            a non-profit. Working closely with industry product designers, I
+            became immediately fascinated by how they blended technical and
+            creative skill sets to turn ideas into real, usable products. I
+            never looked back.
+          </p>
+          <p>
+            I bring together a technical background, a creative mind, and a
+            genuine love for people to advocate for real users while solving
+            problems inventively. Five years from now, I hope to be part of a
+            team of engineers, designers, and PMs building the future of
+            technology. In the meantime, I'm dedicated to shipping impactful
+            work.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TIMELINE -->
+    <div class="ab-tl-section">
+      <div class="ab-tl-body">
+        <div class="ab-tl-left">
+          <div class="ab-tl-header">
+            <p class="ab-eyebrow rv">Experience</p>
+            <h2 class="ab-intro-title rv rv-d1">
+              The journey<br /><em>so far.</em>
+            </h2>
+          </div>
+          <div class="ab-timeline">
+            <div class="ab-timeline-line">
+              <div class="ab-timeline-fill" id="tlFill"></div>
+            </div>
+            <div class="ab-tl-item" data-tl="0">
+              <div class="ab-tl-dot"></div>
+              <p class="ab-tl-year">2019</p>
+              <p class="ab-tl-role">UX Design Intern</p>
+              <p class="ab-tl-org">GiveTeens20 — Fremont, CA</p>
+              <p class="ab-tl-desc">
+                Where it all started. Developed a comprehensive design system
+                that modernized the organization's website while working
+                alongside industry UI/UX designers.
+              </p>
+            </div>
+            <div class="ab-tl-item" data-tl="1">
+              <div class="ab-tl-dot"></div>
+              <p class="ab-tl-year">2022</p>
+              <p class="ab-tl-role">UX/UI Designer</p>
+              <p class="ab-tl-org">
+                Association for Computing Machinery — UC San Diego
+              </p>
+              <p class="ab-tl-desc">
+                Conducted user research on UCSD students and staff to identify
+                pain points within the UC San Diego mobile app, driving a 15%
+                increase in usability.
+              </p>
+            </div>
+            <div class="ab-tl-item" data-tl="2">
+              <div class="ab-tl-dot"></div>
+              <p class="ab-tl-year">2023</p>
+              <p class="ab-tl-role">Product Designer</p>
+              <p class="ab-tl-org">COMPASS Institution — San Diego, CA</p>
+              <p class="ab-tl-desc">
+                Led UI/UX design for a comprehensive six-page website redesign.
+                Built design systems, wireframes, and high-fidelity prototypes
+                across mobile, tablet, and desktop.
+              </p>
+            </div>
+            <div class="ab-tl-item" data-tl="3">
+              <div class="ab-tl-dot"></div>
+              <p class="ab-tl-year">2025</p>
+              <p class="ab-tl-role">Interaction Design Instructor Assistant</p>
+              <p class="ab-tl-org">UC San Diego</p>
+              <p class="ab-tl-desc">
+                Mentored 30+ students on designing and evaluating user
+                interfaces, applying cognitive principles and UI best practices
+                to critique and grade their work.
+              </p>
+            </div>
+            <div class="ab-tl-item" data-tl="4">
+              <div class="ab-tl-dot"></div>
+              <p class="ab-tl-year">2025</p>
+              <p class="ab-tl-role">Product Designer</p>
+              <p class="ab-tl-org">San Diego Public Library</p>
+              <p class="ab-tl-desc">
+                Redesigned the Library Market event and reservation system.
+                Conducted staff interviews, mapped workflows, and created
+                high-fidelity prototypes that reduced scheduling errors and
+                double-bookings.
+              </p>
+            </div>
+            <div class="ab-tl-item" data-tl="5">
+              <div class="ab-tl-dot"></div>
+              <p class="ab-tl-year">2025</p>
+              <p class="ab-tl-role">Graduated from UCSD</p>
+              <p class="ab-tl-org">University of California, San Diego</p>
+              <p class="ab-tl-desc">
+                B.S. in Cognitive Science with a Design &amp; Interaction
+                specialization and minor in Computer Science. Graduated with
+                Dean's List every quarter.
+              </p>
+            </div>
+            <div class="ab-tl-item" data-tl="6">
+              <div class="ab-tl-dot"></div>
+              <p class="ab-tl-year">2025</p>
+              <p class="ab-tl-role">Freelance UI/UX Designer</p>
+              <p class="ab-tl-org">Labora Cafe — San Diego, CA</p>
+              <p class="ab-tl-desc">
+                Designed and launched a fully responsive website for a new local
+                cafe. Built the brand identity from scratch and shipped in 4
+                weeks — driving 1.1K unique visitors and 2.6K page views within
+                the first two weeks of launch.
+              </p>
+            </div>
+            <div class="ab-tl-item" data-tl="7">
+              <div class="ab-tl-dot"></div>
+              <p class="ab-tl-year">2025</p>
+              <p class="ab-tl-role">Founder + Product Designer</p>
+              <p class="ab-tl-org">KHOI App — Independent</p>
+              <p class="ab-tl-desc">
+                Designed and developed a two-sided beauty marketplace connecting
+                clients with independent beauty professionals. 309 beta sessions
+                across 9 testers. Shipping to App Store.
+              </p>
+            </div>
+            <div class="ab-tl-item current" data-tl="8">
+              <div class="ab-tl-dot"></div>
+              <p class="ab-tl-year">2025 — Present</p>
+              <p class="ab-tl-role">M.S. Student</p>
+              <p class="ab-tl-org">
+                USC Iovine and Young Academy — Los Angeles, CA
+              </p>
+              <p class="ab-tl-desc">
+                Pursuing a Master of Science in Integrated Design, Business
+                &amp; Technology. Expected May 2027.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="ab-tl-right-col">
+          <div class="ab-tl-right" id="tlImgPanel">
+            <div class="ab-tl-img active" data-tl-img="0">
+              <div class="ab-tl-card">
+                <p class="ab-tl-card-eyebrow">2019 · Where it started</p>
+                <h3 class="ab-tl-card-title">The first<br /><em>spark.</em></h3>
+              </div>
+            </div>
+            <div class="ab-tl-img" data-tl-img="1">
+              <img src="timeline2.jpg" alt="ACM UC San Diego" />
+            </div>
+            <div class="ab-tl-img" data-tl-img="2">
+              <img src="timeline3.jpg" alt="COMPASS Institution" />
+            </div>
+            <div class="ab-tl-img" data-tl-img="3">
+              <div class="ab-tl-card">
+                <p class="ab-tl-card-eyebrow">2025 · UC San Diego</p>
+                <h3 class="ab-tl-card-title">
+                  Taught<br /><em>30+ students.</em>
+                </h3>
+              </div>
+            </div>
+            <div class="ab-tl-img" data-tl-img="4">
+              <img src="timeline5.jpg" alt="San Diego Public Library" />
+            </div>
+            <div class="ab-tl-img" data-tl-img="5">
+              <video
+                src="timeline5.mp4"
+                autoplay
+                muted
+                loop
+                playsinline
+              ></video>
+            </div>
+            <div class="ab-tl-img" data-tl-img="6">
+              <img src="timeline6.jpg" alt="Labora Cafe" />
+            </div>
+            <div class="ab-tl-img" data-tl-img="7">
+              <img src="timeline7.jpg" alt="KHOI App" />
+            </div>
+            <div class="ab-tl-img" data-tl-img="8">
+              <img src="timeline8.jpg" alt="USC Iovine and Young Academy" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SKILLS -->
+    <section class="ab-section">
+      <p class="ab-eyebrow rv">Skills</p>
+      <h2 class="ab-intro-title rv rv-d1">What I<br /><em>bring.</em></h2>
+      <div class="ab-skills-grid rv rv-d2">
+        <div class="ab-skill-cell">
+          <p class="ab-skill-cat">Design</p>
+          <ul class="ab-skill-list">
+            <li>Figma</li>
+            <li>Adobe Creative Suite</li>
+            <li>Framer</li>
+            <li>Rapid Prototyping</li>
+            <li>Design Systems</li>
+            <li>User Research</li>
+          </ul>
+        </div>
+        <div class="ab-skill-cell">
+          <p class="ab-skill-cat">Development</p>
+          <ul class="ab-skill-list">
+            <li>SwiftUI</li>
+            <li>React.js</li>
+            <li>HTML / CSS</li>
+            <li>JavaScript</li>
+            <li>Python</li>
+            <li>Github</li>
+          </ul>
+        </div>
+        <div class="ab-skill-cell">
+          <p class="ab-skill-cat">Thinking</p>
+          <ul class="ab-skill-list">
+            <li>Product Strategy</li>
+            <li>Cross-functional Collaboration</li>
+            <li>Usability Testing</li>
+            <li>Information Architecture</li>
+            <li>Data-Driven UX</li>
+            <li>Stakeholder Management</li>
+          </ul>
+        </div>
+      </div>
+      <div class="ab-resume-row rv">
+        <p class="ab-resume-label">Want the full picture?</p>
+        <a href="Khoi_Nguyen_Resume.pdf" target="_blank" class="ab-resume-btn">
+          Download Resume
+          <svg viewBox="0 0 24 24">
+            <line x1="7" y1="17" x2="17" y2="7" />
+            <polyline points="7 7 17 7 17 17" />
+          </svg>
+        </a>
+      </div>
+
+      <!-- Stats inside skills -->
+      <div class="ab-stats" style="margin-top: 56px">
+        <div class="ab-stat">
+          <p class="ab-stat-num">4<em>+</em></p>
+          <p class="ab-stat-label">Years in design</p>
+        </div>
+        <div class="ab-stat">
+          <p class="ab-stat-num">5</p>
+          <p class="ab-stat-label">Brands built</p>
+        </div>
+        <div class="ab-stat">
+          <p class="ab-stat-num">3</p>
+          <p class="ab-stat-label">Real businesses shipped for</p>
+        </div>
+        <div class="ab-stat">
+          <p class="ab-stat-num">0</p>
+          <p class="ab-stat-label">Times I've stopped being curious</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHOTO CAROUSEL — sticky, footer slides over it -->
+    <div class="ab-sticky-wrap">
+      <div class="ab-photo-carousel">
+        <p class="ab-photo-carousel-label">Behind the work</p>
+        <div class="ab-photo-track-wrap" id="photoTrackWrap">
+          <div class="ab-photo-track" id="photoTrack">
+            <div class="ab-photo-slide">
+              <img
+                src="g_TC_03948_Original.jpg"
+                alt="Khoi — UC San Diego graduation"
+              />
+              <p class="ab-photo-caption">
+                UC San Diego, June 2025.<br />B.S. Cognitive Science: Design
+                &amp; Interaction.
+              </p>
+            </div>
+            <div class="ab-photo-slide">
+              <img
+                src="g_TC_03622_Original.jpg"
+                alt="Khoi at the cliffs, San Diego"
+              />
+              <p class="ab-photo-caption">
+                Sunset Cliffs, San Diego.<br />Where a lot of thinking happens.
+              </p>
+            </div>
+            <div class="ab-photo-slide">
+              <img
+                src="g_TC_03530_Original.jpg"
+                alt="Khoi with flowers at the cliffs"
+              />
+              <p class="ab-photo-caption">
+                Class of 2025.<br />First-generation college graduate.
+              </p>
+            </div>
+            <div class="ab-photo-slide">
+              <img src="aboutImage.jpg" alt="Khoi — graduation portrait" />
+              <p class="ab-photo-caption">
+                The journey continues at USC IYA.<br />M.S. Integrated Design,
+                Business &amp; Technology.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="ab-photo-controls">
+          <button class="cs-carousel-btn" id="photoPrev" aria-label="Previous">
+            &#8592;
+          </button>
+          <button class="cs-carousel-btn" id="photoNext" aria-label="Next">
+            &#8594;
+          </button>
+          <div
+            class="cs-carousel-dots"
+            id="photoDots"
+            style="display: flex; gap: 8px"
+          >
+            <div class="cs-carousel-dot active" data-photo="0"></div>
+            <div class="cs-carousel-dot" data-photo="1"></div>
+            <div class="cs-carousel-dot" data-photo="2"></div>
+            <div class="cs-carousel-dot" data-photo="3"></div>
+          </div>
+          <span
+            class="cs-carousel-count"
+            id="photoCount"
+            style="
+              font-family: &quot;Roboto Mono&quot;, monospace;
+              font-size: 9px;
+              letter-spacing: 0.1em;
+              color: rgba(10, 10, 11, 0.35);
+              margin-left: auto;
+            "
+            >01 / 04</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER SCROLL ZONE -->
+    <div class="footer-scroll-zone">
+      <footer class="site-footer" id="site-footer">
+        <div>
+          <p class="f-label">Let's build something together</p>
+          <a href="mailto:khoiqnguyen27@gmail.com" class="f-cta">
+            <span class="en">Work with me.</span>
+            <span class="vn">Làm việc với tôi.</span>
+          </a>
+        </div>
+        <div class="f-bottom">
+          <span class="f-copy">&copy; 2026 Khoi Nguyen</span>
+          <div class="f-soc">
+            <a href="#" target="_blank">Github</a>
+            <a href="#" target="_blank">Spotify</a>
+            <a href="#" target="_blank">LinkedIn</a>
+          </div>
+          <button
+            class="f-top"
+            onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+          >
+            <svg viewBox="0 0 24 24" stroke-width="1.5">
+              <line x1="12" y1="19" x2="12" y2="5" />
+              <polyline points="5 12 12 5 19 12" />
+            </svg>
+            Back to top
+          </button>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      var cur = document.getElementById("cur");
+      document.addEventListener("mousemove", function (e) {
+        cur.style.left = e.clientX + "px";
+        cur.style.top = e.clientY + "px";
+      });
+      document.querySelectorAll("a, button").forEach(function (el) {
+        el.addEventListener("mouseenter", function () {
+          cur.classList.add("g");
+        });
+        el.addEventListener("mouseleave", function () {
+          cur.classList.remove("g");
+        });
+      });
+      (function () {
+        document
+          .querySelectorAll(".f-soc a, .f-top, .f-cta")
+          .forEach(function (el) {
+            el.addEventListener("mouseenter", function () {
+              cur.classList.add("g");
+            });
+            el.addEventListener("mouseleave", function () {
+              cur.classList.remove("g");
+            });
+          });
+      })();
+
+      var abHeroImg = document.getElementById("abHeroImg");
+      window.addEventListener(
+        "scroll",
+        function () {
+          var s = window.scrollY;
+          if (abHeroImg)
+            abHeroImg.style.transform = "translateY(" + s * 0.25 + "px)";
+        },
+        { passive: true },
+      );
+
+      var rvEls = document.querySelectorAll(".rv");
+      var rvObs = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) {
+              e.target.classList.add("in");
+              rvObs.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+      rvEls.forEach(function (el) {
+        rvObs.observe(el);
+      });
+
+      (function () {
+        var tlItems = document.querySelectorAll(".ab-tl-item");
+        var tlImgs = document.querySelectorAll(".ab-tl-img");
+        var tlFill = document.getElementById("tlFill");
+        var tl = document.querySelector(".ab-timeline");
+
+        var tlObs = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (e) {
+              if (e.isIntersecting) e.target.classList.add("in");
+            });
+          },
+          { threshold: 0.3 },
+        );
+        tlItems.forEach(function (el) {
+          tlObs.observe(el);
+        });
+
+        var activeImg = 0;
+        function setImg(idx) {
+          if (idx === activeImg) return;
+          activeImg = idx;
+          tlImgs.forEach(function (img) {
+            img.classList.toggle("active", +img.dataset.tlImg === idx);
+          });
+        }
+
+        var triggerY = window.innerHeight * 0.35;
+        window.addEventListener(
+          "scroll",
+          function () {
+            var closest = null,
+              closestDist = Infinity;
+            tlItems.forEach(function (el) {
+              var rect = el.getBoundingClientRect();
+              var dist = Math.abs(rect.top - triggerY);
+              if (dist < closestDist) {
+                closestDist = dist;
+                closest = el;
+              }
+            });
+            if (closest) setImg(+closest.dataset.tl);
+          },
+          { passive: true },
+        );
+
+        window.addEventListener(
+          "scroll",
+          function () {
+            if (!tl) return;
+            var rect = tl.getBoundingClientRect();
+            var visible = Math.min(
+              1,
+              Math.max(0, (window.innerHeight - rect.top) / rect.height),
+            );
+            tlFill.style.height = visible * 100 + "%";
+          },
+          { passive: true },
+        );
+      })();
+
+      setTimeout(function () {
+        document
+          .querySelectorAll(".ab-hero-content .rv")
+          .forEach(function (el) {
+            el.classList.add("in");
+          });
+      }, 100);
+
+      (function () {
+        var track = document.getElementById("photoTrack");
+        var wrap = document.getElementById("photoTrackWrap");
+        var dots = document.querySelectorAll("#photoDots .cs-carousel-dot");
+        var count = document.getElementById("photoCount");
+        var slideW = 340 + 16;
+        var total = 4;
+
+        var origSlides = Array.prototype.slice.call(track.children);
+        origSlides.forEach(function (s) {
+          track.appendChild(s.cloneNode(true));
+          track.insertBefore(s.cloneNode(true), track.firstChild);
+        });
+
+        var current = total;
+        track.style.transition = "none";
+        track.style.transform = "translateX(-" + current * slideW + "px)";
+
+        function realIndex() {
+          return (current - total + total * 100) % total;
+        }
+        function updateUI() {
+          var r = realIndex();
+          dots.forEach(function (d, i) {
+            d.style.background =
+              i === r ? "var(--emerald)" : "rgba(10,10,11,0.15)";
+          });
+          count.textContent =
+            String(r + 1).padStart(2, "0") +
+            " / " +
+            String(total).padStart(2, "0");
+        }
+        function goSlide(i) {
+          current = i;
+          track.style.transition = "transform 0.5s cubic-bezier(0.76,0,0.24,1)";
+          track.style.transform = "translateX(-" + current * slideW + "px)";
+          updateUI();
+        }
+
+        track.addEventListener("transitionend", function () {
+          if (current <= total - 1) {
+            current = current + total;
+            track.style.transition = "none";
+            track.style.transform = "translateX(-" + current * slideW + "px)";
+          } else if (current >= total * 2) {
+            current = current - total;
+            track.style.transition = "none";
+            track.style.transform = "translateX(-" + current * slideW + "px)";
+          }
+        });
+
+        document
+          .getElementById("photoPrev")
+          .addEventListener("click", function () {
+            goSlide(current - 1);
+          });
+        document
+          .getElementById("photoNext")
+          .addEventListener("click", function () {
+            goSlide(current + 1);
+          });
+        dots.forEach(function (d) {
+          d.style.width = "20px";
+          d.style.height = "2px";
+          d.style.background = "rgba(10,10,11,0.15)";
+          d.style.borderRadius = "1px";
+          d.style.cursor = "pointer";
+          d.style.transition = "background 0.3s";
+          d.style.flexShrink = "0";
+          d.addEventListener("click", function () {
+            goSlide(total + +d.dataset.photo);
+          });
+        });
+
+        var startX,
+          isDragging = false;
+        wrap.addEventListener("mousedown", function (e) {
+          isDragging = true;
+          startX = e.pageX;
+          wrap.style.cursor = "grabbing";
+        });
+        document.addEventListener("mouseup", function (e) {
+          if (!isDragging) return;
+          isDragging = false;
+          wrap.style.cursor = "grab";
+          var diff = e.pageX - startX;
+          if (Math.abs(diff) > 60)
+            goSlide(diff < 0 ? current + 1 : current - 1);
+        });
+        document.addEventListener("mousemove", function (e) {
+          if (isDragging) e.preventDefault();
+        });
+        updateUI();
+      })();
+
+      // Mobile menu
+      var navMenuBtn = document.getElementById("navMenuBtn");
+      var navDropdown = document.getElementById("navDropdown");
+      var navDropdownClose = document.getElementById("navDropdownClose");
+      if (navMenuBtn) {
+        navMenuBtn.addEventListener("click", function () {
+          navDropdown.classList.add("open");
+          navMenuBtn.classList.add("open");
+        });
+      }
+      if (navDropdownClose) {
+        navDropdownClose.addEventListener("click", function () {
+          navDropdown.classList.remove("open");
+          navMenuBtn.classList.remove("open");
+        });
+      }
+      navDropdown &&
+        navDropdown.querySelectorAll("a").forEach(function (a) {
+          a.addEventListener("click", function () {
+            navDropdown.classList.remove("open");
+            navMenuBtn && navMenuBtn.classList.remove("open");
+          });
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,863 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Work — Khoi Nguyen</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --almond: #cdbbb7;
+        --emerald: #23583a;
+        --onyx: #0a0a0b;
+        --snow: #f8f8f8;
+      }
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Roboto Mono", monospace;
+        background: var(--snow);
+        color: var(--onyx);
+        overflow-x: hidden;
+        cursor: none;
+      }
+
+      .cur {
+        position: fixed;
+        width: 8px;
+        height: 8px;
+        background: var(--almond);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition:
+          width 0.28s,
+          height 0.28s,
+          background 0.28s;
+        mix-blend-mode: difference;
+      }
+      .cur.g {
+        width: 48px;
+        height: 48px;
+        background: rgba(205, 187, 183, 0.4);
+      }
+      .cur.view {
+        width: 80px;
+        height: 80px;
+        background: transparent;
+        border: 1px solid var(--almond);
+        mix-blend-mode: normal;
+      }
+      .cur-label {
+        position: fixed;
+        z-index: 10000;
+        font-family: "Manrope", sans-serif;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--almond);
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        transition: opacity 0.25s;
+      }
+      .cur-label.show {
+        opacity: 1;
+      }
+
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        padding: 30px 52px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        mix-blend-mode: exclusion;
+      }
+      .nav-logo {
+        font-family: "Manrope", sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--snow);
+        text-decoration: none;
+      }
+      .nav-links {
+        display: flex;
+        gap: 44px;
+        list-style: none;
+      }
+      .nav-links a {
+        font-family: "Roboto Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--snow);
+        text-decoration: none;
+        position: relative;
+        padding-bottom: 3px;
+      }
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: currentColor;
+        transition: width 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+      }
+      .nav-links a:hover::after,
+      .nav-links a.active::after {
+        width: 100%;
+      }
+      .nav-dropdown {
+        display: none;
+      }
+      .nav-menu-btn {
+        display: none;
+      }
+
+      .page-header {
+        padding: 160px 52px 80px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        border-bottom: 1px solid rgba(10, 10, 11, 0.08);
+        margin-bottom: 80px;
+      }
+      .page-eyebrow {
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--emerald);
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .page-eyebrow::after {
+        content: "";
+        width: 28px;
+        height: 1px;
+        background: var(--emerald);
+      }
+      .page-title {
+        font-family: "Manrope", sans-serif;
+        font-size: clamp(48px, 7vw, 100px);
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        line-height: 0.9;
+        color: var(--onyx);
+      }
+      .page-title em {
+        font-style: italic;
+        font-weight: 300;
+        color: var(--emerald);
+      }
+      .page-count {
+        font-size: 10px;
+        letter-spacing: 0.06em;
+        color: rgba(10, 10, 11, 0.35);
+        padding-bottom: 8px;
+      }
+
+      .work-grid-sticky-wrap {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        z-index: 1;
+        background: var(--snow);
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+      }
+      .work-grid {
+        padding: 0 52px;
+        height: 80vh;
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        grid-template-rows: 1fr 1fr;
+        gap: 24px;
+        align-content: stretch;
+      }
+      .wcard {
+        position: relative;
+        overflow: hidden;
+        border-radius: 2px;
+        cursor: none;
+        opacity: 0;
+        transform: translateY(40px);
+        transition:
+          opacity 0.85s cubic-bezier(0.76, 0, 0.24, 1),
+          transform 0.85s cubic-bezier(0.76, 0, 0.24, 1);
+        text-decoration: none;
+        display: block;
+      }
+      .wcard.in {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .wcard:nth-child(2) {
+        transition-delay: 0.15s;
+      }
+      .wcard:nth-child(3) {
+        transition-delay: 0.3s;
+      }
+      .wcard-1 {
+        grid-column: 1/8;
+        grid-row: 1/3;
+      }
+      .wcard-2 {
+        grid-column: 8/13;
+        grid-row: 1/2;
+      }
+      .wcard-3 {
+        grid-column: 8/13;
+        grid-row: 2/3;
+      }
+      .wcard-img {
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        transition:
+          transform 0.7s cubic-bezier(0.76, 0, 0.24, 1),
+          filter 0.5s ease;
+      }
+      .wcard:hover .wcard-img {
+        transform: scale(1.04);
+        filter: brightness(0.62);
+      }
+      .wcard-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to top,
+          rgba(10, 10, 11, 0.88) 0%,
+          transparent 50%
+        );
+      }
+      .wcard-meta {
+        position: absolute;
+        bottom: 28px;
+        left: 28px;
+        right: 28px;
+      }
+      .wcard-num {
+        font-size: 9px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--almond);
+        margin-bottom: 10px;
+      }
+      .wcard-title {
+        font-family: "Manrope", sans-serif;
+        font-size: clamp(24px, 3vw, 40px);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 0.95;
+        color: var(--snow);
+        margin-bottom: 14px;
+      }
+      .wcard-2 .wcard-title,
+      .wcard-3 .wcard-title {
+        font-size: clamp(20px, 2vw, 28px);
+      }
+      .wcard-tags {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      .wcard-tag {
+        font-size: 8px;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.45);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 4px 10px;
+        border-radius: 2px;
+        transition:
+          color 0.3s,
+          border-color 0.3s;
+      }
+      .wcard:hover .wcard-tag {
+        color: var(--almond);
+        border-color: rgba(205, 187, 183, 0.3);
+      }
+
+      .footer-scroll-zone {
+        position: relative;
+        z-index: 2;
+        margin-top: 100vh;
+      }
+      .site-footer {
+        background: var(--onyx);
+        padding: 80px 52px 52px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 100vh;
+        border-top: 1px solid rgba(255, 255, 255, 0.07);
+      }
+      .f-label {
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--almond);
+        margin-bottom: 18px;
+      }
+      .f-cta {
+        font-family: "Manrope", sans-serif;
+        font-size: clamp(46px, 8vw, 124px);
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        line-height: 0.88;
+        color: var(--snow);
+        text-decoration: none;
+        display: block;
+        position: relative;
+        overflow: hidden;
+      }
+      .f-cta .vn {
+        font-weight: 300;
+        font-style: italic;
+        color: var(--almond);
+        display: block;
+      }
+      .f-cta-inner {
+        display: block;
+        position: relative;
+      }
+      .f-cta-inner::after {
+        display: none;
+      }
+      .f-bottom {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: auto;
+        padding-top: 48px;
+        border-top: 1px solid rgba(255, 255, 255, 0.07);
+      }
+      .f-copy {
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.04em;
+        color: rgba(255, 255, 255, 0.18);
+      }
+      .f-soc {
+        display: flex;
+        gap: 32px;
+      }
+      .f-soc a {
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.35);
+        text-decoration: none;
+        position: relative;
+        padding-bottom: 3px;
+        transition: color 0.3s;
+      }
+      .f-soc a::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: var(--almond);
+        transition: width 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+      }
+      .f-soc a:hover {
+        color: var(--snow);
+      }
+      .f-soc a:hover::after {
+        width: 100%;
+      }
+      .f-top {
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.35);
+        background: none;
+        border: none;
+        cursor: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        position: relative;
+        padding-bottom: 3px;
+        transition: color 0.3s;
+      }
+      .f-top::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: var(--almond);
+        transition: width 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+      }
+      .f-top:hover {
+        color: var(--snow);
+      }
+      .f-top:hover::after {
+        width: 100%;
+      }
+      .f-top svg {
+        width: 11px;
+        height: 11px;
+        stroke: currentColor;
+        fill: none;
+      }
+
+      @view-transition {
+        navigation: auto;
+      }
+      ::view-transition-old(khoi-hero),
+      ::view-transition-new(khoi-hero),
+      ::view-transition-old(labora-hero),
+      ::view-transition-new(labora-hero),
+      ::view-transition-old(scentsync-hero),
+      ::view-transition-new(scentsync-hero) {
+        animation-duration: 0.8s;
+        animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        object-fit: cover;
+        mix-blend-mode: normal;
+      }
+      ::view-transition-old(root),
+      ::view-transition-new(root) {
+        animation-duration: 0.8s;
+        animation-timing-function: ease;
+      }
+
+      @media (max-width: 768px) {
+        nav {
+          padding: 24px;
+        }
+        .nav-links {
+          display: none;
+        }
+        .nav-menu-btn {
+          display: flex;
+          font-family: "Roboto Mono", monospace;
+          font-size: 10px;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: var(--snow);
+          background: none;
+          border: none;
+          cursor: none;
+          align-items: center;
+          gap: 8px;
+        }
+        .nav-dropdown {
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: var(--onyx);
+          z-index: 1001;
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: flex-end;
+          padding: 52px 24px;
+          gap: 8px;
+        }
+        .nav-dropdown.open {
+          display: flex;
+        }
+        .nav-dropdown-top {
+          position: absolute;
+          top: 24px;
+          left: 24px;
+          right: 24px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+        .nav-dropdown-logo {
+          font-family: "Manrope", sans-serif;
+          font-size: 12px;
+          font-weight: 700;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: var(--snow);
+          text-decoration: none;
+        }
+        .nav-dropdown-close {
+          font-family: "Roboto Mono", monospace;
+          font-size: 10px;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: rgba(248, 248, 248, 0.4);
+          background: none;
+          border: none;
+          cursor: none;
+        }
+        .nav-dropdown a:not(.nav-dropdown-logo) {
+          font-family: "Manrope", sans-serif;
+          font-size: clamp(40px, 12vw, 72px);
+          font-weight: 800;
+          letter-spacing: -0.03em;
+          color: var(--snow);
+          text-decoration: none;
+          line-height: 1;
+          opacity: 0;
+          transform: translateY(20px);
+          transition:
+            opacity 0.4s,
+            transform 0.4s;
+        }
+        .nav-dropdown.open a:not(.nav-dropdown-logo) {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        .nav-dropdown.open a:nth-child(2) {
+          transition-delay: 0.05s;
+        }
+        .nav-dropdown.open a:nth-child(3) {
+          transition-delay: 0.1s;
+        }
+        .nav-dropdown.open a:nth-child(4) {
+          transition-delay: 0.15s;
+        }
+
+        .page-header {
+          padding: 120px 24px 48px;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 16px;
+          margin-bottom: 40px;
+        }
+        .page-title {
+          font-size: clamp(36px, 10vw, 60px);
+        }
+
+        .work-grid-sticky-wrap {
+          position: static;
+          height: auto;
+          overflow: visible;
+          display: block;
+        }
+        .work-grid {
+          padding: 0 24px 80px;
+          height: auto;
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+        }
+        .wcard-1,
+        .wcard-2,
+        .wcard-3 {
+          grid-column: unset;
+          grid-row: unset;
+          height: 72vw;
+          min-height: 260px;
+        }
+        .wcard-title {
+          font-size: clamp(22px, 6vw, 32px);
+        }
+        .wcard-2 .wcard-title,
+        .wcard-3 .wcard-title {
+          font-size: clamp(20px, 5vw, 28px);
+        }
+
+        .footer-scroll-zone {
+          margin-top: 0;
+        }
+        .site-footer {
+          padding: 60px 24px 40px;
+        }
+        .f-bottom {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 20px;
+        }
+        .f-soc {
+          gap: 20px;
+        }
+      }
+      @media (max-width: 480px) {
+        .wcard-1,
+        .wcard-2,
+        .wcard-3 {
+          height: 80vw;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="cur" id="cur"></div>
+    <div class="cur-label" id="curLabel">View</div>
+
+    <nav>
+      <a href="index.html" class="nav-logo">Khoi Nguyen</a>
+      <ul class="nav-links">
+        <li><a href="work.html" class="active">Work</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="mailto:khoiqnguyen27@gmail.com">Contact</a></li>
+      </ul>
+      <button class="nav-menu-btn" id="navMenuBtn" aria-label="Open menu">
+        Menu
+      </button>
+    </nav>
+
+    <div class="nav-dropdown" id="navDropdown">
+      <div class="nav-dropdown-top">
+        <a href="index.html" class="nav-dropdown-logo">Khoi Nguyen</a>
+        <button class="nav-dropdown-close" id="navDropdownClose">Close</button>
+      </div>
+      <a href="work.html">Work</a>
+      <a href="about.html">About</a>
+      <a href="mailto:khoiqnguyen27@gmail.com">Contact</a>
+    </div>
+
+    <header class="page-header">
+      <div>
+        <p class="page-eyebrow">[Selected Work]</p>
+        <h1 class="page-title">Three projects.<br /><em>Real outcomes.</em></h1>
+      </div>
+      <p class="page-count">3 case studies</p>
+    </header>
+
+    <div class="work-grid-sticky-wrap">
+      <div class="work-grid">
+        <a href="casekhoi.html" class="wcard wcard-1">
+          <div class="wcard-img">
+            <video
+              id="wv1"
+              muted
+              playsinline
+              preload="metadata"
+              style="
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+                view-transition-name: khoi-hero;
+              "
+            >
+              <source src="previewkhoi.mp4" type="video/mp4" />
+            </video>
+          </div>
+          <div class="wcard-overlay"></div>
+          <div class="wcard-meta">
+            <p class="wcard-num">01</p>
+            <h2 class="wcard-title">KHOI App</h2>
+            <div class="wcard-tags">
+              <span class="wcard-tag">Product Design</span>
+              <span class="wcard-tag">iOS Dev</span>
+              <span class="wcard-tag">SwiftUI</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="caselabora.html" class="wcard wcard-2">
+          <div class="wcard-img">
+            <video
+              id="wv2"
+              muted
+              playsinline
+              preload="metadata"
+              style="
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+                view-transition-name: labora-hero;
+              "
+            >
+              <source src="previewlabora.mp4" type="video/mp4" />
+            </video>
+          </div>
+          <div class="wcard-overlay"></div>
+          <div class="wcard-meta">
+            <p class="wcard-num">02</p>
+            <h2 class="wcard-title">Labora Cafe</h2>
+            <div class="wcard-tags">
+              <span class="wcard-tag">Brand Identity</span>
+              <span class="wcard-tag">Web Design</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="casescentsync.html" class="wcard wcard-3">
+          <div class="wcard-img">
+            <video
+              id="wv3"
+              muted
+              playsinline
+              preload="metadata"
+              style="
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+                view-transition-name: scentsync-hero;
+              "
+            >
+              <source src="previewscentsync.mp4" type="video/mp4" />
+            </video>
+          </div>
+          <div class="wcard-overlay"></div>
+          <div class="wcard-meta">
+            <p class="wcard-num">03</p>
+            <h2 class="wcard-title">ScentSync</h2>
+            <div class="wcard-tags">
+              <span class="wcard-tag">XR Design</span>
+              <span class="wcard-tag">Spatial UI</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-scroll-zone">
+      <footer class="site-footer" id="site-footer">
+        <div>
+          <p class="f-label">Let's build something together</p>
+          <a href="mailto:khoiqnguyen27@gmail.com" class="f-cta">
+            <span class="en">Work with me.</span>
+            <span class="vn">Làm việc với tôi.</span>
+          </a>
+        </div>
+        <div class="f-bottom">
+          <span class="f-copy">&copy; 2026 Khoi Nguyen</span>
+          <div class="f-soc">
+            <a href="https://github.com/kqngyn" target="_blank">Github</a>
+            <a
+              href="https://open.spotify.com/user/khoiiboiii?si=335fa95a717540fd"
+              target="_blank"
+              >Spotify</a
+            >
+            <a
+              href="https://www.linkedin.com/in/khoi-nguyen-b706b0298"
+              target="_blank"
+              >LinkedIn</a
+            >
+          </div>
+          <button
+            class="f-top"
+            onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+          >
+            <svg viewBox="0 0 24 24" stroke-width="1.5">
+              <line x1="12" y1="19" x2="12" y2="5" />
+              <polyline points="5 12 12 5 19 12" />
+            </svg>
+            Back to top
+          </button>
+        </div>
+      </footer>
+    </div>
+    <script>
+      var cur = document.getElementById("cur");
+      var curLabel = document.getElementById("curLabel");
+
+      document.addEventListener("mousemove", function (e) {
+        cur.style.left = e.clientX + "px";
+        cur.style.top = e.clientY + "px";
+        if (curLabel) {
+          curLabel.style.left = e.clientX + "px";
+          curLabel.style.top = e.clientY + "px";
+        }
+      });
+
+      document.querySelectorAll("a, button").forEach(function (el) {
+        el.addEventListener("mouseenter", function () {
+          cur.classList.add("g");
+        });
+        el.addEventListener("mouseleave", function () {
+          cur.classList.remove("g");
+        });
+      });
+
+      document.querySelectorAll(".wcard").forEach(function (card) {
+        var video = card.querySelector("video");
+        card.addEventListener("mouseenter", function () {
+          cur.classList.remove("g");
+          cur.classList.add("view");
+          if (curLabel) curLabel.classList.add("show");
+          if (video) video.play();
+        });
+        card.addEventListener("mouseleave", function () {
+          cur.classList.remove("view");
+          if (curLabel) curLabel.classList.remove("show");
+          if (video) {
+            video.pause();
+            video.currentTime = 0;
+          }
+        });
+      });
+
+      var obs = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) e.target.classList.add("in");
+          });
+        },
+        { threshold: 0.08 },
+      );
+      document.querySelectorAll(".wcard").forEach(function (el) {
+        obs.observe(el);
+      });
+
+      document
+        .querySelectorAll(".f-soc a, .f-top, .f-cta")
+        .forEach(function (el) {
+          el.addEventListener("mouseenter", function () {
+            cur.classList.add("g");
+          });
+          el.addEventListener("mouseleave", function () {
+            cur.classList.remove("g");
+          });
+        });
+
+      // Mobile menu
+      var navMenuBtn = document.getElementById("navMenuBtn");
+      var navDropdown = document.getElementById("navDropdown");
+      var navDropdownClose = document.getElementById("navDropdownClose");
+      if (navMenuBtn)
+        navMenuBtn.addEventListener("click", function () {
+          navDropdown.classList.add("open");
+        });
+      if (navDropdownClose)
+        navDropdownClose.addEventListener("click", function () {
+          navDropdown.classList.remove("open");
+        });
+      navDropdown &&
+        navDropdown
+          .querySelectorAll("a:not(.nav-dropdown-logo)")
+          .forEach(function (a) {
+            a.addEventListener("click", function () {
+              navDropdown.classList.remove("open");
+            });
+          });
+    </script>
+  </body>
+</html>

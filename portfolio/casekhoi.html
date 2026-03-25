@@ -1,0 +1,3360 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KHOI App — Khoi Nguyen</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --almond: #cdbbb7;
+        --emerald: #23583a;
+        --onyx: #0a0a0b;
+        --snow: #f8f8f8;
+      }
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Roboto Mono", monospace;
+        background: var(--snow);
+        color: var(--onyx);
+        overflow-x: hidden;
+        cursor: none;
+      }
+      .cur {
+        position: fixed;
+        width: 8px;
+        height: 8px;
+        background: var(--almond);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition:
+          width 0.28s,
+          height 0.28s,
+          background 0.28s;
+        mix-blend-mode: difference;
+      }
+      .cur.g {
+        width: 48px;
+        height: 48px;
+        background: rgba(205, 187, 183, 0.4);
+      }
+      .cur.view {
+        width: 80px;
+        height: 80px;
+        background: transparent;
+        border: 1px solid var(--almond);
+        mix-blend-mode: normal;
+      }
+      .cur-label {
+        position: fixed;
+        z-index: 10000;
+        font-family: "Manrope", sans-serif;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--almond);
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        transition: opacity 0.25s;
+      }
+      .cur-label.show {
+        opacity: 1;
+      }
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        padding: 30px 52px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        mix-blend-mode: exclusion;
+      }
+      .nav-logo {
+        font-family: "Manrope", sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--snow);
+        text-decoration: none;
+      }
+      .nav-links {
+        display: flex;
+        gap: 44px;
+        list-style: none;
+      }
+      .nav-links a {
+        font-family: "Roboto Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--snow);
+        text-decoration: none;
+        position: relative;
+        padding-bottom: 3px;
+      }
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: currentColor;
+        transition: width 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+      }
+      .nav-links a:hover::after,
+      .nav-links a.active::after {
+        width: 100%;
+      }
+
+      .cs-hero {
+        position: relative;
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        align-items: flex-end;
+      }
+      .cs-hero-img {
+        position: absolute;
+        inset: -12%;
+        background: center center/cover no-repeat;
+        will-change: transform;
+        filter: brightness(0.62) saturate(0.85);
+        view-transition-name: khoi-hero;
+      }
+      .cs-grain {
+        position: absolute;
+        inset: -20%;
+        width: 140%;
+        height: 140%;
+        background: url("noise texture GIF by hoppip.gif");
+        background-size: 200px 200px;
+        opacity: 0.13;
+        mix-blend-mode: soft-light;
+        pointer-events: none;
+        z-index: 1;
+      }
+      .cs-grad {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to bottom,
+          rgba(10, 10, 11, 0.2) 0%,
+          transparent 35%,
+          rgba(10, 10, 11, 0.88) 100%
+        );
+      }
+      .cs-hero-content {
+        position: relative;
+        z-index: 2;
+        padding: 0 52px 72px;
+        width: 100%;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+      }
+      .cs-back {
+        font-size: 9px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.6);
+        text-decoration: none;
+        margin-bottom: 20px;
+        display: block;
+        transition: color 0.3s;
+      }
+      .cs-back:hover {
+        color: var(--snow);
+      }
+      .cs-num {
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--almond);
+        margin-bottom: 14px;
+      }
+      .cs-htitle {
+        font-family: "Manrope", sans-serif;
+        font-size: clamp(52px, 8vw, 120px);
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        line-height: 0.88;
+        color: var(--snow);
+        opacity: 0;
+        transform: translateY(28px);
+        animation: fadeUp 0.9s cubic-bezier(0.76, 0, 0.24, 1) 0.3s forwards;
+      }
+      .cs-htitle em {
+        font-style: italic;
+        font-weight: 300;
+        color: var(--almond);
+      }
+      .cs-tags {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        align-items: flex-end;
+        padding-bottom: 6px;
+      }
+      .cs-tag {
+        font-size: 8px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--almond);
+        border: 1px solid rgba(205, 187, 183, 0.25);
+        padding: 5px 12px;
+        border-radius: 2px;
+      }
+      @keyframes fadeUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .cs-meta {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        margin: 0 52px;
+        border-bottom: 1px solid rgba(10, 10, 11, 0.08);
+      }
+      .cs-meta-item {
+        padding: 36px 0;
+      }
+      .cs-meta-item:not(:first-child) {
+        padding-left: 40px;
+        border-left: 1px solid rgba(10, 10, 11, 0.08);
+      }
+      .cs-meta-label {
+        font-size: 8px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--emerald);
+        margin-bottom: 8px;
+      }
+      .cs-meta-val {
+        font-family: "Manrope", sans-serif;
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--onyx);
+        letter-spacing: -0.01em;
+      }
+      .cs-body {
+        max-width: 1100px;
+      }
+      .cs-layout {
+        display: flex;
+        align-items: flex-start;
+      }
+      .cs-sidebar {
+        width: 20%;
+        flex-shrink: 0;
+        border-right: 1px solid rgba(10, 10, 11, 0.08);
+        position: relative;
+        align-self: stretch;
+      }
+      .cs-sidenav {
+        position: fixed;
+        bottom: 52px;
+        left: 52px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: auto;
+      }
+      .cs-sidenav.stopped {
+        position: absolute;
+        bottom: 52px;
+        left: 52px;
+      }
+      .cs-sidenav.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .cs-sidenav-label {
+        font-family: "Roboto Mono", monospace;
+        font-size: 10px;
+        font-weight: bold;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--onyx);
+        margin-bottom: 8px;
+        display: block;
+      }
+      .cs-sidenav a {
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #9a9a9a;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        padding: 2px 0;
+        line-height: 1.2;
+        transition: color 0.3s;
+      }
+      .cs-sidenav a .sn-arrow {
+        display: inline-block;
+        opacity: 0;
+        transform: translateX(-8px);
+        width: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        transition:
+          opacity 0.3s cubic-bezier(0.76, 0, 0.24, 1),
+          transform 0.3s cubic-bezier(0.76, 0, 0.24, 1),
+          width 0.3s cubic-bezier(0.76, 0, 0.24, 1),
+          margin-right 0.3s cubic-bezier(0.76, 0, 0.24, 1);
+        margin-right: 0;
+      }
+      .cs-sidenav a:hover {
+        color: var(--onyx);
+      }
+      .cs-sidenav a.active {
+        color: var(--emerald);
+      }
+      .cs-sidenav a:hover .sn-arrow,
+      .cs-sidenav a.active .sn-arrow {
+        opacity: 1;
+        transform: translateX(0);
+        width: 12px;
+        margin-right: 6px;
+      }
+      .cs-content {
+        flex: 1;
+        padding: 80px 52px 40px 52px;
+      }
+      .cs-sec {
+        margin-bottom: 96px;
+        opacity: 0;
+        transform: translateY(32px);
+        transition:
+          opacity 0.85s cubic-bezier(0.76, 0, 0.24, 1),
+          transform 0.85s cubic-bezier(0.76, 0, 0.24, 1);
+      }
+      .cs-sec.in {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .cs-sec-label {
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--emerald);
+        margin-bottom: 24px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .cs-sec-label::after {
+        content: "";
+        flex: 0 0 32px;
+        height: 1px;
+        background: var(--emerald);
+      }
+      .cs-sec-title {
+        font-family: "Manrope", sans-serif;
+        font-size: clamp(28px, 3.5vw, 48px);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 0.95;
+        color: var(--onyx);
+        margin-bottom: 28px;
+        white-space: normal;
+      }
+      .cs-sec-title em {
+        font-style: italic;
+        font-weight: 300;
+        color: var(--emerald);
+      }
+      .cs-text {
+        font-size: 13px;
+        line-height: 1.9;
+        letter-spacing: -0.01em;
+        color: rgba(10, 10, 11, 0.55);
+        max-width: 680px;
+      }
+      .cs-ph {
+        width: 100%;
+        height: 480px;
+        background: rgba(10, 10, 11, 0.03);
+        border: 1px solid rgba(10, 10, 11, 0.07);
+        border-radius: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 40px 0;
+      }
+      .cs-ph.tall {
+        height: 600px;
+      }
+      .cs-ph span {
+        font-size: 9px;
+        letter-spacing: 0.08em;
+        color: rgba(10, 10, 11, 0.18);
+      }
+      .cs-two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 48px;
+        margin-top: 40px;
+      }
+      .cs-col-title {
+        font-family: "Manrope", sans-serif;
+        font-size: 16px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: var(--onyx);
+        margin-bottom: 12px;
+      }
+      .cs-col-text {
+        font-size: 12px;
+        line-height: 1.85;
+        letter-spacing: -0.01em;
+        color: rgba(10, 10, 11, 0.48);
+      }
+      .cs-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        background: rgba(10, 10, 11, 0.08);
+        border: 1px solid rgba(10, 10, 11, 0.08);
+        border-radius: 2px;
+        margin-top: 40px;
+        overflow: hidden;
+      }
+      .cs-stat {
+        background: var(--snow);
+        padding: 36px 32px;
+      }
+      .cs-stat-num {
+        font-family: "Manrope", sans-serif;
+        font-size: clamp(36px, 4vw, 56px);
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        color: var(--onyx);
+        line-height: 1;
+        margin-bottom: 8px;
+      }
+      .cs-stat-num em {
+        font-style: italic;
+        color: var(--emerald);
+        font-weight: 300;
+      }
+      .cs-stat-label {
+        font-size: 10px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: rgba(10, 10, 11, 0.38);
+      }
+      .cs-next {
+        border-top: 1px solid rgba(10, 10, 11, 0.08);
+        padding: 80px 52px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .cs-next-label {
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(10, 10, 11, 0.35);
+        margin-bottom: 12px;
+      }
+      .cs-next-link {
+        font-family: "Manrope", sans-serif;
+        font-size: clamp(28px, 4vw, 56px);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        color: var(--onyx);
+        text-decoration: none;
+        transition: color 0.3s;
+        display: block;
+      }
+      .cs-next-link:hover {
+        color: var(--emerald);
+      }
+      .cs-arrow {
+        width: 56px;
+        height: 56px;
+        border: 1px solid rgba(10, 10, 11, 0.15);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: border-color 0.3s;
+      }
+      .cs-next-link:hover ~ .cs-arrow,
+      .cs-arrow:hover {
+        border-color: var(--emerald);
+      }
+      .cs-arrow svg {
+        width: 18px;
+        height: 18px;
+        stroke: var(--onyx);
+        fill: none;
+      }
+
+      /* ── FOOTER ── */
+      .site-footer {
+        background: var(--onyx);
+        padding: 80px 52px 52px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 100vh;
+        border-top: 1px solid rgba(255, 255, 255, 0.07);
+      }
+      .f-label {
+        font-size: 9px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--almond);
+        margin-bottom: 18px;
+      }
+      /* Big CTA link */
+      .f-cta {
+        font-family: "Manrope", sans-serif;
+        font-size: clamp(46px, 8vw, 124px);
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        line-height: 0.88;
+        color: var(--snow);
+        text-decoration: none;
+        display: block;
+        position: relative;
+        overflow: hidden;
+      }
+      .f-cta-inner {
+        display: block;
+        position: relative;
+      }
+      .f-cta-inner::after {
+        content: "";
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--almond);
+        transition: width 0.55s cubic-bezier(0.76, 0, 0.24, 1);
+      }
+      .f-cta:hover .f-cta-inner::after {
+        width: 100%;
+      }
+      .f-cta .vn {
+        font-weight: 300;
+        font-style: italic;
+        color: var(--almond);
+        display: block;
+      }
+      /* Bottom row */
+      .f-bottom {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: auto;
+        padding-top: 48px;
+        border-top: 1px solid rgba(255, 255, 255, 0.07);
+      }
+      .f-copy {
+        font-size: 9px;
+        letter-spacing: 0.04em;
+        color: rgba(255, 255, 255, 0.18);
+      }
+      .f-soc {
+        display: flex;
+        gap: 32px;
+      }
+      .f-soc a {
+        font-size: 9px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.35);
+        text-decoration: none;
+        position: relative;
+        padding-bottom: 3px;
+        transition: color 0.3s;
+      }
+      .f-soc a::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: var(--almond);
+        transition: width 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+      }
+      .f-soc a:hover {
+        color: var(--snow);
+      }
+      .f-soc a:hover::after {
+        width: 100%;
+      }
+      .f-top {
+        font-size: 9px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.35);
+        background: none;
+        border: none;
+        cursor: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        position: relative;
+        padding-bottom: 3px;
+        transition: color 0.3s;
+      }
+      .f-top::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: var(--almond);
+        transition: width 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+      }
+      .f-top:hover {
+        color: var(--snow);
+      }
+      .f-top:hover::after {
+        width: 100%;
+      }
+      .f-top svg {
+        width: 11px;
+        height: 11px;
+        stroke: currentColor;
+        fill: none;
+      }
+
+      /* STICKY SCROLL — footer slides over last section */
+      .page-sticky-wrap {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background: var(--snow);
+        width: 100%;
+      }
+      .footer-scroll-zone {
+        position: relative;
+        z-index: 2;
+      }
+      /* View Transitions */
+      @view-transition {
+        navigation: auto;
+      }
+      ::view-transition-old(khoi-hero),
+      ::view-transition-new(khoi-hero) {
+        animation-duration: 0.8s;
+        animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        object-fit: cover;
+        mix-blend-mode: normal;
+      }
+      ::view-transition-old(root),
+      ::view-transition-new(root) {
+        animation-duration: 0.8s;
+        animation-timing-function: ease;
+      }
+      ::view-transition-old(khoi-hero) {
+        animation-name: none;
+      }
+      /* Dual Mode Flow Diagram */
+      .dm-flow {
+        width: 100%;
+        margin-top: 32px;
+        border: 1px solid rgba(10, 10, 11, 0.07);
+        border-radius: 2px;
+        padding: 40px;
+        box-sizing: border-box;
+        overflow: hidden;
+      }
+      .dm-flow-label {
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(10, 10, 11, 0.35);
+        margin-bottom: 36px;
+      }
+      /* Steps row */
+      .dm-steps-row {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        margin-bottom: 32px;
+      }
+      .dm-step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        flex: 1;
+        position: relative;
+      }
+      .dm-step-node {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 1px solid rgba(10, 10, 11, 0.12);
+        background: var(--snow);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Roboto Mono", monospace;
+        font-size: 8px;
+        color: rgba(10, 10, 11, 0.35);
+        position: relative;
+        z-index: 1;
+        transition:
+          background 0.25s,
+          border-color 0.25s,
+          color 0.25s;
+        cursor: default;
+      }
+      .dm-step:hover .dm-step-node {
+        background: var(--onyx);
+        border-color: var(--onyx);
+        color: var(--snow);
+      }
+      .dm-step-name {
+        font-family: "Roboto Mono", monospace;
+        font-size: 7.5px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: rgba(10, 10, 11, 0.4);
+        text-align: center;
+        line-height: 1.4;
+        transition: color 0.25s;
+      }
+      .dm-step:hover .dm-step-name {
+        color: var(--onyx);
+      }
+      .dm-step-tooltip {
+        display: none;
+      }
+      .dm-flow-tip {
+        position: fixed;
+        background: var(--onyx);
+        color: var(--snow);
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.04em;
+        line-height: 1.6;
+        padding: 8px 12px;
+        border-radius: 2px;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.2s;
+        z-index: 1000;
+        max-width: 200px;
+        text-align: center;
+        transform: translateY(-110%);
+      }
+      .dm-flow-tip.show {
+        opacity: 1;
+      }
+      .dm-connector {
+        flex: 0 0 24px;
+        height: 1px;
+        background: rgba(10, 10, 11, 0.12);
+        margin-bottom: 24px;
+      }
+      /* Divider */
+      .dm-divider {
+        width: 100%;
+        height: 1px;
+        background: rgba(10, 10, 11, 0.07);
+        margin: 4px 0 28px;
+      }
+      /* Branch row */
+      .dm-branch-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 16px;
+      }
+      .dm-branch-card {
+        border: 1px solid rgba(10, 10, 11, 0.07);
+        border-radius: 2px;
+        padding: 20px;
+      }
+      .dm-branch-card.pending {
+        border-color: rgba(10, 10, 11, 0.1);
+      }
+      .dm-branch-card.approved {
+        border-color: rgba(35, 88, 58, 0.25);
+        background: rgba(35, 88, 58, 0.03);
+      }
+      .dm-branch-card.rejected {
+        border-color: rgba(10, 10, 11, 0.07);
+        background: rgba(10, 10, 11, 0.01);
+      }
+      .dm-branch-tag {
+        font-family: "Roboto Mono", monospace;
+        font-size: 7px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .dm-branch-tag.pending {
+        color: #b07d2a;
+      }
+      .dm-branch-tag.approved {
+        color: var(--emerald);
+      }
+      .dm-branch-tag.rejected {
+        color: rgba(10, 10, 11, 0.35);
+      }
+      .dm-branch-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: currentColor;
+        flex-shrink: 0;
+      }
+      .dm-branch-title {
+        font-family: "Manrope", sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--onyx);
+        margin-bottom: 8px;
+        letter-spacing: -0.01em;
+      }
+      .dm-branch-text {
+        font-family: "Roboto Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.03em;
+        line-height: 1.7;
+        color: rgba(10, 10, 11, 0.65);
+      }
+      .dm-branch-note {
+        margin-top: 10px;
+        padding: 8px 10px;
+        background: rgba(10, 10, 11, 0.03);
+        border-radius: 2px;
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.04em;
+        color: rgba(10, 10, 11, 0.55);
+        line-height: 1.6;
+      }
+      .dm-unlock-row {
+        margin-top: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .dm-unlock-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: "Roboto Mono", monospace;
+        font-size: 8px;
+        letter-spacing: 0.04em;
+        color: var(--emerald);
+      }
+      .dm-unlock-icon {
+        width: 16px;
+        height: 16px;
+        border-radius: 2px;
+        background: rgba(35, 88, 58, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 9px;
+      }
+      /* Onboarding Split */
+      .onboard-split {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        margin-top: 24px;
+        border: 1px solid rgba(10, 10, 11, 0.07);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .onboard-flow-col {
+        padding: 32px 28px;
+        border-right: 1px solid rgba(10, 10, 11, 0.07);
+      }
+      .onboard-col-label {
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(10, 10, 11, 0.35);
+        margin-bottom: 24px;
+      }
+      .onboard-flow {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+      .onboard-node {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .onboard-node-dot {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        border: 1px solid rgba(10, 10, 11, 0.12);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Roboto Mono", monospace;
+        font-size: 8px;
+        color: rgba(10, 10, 11, 0.35);
+        flex-shrink: 0;
+        background: var(--snow);
+      }
+      .onboard-node-dot.blocked {
+        border-color: rgba(180, 40, 40, 0.25);
+        background: rgba(180, 40, 40, 0.04);
+        color: rgba(180, 40, 40, 0.5);
+      }
+      .onboard-node-dot.emerald {
+        border-color: rgba(35, 88, 58, 0.3);
+        background: rgba(35, 88, 58, 0.05);
+        color: var(--emerald);
+      }
+      .onboard-node-text {
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.04em;
+        color: rgba(10, 10, 11, 0.6);
+        line-height: 1.4;
+      }
+      .onboard-node-text.blocked {
+        color: rgba(180, 40, 40, 0.5);
+        text-decoration: line-through;
+      }
+      .onboard-node-text.emerald {
+        color: var(--emerald);
+        font-weight: 600;
+      }
+      .onboard-connector {
+        width: 1px;
+        height: 16px;
+        background: rgba(10, 10, 11, 0.1);
+        margin-left: 14px;
+      }
+      .onboard-connector.emerald {
+        background: rgba(35, 88, 58, 0.2);
+      }
+      .onboard-divider {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 20px 0;
+      }
+      .onboard-divider-line {
+        flex: 1;
+        height: 1px;
+        background: rgba(10, 10, 11, 0.07);
+      }
+      .onboard-divider-label {
+        font-family: "Roboto Mono", monospace;
+        font-size: 8px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(10, 10, 11, 0.25);
+      }
+      .onboard-screenshot-col {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 32px 28px;
+        background: rgba(10, 10, 11, 0.01);
+      }
+      .onboard-screenshot-col img {
+        width: 100%;
+        max-width: 200px;
+        display: block;
+        border-radius: 28px;
+        box-shadow: 0 8px 32px rgba(10, 10, 11, 0.1);
+      }
+
+      /* Mode Switcher */
+      .mode-switcher {
+        width: 100%;
+        margin-top: 32px;
+        border: 1px solid rgba(10, 10, 11, 0.07);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .mode-switcher-header {
+        padding: 20px 24px;
+        border-bottom: 1px solid rgba(10, 10, 11, 0.07);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .mode-switcher-label {
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(10, 10, 11, 0.35);
+      }
+      .mode-toggle-btn {
+        display: flex;
+        border: 1px solid rgba(10, 10, 11, 0.1);
+        border-radius: 20px;
+        overflow: hidden;
+        background: rgba(10, 10, 11, 0.03);
+      }
+      .mode-tab {
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 7px 18px;
+        border: none;
+        background: none;
+        cursor: pointer;
+        color: rgba(10, 10, 11, 0.35);
+        border-radius: 20px;
+        transition:
+          background 0.3s,
+          color 0.3s;
+      }
+      .mode-tab.active {
+        background: var(--onyx);
+        color: var(--snow);
+      }
+      .mode-body {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+      }
+      .mode-panel {
+        display: none;
+        grid-column: 1 / -1;
+      }
+      .mode-panel.active {
+        display: block;
+      }
+      .mode-pro-track {
+        display: flex;
+        transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1);
+        width: 100%;
+      }
+      .mode-pro-track .mode-phone-col {
+        min-width: 50%;
+        flex-shrink: 0;
+        box-sizing: border-box;
+      }
+      .mode-pro-controls {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 14px 24px;
+        border-top: 1px solid rgba(10, 10, 11, 0.07);
+      }
+      .mode-pro-controls .cs-carousel-btn {
+        background: none;
+        border: 1px solid rgba(10, 10, 11, 0.15);
+        border-radius: 2px;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: var(--onyx);
+        font-size: 14px;
+        transition:
+          border-color 0.25s,
+          color 0.25s;
+      }
+      .mode-pro-controls .cs-carousel-btn:hover {
+        border-color: var(--emerald);
+        color: var(--emerald);
+      }
+      .mode-pro-controls .cs-carousel-dots {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .mode-pro-controls .cs-carousel-dot {
+        width: 20px;
+        height: 2px;
+        background: rgba(10, 10, 11, 0.15);
+        border-radius: 1px;
+        transition: background 0.3s;
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+      .mode-pro-controls .cs-carousel-dot.active {
+        background: var(--emerald);
+        width: 20px;
+      }
+      .mode-pro-controls .cs-carousel-count {
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.1em;
+        color: rgba(10, 10, 11, 0.35);
+        margin-left: auto;
+      }
+      .mode-phone-col {
+        padding: 32px 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        border-right: 1px solid rgba(10, 10, 11, 0.07);
+      }
+      .mode-phone-col:last-child {
+        border-right: none;
+      }
+      .mode-phone-wrap {
+        width: 100%;
+        max-width: 220px;
+        margin: 0 auto;
+        border-radius: 28px;
+        overflow: hidden;
+        border: 1px solid rgba(10, 10, 11, 0.08);
+        box-shadow: 0 8px 32px rgba(10, 10, 11, 0.08);
+      }
+      .mode-phone-wrap img {
+        width: 100%;
+        display: block;
+      }
+      .mode-screen-label {
+        font-family: "Manrope", sans-serif;
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--onyx);
+        text-align: center;
+        letter-spacing: -0.01em;
+      }
+      .mode-screen-desc {
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.03em;
+        color: rgba(10, 10, 11, 0.45);
+        text-align: center;
+        line-height: 1.6;
+      }
+      .mode-features {
+        padding: 20px 24px;
+        border-top: 1px solid rgba(10, 10, 11, 0.07);
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+      .mode-feature {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .mode-feature-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--emerald);
+        flex-shrink: 0;
+        margin-top: 4px;
+      }
+      .mode-feature-text {
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.03em;
+        color: rgba(10, 10, 11, 0.55);
+        line-height: 1.5;
+      }
+
+      /* Ideation Flow */
+      .idea-flow {
+        width: 100%;
+        margin: 40px 0 0;
+        border: 1px solid rgba(10, 10, 11, 0.07);
+        border-radius: 2px;
+        padding: 40px;
+        box-sizing: border-box;
+      }
+      .idea-flow-label {
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(10, 10, 11, 0.35);
+        margin-bottom: 36px;
+      }
+      .idea-flow-track {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 0;
+        position: relative;
+      }
+      .idea-flow-track::before {
+        content: "";
+        position: absolute;
+        top: 20px;
+        left: calc(100% / 14);
+        right: calc(100% / 14);
+        height: 1px;
+        background: rgba(10, 10, 11, 0.1);
+        z-index: 0;
+      }
+      .idea-flow-line {
+        position: absolute;
+        top: 20px;
+        left: calc(100% / 14);
+        height: 1px;
+        width: 0%;
+        max-width: calc(100% - 100% / 7);
+        background: var(--emerald);
+        z-index: 1;
+        transition: width 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+      }
+      .idea-flow-step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        position: relative;
+        z-index: 2;
+        cursor: default;
+      }
+      .idea-flow-node {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 1px solid rgba(10, 10, 11, 0.12);
+        background: var(--snow);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Roboto Mono", monospace;
+        font-size: 8px;
+        letter-spacing: 0.06em;
+        color: rgba(10, 10, 11, 0.3);
+        transition:
+          background 0.3s,
+          border-color 0.3s,
+          color 0.3s;
+      }
+      .idea-flow-step.lit .idea-flow-node {
+        background: var(--emerald);
+        border-color: var(--emerald);
+        color: var(--snow);
+      }
+      .idea-flow-name {
+        font-family: "Roboto Mono", monospace;
+        font-size: 8px;
+        letter-spacing: 0.05em;
+        color: rgba(10, 10, 11, 0.35);
+        text-align: center;
+        line-height: 1.4;
+        transition: color 0.3s;
+        text-transform: uppercase;
+      }
+      .idea-flow-step.lit .idea-flow-name {
+        color: var(--onyx);
+      }
+      .idea-flow-detail {
+        margin-top: 32px;
+        padding-top: 28px;
+        border-top: 1px solid rgba(10, 10, 11, 0.07);
+        min-height: 72px;
+        display: flex;
+        gap: 20px;
+        align-items: flex-start;
+      }
+      .idea-flow-detail-num {
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        color: var(--emerald);
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+      .idea-flow-detail-title {
+        font-family: "Manrope", sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--onyx);
+        margin-bottom: 4px;
+      }
+      .idea-flow-detail-text {
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: -0.01em;
+        line-height: 1.8;
+        color: rgba(10, 10, 11, 0.5);
+      }
+      /* Ideation detail image */
+      .idea-detail-img {
+        width: 100%;
+        display: block;
+        border-radius: 2px;
+        margin-top: 16px;
+        max-height: 360px;
+        object-fit: contain;
+        object-position: center top;
+        background: rgba(10, 10, 11, 0.02);
+      }
+      /* HMW Component */
+      .hmw-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 16px;
+      }
+      .hmw-card {
+        border: 1px solid rgba(10, 10, 11, 0.08);
+        border-radius: 2px;
+        padding: 16px 20px;
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+      }
+      .hmw-num {
+        font-family: "Roboto Mono", monospace;
+        font-size: 8px;
+        letter-spacing: 0.1em;
+        color: var(--emerald);
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+      .hmw-text {
+        font-family: "Manrope", sans-serif;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--onyx);
+        line-height: 1.5;
+        letter-spacing: -0.01em;
+      }
+      .hmw-text em {
+        font-style: italic;
+        font-weight: 300;
+        color: var(--emerald);
+      }
+      /* Prototype Switcher */
+      .proto-switcher {
+        margin-top: 16px;
+      }
+      .proto-tabs {
+        display: flex;
+        gap: 0;
+        border-bottom: 1px solid rgba(10, 10, 11, 0.08);
+        margin-bottom: 16px;
+      }
+      .proto-tab {
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(10, 10, 11, 0.35);
+        background: none;
+        border: none;
+        border-bottom: 2px solid transparent;
+        padding: 10px 16px;
+        cursor: pointer;
+        margin-bottom: -1px;
+        transition:
+          color 0.2s,
+          border-color 0.2s;
+      }
+      .proto-tab:hover {
+        color: var(--onyx);
+      }
+      .proto-tab.active {
+        color: var(--onyx);
+        border-bottom-color: var(--emerald);
+      }
+      .proto-panel {
+        display: none;
+      }
+      .proto-panel.active {
+        display: block;
+      }
+      .proto-panel img {
+        width: 100%;
+        display: block;
+        border-radius: 2px;
+        max-height: 360px;
+        object-fit: contain;
+        object-position: center top;
+        background: rgba(10, 10, 11, 0.02);
+      }
+      .proto-panel-desc {
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.04em;
+        color: rgba(10, 10, 11, 0.45);
+        line-height: 1.7;
+        margin-top: 10px;
+      }
+      /* Usability Results */
+      .usab-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-top: 16px;
+      }
+      .usab-card {
+        border: 1px solid rgba(10, 10, 11, 0.07);
+        border-radius: 2px;
+        padding: 16px;
+        text-align: center;
+      }
+      .usab-score {
+        font-family: "Manrope", sans-serif;
+        font-size: 28px;
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        color: var(--onyx);
+        line-height: 1;
+        margin-bottom: 4px;
+      }
+      .usab-score span {
+        font-size: 14px;
+        font-weight: 400;
+        color: rgba(10, 10, 11, 0.3);
+      }
+      .usab-scenario {
+        font-family: "Roboto Mono", monospace;
+        font-size: 8px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(10, 10, 11, 0.4);
+        margin-bottom: 6px;
+      }
+      .usab-winner {
+        font-family: "Roboto Mono", monospace;
+        font-size: 8px;
+        letter-spacing: 0.06em;
+        color: var(--emerald);
+        font-weight: 600;
+      }
+      .usab-bar-wrap {
+        width: 100%;
+        height: 3px;
+        background: rgba(10, 10, 11, 0.07);
+        border-radius: 2px;
+        margin: 8px 0 6px;
+        overflow: hidden;
+      }
+      .usab-bar {
+        height: 100%;
+        border-radius: 2px;
+        background: var(--emerald);
+      }
+
+      /* Competitive Matrix */
+      .comp-matrix {
+        width: 100%;
+        margin: 40px 0 0;
+        border: 1px solid rgba(10, 10, 11, 0.07);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .comp-matrix-inner {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .comp-matrix-inner th {
+        font-family: "Roboto Mono", monospace;
+        font-size: 8px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(10, 10, 11, 0.4);
+        padding: 16px 12px;
+        text-align: center;
+        border-bottom: 1px solid rgba(10, 10, 11, 0.07);
+        font-weight: 400;
+        transition:
+          background 0.25s,
+          color 0.25s;
+        cursor: default;
+      }
+      .comp-matrix-inner th.khoi {
+        color: var(--emerald);
+        font-weight: 700;
+      }
+      .comp-matrix-inner th.col-hover {
+        background: rgba(10, 10, 11, 0.03);
+        color: var(--onyx);
+      }
+      .comp-matrix-inner th.khoi.col-hover {
+        background: rgba(35, 88, 58, 0.06);
+        color: var(--emerald);
+      }
+      .comp-matrix-inner td {
+        padding: 10px 12px;
+        text-align: center;
+        border-bottom: 1px solid rgba(10, 10, 11, 0.04);
+        transition: background 0.25s;
+      }
+      .comp-matrix-inner td:first-child {
+        text-align: left;
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.04em;
+        color: rgba(10, 10, 11, 0.55);
+        padding-left: 20px;
+      }
+      .comp-matrix-inner tr:last-child td {
+        border-bottom: none;
+      }
+      .comp-matrix-inner td.col-hover {
+        background: rgba(10, 10, 11, 0.02);
+      }
+      .comp-matrix-inner td.khoi.col-hover {
+        background: rgba(35, 88, 58, 0.04);
+      }
+      .comp-dot {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: rgba(10, 10, 11, 0.15);
+      }
+      .comp-dot.filled {
+        background: var(--onyx);
+      }
+      .comp-dot.khoi-filled {
+        background: var(--emerald);
+        box-shadow: 0 0 0 2px rgba(35, 88, 58, 0.15);
+      }
+      .comp-matrix-footer {
+        padding: 16px 20px;
+        border-top: 1px solid rgba(10, 10, 11, 0.07);
+        font-family: "Roboto Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.04em;
+        color: rgba(10, 10, 11, 0.55);
+        min-height: 48px;
+        transition: color 0.2s;
+        line-height: 1.7;
+      }
+      .comp-matrix-footer strong {
+        color: var(--onyx);
+        font-weight: 600;
+      }
+
+      /* Research Bubbles */
+      .res-bubbles {
+        position: relative;
+        width: 100%;
+        height: 300px;
+        margin: 40px 0 8px;
+        user-select: none;
+      }
+      .res-bubble {
+        position: absolute;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: default;
+        transition:
+          transform 0.3s cubic-bezier(0.76, 0, 0.24, 1),
+          box-shadow 0.3s;
+        background: rgba(10, 10, 11, 0.04);
+        border: 1px solid rgba(10, 10, 11, 0.08);
+      }
+      .res-bubble:hover {
+        transform: scale(1.08);
+        box-shadow: 0 8px 32px rgba(10, 10, 11, 0.08);
+        background: var(--onyx);
+        border-color: var(--onyx);
+      }
+      .res-bubble:hover .res-bubble-label {
+        color: var(--snow);
+      }
+      .res-bubble-label {
+        font-family: "Manrope", sans-serif;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: var(--onyx);
+        text-align: center;
+        padding: 0 12px;
+        transition: color 0.3s;
+        pointer-events: none;
+      }
+      .res-bubble-tooltip {
+        position: fixed;
+        background: var(--onyx);
+        color: var(--snow);
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.06em;
+        padding: 8px 14px;
+        border-radius: 2px;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+        z-index: 100;
+        max-width: 260px;
+        white-space: normal;
+        text-align: center;
+        line-height: 1.6;
+        transform: translateY(-130%);
+      }
+      .res-bubble-tooltip.show {
+        opacity: 1;
+      }
+
+      /* ── MOBILE ── */
+      .nav-dropdown {
+        display: none;
+      }
+      .nav-menu-btn {
+        display: none;
+      }
+
+      @media (max-width: 768px) {
+        nav {
+          padding: 24px;
+        }
+        .nav-links {
+          display: none;
+        }
+        .nav-menu-btn {
+          display: flex;
+          font-family: "Roboto Mono", monospace;
+          font-size: 10px;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: var(--snow);
+          background: none;
+          border: none;
+          cursor: none;
+          align-items: center;
+          gap: 8px;
+        }
+        .nav-dropdown {
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: var(--onyx);
+          z-index: 1001;
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: flex-end;
+          padding: 52px 24px;
+          gap: 8px;
+        }
+        .nav-dropdown.open {
+          display: flex;
+        }
+        .nav-dropdown-top {
+          position: absolute;
+          top: 24px;
+          left: 24px;
+          right: 24px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+        .nav-dropdown-logo {
+          font-family: "Manrope", sans-serif;
+          font-size: 12px;
+          font-weight: 700;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: var(--snow);
+          text-decoration: none;
+        }
+        .nav-dropdown-close {
+          font-family: "Roboto Mono", monospace;
+          font-size: 10px;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: rgba(248, 248, 248, 0.4);
+          background: none;
+          border: none;
+          cursor: none;
+        }
+        .nav-dropdown a:not(.nav-dropdown-logo) {
+          font-family: "Manrope", sans-serif;
+          font-size: clamp(40px, 12vw, 72px);
+          font-weight: 800;
+          letter-spacing: -0.03em;
+          color: var(--snow);
+          text-decoration: none;
+          line-height: 1;
+          opacity: 0;
+          transform: translateY(20px);
+          transition:
+            opacity 0.4s,
+            transform 0.4s;
+        }
+        .nav-dropdown.open a:not(.nav-dropdown-logo) {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        .nav-dropdown.open a:nth-child(2) {
+          transition-delay: 0.05s;
+        }
+        .nav-dropdown.open a:nth-child(3) {
+          transition-delay: 0.1s;
+        }
+        .nav-dropdown.open a:nth-child(4) {
+          transition-delay: 0.15s;
+        }
+
+        /* Hero */
+        .cs-hero-content {
+          padding: 0 24px 48px;
+          flex-direction: column;
+          gap: 24px;
+        }
+        .cs-htitle {
+          font-size: clamp(40px, 12vw, 72px);
+        }
+        .cs-tags {
+          align-items: flex-start;
+        }
+
+        /* Meta */
+        .cs-meta {
+          grid-template-columns: 1fr;
+          margin: 0 24px;
+        }
+        .cs-meta-item:not(:first-child) {
+          padding-left: 0;
+          border-left: none;
+          border-top: 1px solid rgba(10, 10, 11, 0.08);
+        }
+
+        /* Layout — hide sidebar, full width content */
+        .cs-layout {
+          display: block;
+        }
+        .cs-sidebar {
+          display: none;
+        }
+        .cs-content {
+          padding: 48px 24px 24px;
+        }
+
+        /* DM flow steps — scrollable row */
+        .dm-flow {
+          padding: 24px;
+        }
+        .dm-steps-row {
+          overflow-x: auto;
+          gap: 8px;
+          padding-bottom: 8px;
+        }
+        .dm-connector {
+          flex: 0 0 16px;
+        }
+        .dm-branch-row {
+          grid-template-columns: 1fr;
+        }
+
+        /* Onboarding split — stack */
+        .onboard-split {
+          grid-template-columns: 1fr;
+        }
+        .onboard-flow-col {
+          border-right: none;
+          border-bottom: 1px solid rgba(10, 10, 11, 0.07);
+        }
+        .onboard-screenshot-col {
+          padding: 24px;
+        }
+
+        /* Mode switcher phone cols */
+        .mode-phone-col {
+          padding: 20px 16px;
+        }
+        .mode-phone-wrap {
+          max-width: 160px;
+        }
+        .mode-features {
+          grid-template-columns: 1fr;
+        }
+
+        /* Two col / stats */
+        .cs-two-col {
+          grid-template-columns: 1fr;
+          gap: 24px;
+        }
+        .cs-stats {
+          grid-template-columns: 1fr;
+        }
+
+        /* Ideation flow track */
+        .idea-flow {
+          padding: 24px;
+        }
+        .idea-flow-track {
+          overflow-x: auto;
+          grid-template-columns: repeat(7, 56px);
+          padding-bottom: 8px;
+        }
+        .idea-flow-name {
+          font-size: 7px;
+        }
+
+        /* Comp matrix — horizontal scroll */
+        .comp-matrix {
+          overflow-x: auto;
+        }
+        .comp-matrix-inner {
+          min-width: 600px;
+        }
+
+        /* cs-next */
+        .cs-next {
+          padding: 48px 24px;
+        }
+        .cs-next-link {
+          font-size: clamp(24px, 7vw, 40px);
+        }
+
+        /* Footer */
+        .site-footer {
+          padding: 60px 24px 40px;
+        }
+        .f-bottom {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 20px;
+        }
+        .f-soc {
+          gap: 20px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .cs-htitle {
+          font-size: clamp(36px, 11vw, 60px);
+        }
+        .mode-phone-wrap {
+          max-width: 130px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="cur" id="cur"></div>
+    <nav>
+      <a href="index.html" class="nav-logo">Khoi Nguyen</a>
+      <ul class="nav-links">
+        <li><a href="work.html">Work</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="mailto:khoiqnguyen27@gmail.com">Contact</a></li>
+      </ul>
+      <button class="nav-menu-btn" id="navMenuBtn" aria-label="Open menu">
+        Menu
+      </button>
+    </nav>
+
+    <!-- Mobile dropdown -->
+    <div class="nav-dropdown" id="navDropdown">
+      <div class="nav-dropdown-top">
+        <a href="index.html" class="nav-dropdown-logo">Khoi Nguyen</a>
+        <button class="nav-dropdown-close" id="navDropdownClose">Close</button>
+      </div>
+      <a href="work.html">Work</a>
+      <a href="about.html">About</a>
+      <a href="mailto:khoiqnguyen27@gmail.com">Contact</a>
+    </div>
+
+    <section class="cs-hero">
+      <div class="cs-hero-img" id="csImg">
+        <video
+          autoplay
+          loop
+          muted
+          playsinline
+          style="width: 100%; height: 100%; object-fit: cover; display: block"
+        >
+          <source src="previewkhoi.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <div class="cs-grad"></div>
+      <div class="cs-hero-content">
+        <div>
+          <a href="work.html" class="cs-back">← Back to work</a>
+          <p class="cs-num">01 — Product Design + iOS Dev</p>
+          <h1 class="cs-htitle">KHOI<br /><em>App</em></h1>
+        </div>
+        <div class="cs-tags">
+          <span class="cs-tag">Product Design</span
+          ><span class="cs-tag">iOS Dev</span><span class="cs-tag">SwiftUI</span
+          ><span class="cs-tag">Firebase</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="cs-meta">
+      <div class="cs-meta-item">
+        <p class="cs-meta-label">My Role</p>
+        <p class="cs-meta-val">Designer + Developer</p>
+      </div>
+      <div class="cs-meta-item">
+        <p class="cs-meta-label">Timeline</p>
+        <p class="cs-meta-val">14 weeks</p>
+      </div>
+      <div class="cs-meta-item">
+        <p class="cs-meta-label">Category</p>
+        <p class="cs-meta-val">Product Design + iOS Dev</p>
+      </div>
+    </div>
+
+    <div class="cs-layout">
+      <aside class="cs-sidebar">
+        <div class="cs-sidenav">
+          <span class="cs-sidenav-label">Project Roadmap</span>
+          <a href="#sec-problem"><span class="sn-arrow">→</span>Problem</a>
+          <a href="#sec-role"><span class="sn-arrow">→</span>My Role</a>
+          <a href="#sec-process"><span class="sn-arrow">→</span>Process</a>
+          <a href="#sec-decisions"
+            ><span class="sn-arrow">→</span>Key Decisions</a
+          >
+          <a href="#sec-designs"
+            ><span class="sn-arrow">→</span>Final Designs</a
+          >
+          <a href="#sec-outcomes"><span class="sn-arrow">→</span>Outcomes</a>
+          <a href="#sec-learnings"><span class="sn-arrow">→</span>Learnings</a>
+        </div>
+      </aside>
+      <div class="cs-content">
+        <div class="cs-sec" id="sec-problem">
+          <p class="cs-sec-label">Problem / Challenge</p>
+          <h2 class="cs-sec-title">
+            No platform serves both sides. KHOI does.
+          </h2>
+          <p class="cs-text">
+            Independent beauty professionals, especially home-based technicians,
+            are effectively invisible online. They can't get listed on Yelp.
+            They live on Instagram, where there are no unbiased reviews, no
+            booking system, and no way to reach clients outside their existing
+            network. On the other side, clients are running 3 to 4 apps just to
+            validate a single provider, and still booking on gut feeling. No
+            platform serves both. KHOI does.
+          </p>
+        </div>
+        <div class="cs-sec" id="sec-role">
+          <p class="cs-sec-label">My Role</p>
+          <h2 class="cs-sec-title">
+            Designer, developer, and everything in between.
+          </h2>
+          <p class="cs-text">
+            Lead designer, product strategist, and primary developer across 14
+            weeks: 10 weeks of research and design, 4 weeks to a shippable
+            product. Developed in SwiftUI with engineering support from Anjo
+            Cajigal.
+          </p>
+        </div>
+        <div class="cs-sec" id="sec-process">
+          <p class="cs-sec-label">Process</p>
+          <h2 class="cs-sec-title">Research first, then build.</h2>
+          <p class="cs-text">
+            30 interviews with beauty clients and professionals. Affinity
+            mapping surfaced six decision factors that appeared consistently
+            across all participants regardless of platform, background, or
+            service type. Hover each to see what the research found.
+          </p>
+          <div class="res-bubbles" id="resBubbles"></div>
+          <div class="res-bubble-tooltip" id="resTip"></div>
+
+          <p class="cs-text" style="margin-top: 32px">
+            Each finding was mapped to an opportunity. I used How Might We
+            statements to reframe user frustrations into design possibilities,
+            then ran a mind mapping session to generate solutions without
+            constraints. That produced a mass of sketches, which I consolidated
+            into three lo-fi prototypes for comparative testing.
+          </p>
+
+          <div class="idea-flow" id="ideaFlow">
+            <p class="idea-flow-label">Ideation Process</p>
+            <div class="idea-flow-track">
+              <div class="idea-flow-line" id="ideaLine"></div>
+              <div class="idea-flow-step lit" data-idea="0">
+                <div class="idea-flow-node">01</div>
+                <p class="idea-flow-name">Decision<br />Factors</p>
+              </div>
+              <div class="idea-flow-step" data-idea="1">
+                <div class="idea-flow-node">02</div>
+                <p class="idea-flow-name">Opportunity<br />Mapping</p>
+              </div>
+              <div class="idea-flow-step" data-idea="2">
+                <div class="idea-flow-node">03</div>
+                <p class="idea-flow-name">HMW<br />Statements</p>
+              </div>
+              <div class="idea-flow-step" data-idea="3">
+                <div class="idea-flow-node">04</div>
+                <p class="idea-flow-name">Mind<br />Mapping</p>
+              </div>
+              <div class="idea-flow-step" data-idea="4">
+                <div class="idea-flow-node">05</div>
+                <p class="idea-flow-name">Sketch<br />Generation</p>
+              </div>
+              <div class="idea-flow-step" data-idea="5">
+                <div class="idea-flow-node">06</div>
+                <p class="idea-flow-name">Lo-Fi<br />Prototypes</p>
+              </div>
+              <div class="idea-flow-step" data-idea="6">
+                <div class="idea-flow-node">07</div>
+                <p class="idea-flow-name">Usability<br />Testing</p>
+              </div>
+            </div>
+            <div class="idea-flow-detail" id="ideaDetail">
+              <p class="idea-flow-detail-num">01</p>
+              <div style="flex: 1">
+                <p class="idea-flow-detail-title">Decision Factors</p>
+                <p class="idea-flow-detail-text">
+                  Six factors surfaced consistently across 30 interviews:
+                  portfolio, network, reviews, convenience, pricing, and
+                  location. These became the design constraints.
+                </p>
+                <img
+                  class="idea-detail-img"
+                  src="ideation1.jpg"
+                  alt="Affinity map — decision factors"
+                />
+              </div>
+            </div>
+          </div>
+
+          <p class="cs-col-title" style="margin-top: 48px; margin-bottom: 12px">
+            Competitive Analysis
+          </p>
+          <p class="cs-text">
+            No single platform covered all six factors. Every platform does one
+            thing well. KHOI was designed to do all six. Hover each platform to
+            see where it falls short.
+          </p>
+
+          <div class="comp-matrix">
+            <table class="comp-matrix-inner" id="compMatrix">
+              <thead>
+                <tr>
+                  <th style="text-align: left; padding-left: 20px">Feature</th>
+                  <th
+                    data-col="1"
+                    data-tip="Instagram has community and portfolio — but no unbiased reviews, no booking, and home-based technicians are invisible without a following."
+                  >
+                    Instagram
+                  </th>
+                  <th
+                    data-col="2"
+                    data-tip="Yelp and Google have reviews and discovery — but only list established businesses. Home-based technicians cannot get listed."
+                  >
+                    Yelp
+                  </th>
+                  <th
+                    data-col="3"
+                    data-tip="Acuity has strong scheduling and availability tools — but zero discovery. Users must already know who they want to book."
+                  >
+                    Acuity
+                  </th>
+                  <th
+                    data-col="4"
+                    data-tip="Booksy is the closest competitor — but lacks the community trust layer and social fabric that drives discovery for independent providers."
+                  >
+                    Booksy
+                  </th>
+                  <th
+                    data-col="5"
+                    data-tip="TikTok surfaces discovery and portfolio content — but has no booking, no reviews, and no way to validate a provider's credibility."
+                  >
+                    TikTok
+                  </th>
+                  <th
+                    data-col="6"
+                    data-tip="Google has reviews and location — but excludes home-based technicians entirely. If you are not an established business, you do not exist."
+                  >
+                    Google
+                  </th>
+                  <th
+                    data-col="7"
+                    class="khoi"
+                    data-tip="KHOI is the only platform that addresses all six decision factors in one place — built specifically for independent and home-based beauty professionals."
+                  >
+                    KHOI
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Portfolio</td>
+                  <td data-col="1"><span class="comp-dot filled"></span></td>
+                  <td data-col="2"><span class="comp-dot filled"></span></td>
+                  <td data-col="3"><span class="comp-dot"></span></td>
+                  <td data-col="4"><span class="comp-dot filled"></span></td>
+                  <td data-col="5"><span class="comp-dot filled"></span></td>
+                  <td data-col="6"><span class="comp-dot"></span></td>
+                  <td data-col="7" class="khoi">
+                    <span class="comp-dot khoi-filled"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Network / Referrals</td>
+                  <td data-col="1"><span class="comp-dot filled"></span></td>
+                  <td data-col="2"><span class="comp-dot"></span></td>
+                  <td data-col="3"><span class="comp-dot"></span></td>
+                  <td data-col="4"><span class="comp-dot"></span></td>
+                  <td data-col="5"><span class="comp-dot filled"></span></td>
+                  <td data-col="6"><span class="comp-dot"></span></td>
+                  <td data-col="7" class="khoi">
+                    <span class="comp-dot khoi-filled"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Unbiased Reviews</td>
+                  <td data-col="1"><span class="comp-dot"></span></td>
+                  <td data-col="2"><span class="comp-dot filled"></span></td>
+                  <td data-col="3"><span class="comp-dot"></span></td>
+                  <td data-col="4"><span class="comp-dot filled"></span></td>
+                  <td data-col="5"><span class="comp-dot"></span></td>
+                  <td data-col="6"><span class="comp-dot filled"></span></td>
+                  <td data-col="7" class="khoi">
+                    <span class="comp-dot khoi-filled"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>In-App Booking</td>
+                  <td data-col="1"><span class="comp-dot"></span></td>
+                  <td data-col="2"><span class="comp-dot filled"></span></td>
+                  <td data-col="3"><span class="comp-dot filled"></span></td>
+                  <td data-col="4"><span class="comp-dot filled"></span></td>
+                  <td data-col="5"><span class="comp-dot"></span></td>
+                  <td data-col="6"><span class="comp-dot filled"></span></td>
+                  <td data-col="7" class="khoi">
+                    <span class="comp-dot khoi-filled"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Pricing Transparency</td>
+                  <td data-col="1"><span class="comp-dot filled"></span></td>
+                  <td data-col="2"><span class="comp-dot filled"></span></td>
+                  <td data-col="3"><span class="comp-dot filled"></span></td>
+                  <td data-col="4"><span class="comp-dot filled"></span></td>
+                  <td data-col="5"><span class="comp-dot filled"></span></td>
+                  <td data-col="6"><span class="comp-dot filled"></span></td>
+                  <td data-col="7" class="khoi">
+                    <span class="comp-dot khoi-filled"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Location Discovery</td>
+                  <td data-col="1"><span class="comp-dot"></span></td>
+                  <td data-col="2"><span class="comp-dot filled"></span></td>
+                  <td data-col="3"><span class="comp-dot"></span></td>
+                  <td data-col="4"><span class="comp-dot filled"></span></td>
+                  <td data-col="5"><span class="comp-dot"></span></td>
+                  <td data-col="6"><span class="comp-dot filled"></span></td>
+                  <td data-col="7" class="khoi">
+                    <span class="comp-dot khoi-filled"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Home-Based Providers</td>
+                  <td data-col="1"><span class="comp-dot filled"></span></td>
+                  <td data-col="2"><span class="comp-dot"></span></td>
+                  <td data-col="3"><span class="comp-dot"></span></td>
+                  <td data-col="4"><span class="comp-dot"></span></td>
+                  <td data-col="5"><span class="comp-dot filled"></span></td>
+                  <td data-col="6"><span class="comp-dot"></span></td>
+                  <td data-col="7" class="khoi">
+                    <span class="comp-dot khoi-filled"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Chat Support</td>
+                  <td data-col="1"><span class="comp-dot filled"></span></td>
+                  <td data-col="2"><span class="comp-dot"></span></td>
+                  <td data-col="3"><span class="comp-dot"></span></td>
+                  <td data-col="4"><span class="comp-dot"></span></td>
+                  <td data-col="5"><span class="comp-dot"></span></td>
+                  <td data-col="6"><span class="comp-dot"></span></td>
+                  <td data-col="7" class="khoi">
+                    <span class="comp-dot khoi-filled"></span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="comp-matrix-footer" id="compFooter">
+              Hover a platform column to see its key gap.
+            </div>
+          </div>
+        </div>
+        <div class="cs-sec" id="sec-decisions">
+          <p class="cs-sec-label">Key Design Decisions</p>
+          <h2 class="cs-sec-title">Every decision had a reason.</h2>
+
+          <p class="cs-col-title" style="margin-bottom: 12px">
+            1. Dual-Mode Architecture
+          </p>
+          <p class="cs-text">
+            My early research and testing focused entirely on the client side,
+            and it showed. The designs tested well, but I had left a whole user
+            group underserved: the professionals themselves. The obvious
+            solution was two separate apps, like Uber and its driver app. But
+            beauty professionals are also clients. Forcing them to
+            context-switch between two apps would fracture the very trust and
+            community the product was built on.
+          </p>
+          <p class="cs-text" style="margin-top: 16px">
+            Instead, I designed a single verification flow. Professionals tap a
+            verify button on their profile, complete a review process, and once
+            approved, unlock a persistent toggle on both the Discover and
+            Profile pages to switch between Client and Pro mode. This kept the
+            social fabric intact while unlocking a purpose-built professional
+            layer underneath.
+          </p>
+          <div class="dm-flow">
+            <p class="dm-flow-label">
+              Pro Verification Flow / Dual-Mode Architecture
+            </p>
+            <div class="dm-flow-tip" id="dmTip"></div>
+
+            <!-- 6-step verification form -->
+            <div class="dm-steps-row">
+              <div class="dm-step">
+                <div class="dm-step-tooltip">Business name, location, bio</div>
+                <div class="dm-step-node">01</div>
+                <p class="dm-step-name">Basic<br />Info</p>
+              </div>
+              <div class="dm-connector"></div>
+              <div class="dm-step">
+                <div class="dm-step-tooltip">
+                  Service name, category, price, duration, description
+                </div>
+                <div class="dm-step-node">02</div>
+                <p class="dm-step-name">Services</p>
+              </div>
+              <div class="dm-connector"></div>
+              <div class="dm-step">
+                <div class="dm-step-tooltip">
+                  Cancellation policy, deposit requirements, late arrival policy
+                </div>
+                <div class="dm-step-node">03</div>
+                <p class="dm-step-name">Policies</p>
+              </div>
+              <div class="dm-connector"></div>
+              <div class="dm-step">
+                <div class="dm-step-tooltip">
+                  Min. 2 photos per service category
+                </div>
+                <div class="dm-step-node">04</div>
+                <p class="dm-step-name">Portfolio</p>
+              </div>
+              <div class="dm-connector"></div>
+              <div class="dm-step">
+                <div class="dm-step-tooltip">
+                  Instagram handle OR business proof — Google, Yelp, website, or
+                  business card
+                </div>
+                <div class="dm-step-node">05</div>
+                <p class="dm-step-name">Verification</p>
+              </div>
+              <div class="dm-connector"></div>
+              <div class="dm-step">
+                <div class="dm-step-tooltip">
+                  Summary page — review everything before submitting
+                </div>
+                <div class="dm-step-node">06</div>
+                <p class="dm-step-name">Review &amp;<br />Submit</p>
+              </div>
+            </div>
+
+            <div class="dm-divider"></div>
+
+            <!-- Branch outcomes -->
+            <div class="dm-branch-row">
+              <div class="dm-branch-card pending">
+                <p class="dm-branch-tag pending">
+                  <span class="dm-branch-dot"></span>Pending
+                </p>
+                <p class="dm-branch-title">Application Under Review</p>
+                <p class="dm-branch-text">
+                  After submission the user sees an orange clock icon with the
+                  message "We'll notify you within 24-48 hours." The system
+                  listens for status changes in real time and auto-upgrades when
+                  approved.
+                </p>
+              </div>
+              <div class="dm-branch-card approved">
+                <p class="dm-branch-tag approved">
+                  <span class="dm-branch-dot"></span>Approved
+                </p>
+                <p class="dm-branch-title">Toggle Unlocked</p>
+                <p class="dm-branch-text">
+                  Profile auto-upgrades to a business profile. A persistent
+                  CLIENT / PRO toggle appears on both the Discover page and the
+                  Profile page.
+                </p>
+                <div class="dm-unlock-row">
+                  <div class="dm-unlock-item">
+                    <span class="dm-unlock-icon">⇄</span>CLIENT / PRO toggle on
+                    Discover
+                  </div>
+                  <div class="dm-unlock-item">
+                    <span class="dm-unlock-icon">⇄</span>CLIENT / PRO toggle on
+                    Profile
+                  </div>
+                  <div class="dm-unlock-item">
+                    <span class="dm-unlock-icon">✓</span>Full Pro dashboard
+                    unlocked
+                  </div>
+                </div>
+              </div>
+              <div class="dm-branch-card rejected">
+                <p class="dm-branch-tag rejected">
+                  <span class="dm-branch-dot"></span>Rejected
+                </p>
+                <p class="dm-branch-title">Application Declined</p>
+                <p class="dm-branch-text">
+                  Rejection reason is stored and surfaced to the user. Currently
+                  a dead end — users must contact support to reapply.
+                </p>
+                <div class="dm-branch-note">
+                  Design consideration: a future iteration should surface the
+                  rejection reason clearly and allow users to edit and resubmit
+                  directly — without requiring support contact.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mode-switcher">
+            <div class="mode-switcher-header">
+              <p class="mode-switcher-label">Client Mode vs Pro Mode</p>
+              <div class="mode-toggle-btn">
+                <button class="mode-tab active" data-mode="client">
+                  Client
+                </button>
+                <button class="mode-tab" data-mode="pro">Pro</button>
+              </div>
+            </div>
+            <div class="mode-body">
+              <!-- Client Mode Panel -->
+              <div
+                class="mode-panel active"
+                data-panel="client"
+                style="display: grid; grid-template-columns: 1fr 1fr"
+              >
+                <div class="mode-phone-col">
+                  <div class="mode-phone-wrap">
+                    <img
+                      src="khoics-clientmode.png"
+                      alt="Client mode — Discover feed"
+                    />
+                  </div>
+                  <p class="mode-screen-label">Discover</p>
+                  <p class="mode-screen-desc">
+                    Browse and save beauty professionals. CLIENT toggle is
+                    active.
+                  </p>
+                </div>
+                <div class="mode-phone-col">
+                  <div class="mode-phone-wrap">
+                    <img
+                      src="khoics-proprofile.png"
+                      alt="Profile with CLIENT/PRO toggle"
+                    />
+                  </div>
+                  <p class="mode-screen-label">Profile</p>
+                  <p class="mode-screen-desc">
+                    Toggle visible on profile. Switch to PRO mode at any time.
+                  </p>
+                </div>
+              </div>
+              <!-- Pro Mode Panel -->
+              <div class="mode-panel" data-panel="pro">
+                <div style="overflow: hidden; width: 100%">
+                  <div class="mode-pro-track" id="modeProTrack">
+                    <div class="mode-phone-col">
+                      <div class="mode-phone-wrap">
+                        <img
+                          src="khoics-schedule.png"
+                          alt="Pro schedule view"
+                        />
+                      </div>
+                      <p class="mode-screen-label">Schedule</p>
+                      <p class="mode-screen-desc">
+                        Full appointment dashboard with upcoming and pending
+                        counts.
+                      </p>
+                    </div>
+                    <div class="mode-phone-col">
+                      <div class="mode-phone-wrap">
+                        <img
+                          src="khoics-appointment.png"
+                          alt="Appointment detail — pro view"
+                        />
+                      </div>
+                      <p class="mode-screen-label">Appointment Detail</p>
+                      <p class="mode-screen-desc">
+                        View booking details, client info, and confirm or
+                        decline.
+                      </p>
+                    </div>
+                    <div class="mode-phone-col">
+                      <div class="mode-phone-wrap">
+                        <img
+                          src="khoics-createpost.png"
+                          alt="Create post — pro only"
+                        />
+                      </div>
+                      <p class="mode-screen-label">Create Post</p>
+                      <p class="mode-screen-desc">
+                        The + button unlocks posting work to build a public
+                        portfolio.
+                      </p>
+                    </div>
+                    <div class="mode-phone-col" style="border-right: none">
+                      <div class="mode-phone-wrap">
+                        <img
+                          src="khoics-editbusiness.png"
+                          alt="Edit business account"
+                        />
+                      </div>
+                      <p class="mode-screen-label">Edit Business</p>
+                      <p class="mode-screen-desc">
+                        Manage services, availability, and policies from one
+                        screen.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="mode-pro-controls">
+                  <button
+                    class="cs-carousel-btn"
+                    id="modeProPrev"
+                    aria-label="Previous"
+                  >
+                    &#8592;
+                  </button>
+                  <button
+                    class="cs-carousel-btn"
+                    id="modeProNext"
+                    aria-label="Next"
+                  >
+                    &#8594;
+                  </button>
+                  <div class="cs-carousel-dots" id="modeProDots">
+                    <div
+                      class="cs-carousel-dot active"
+                      data-pro-index="0"
+                    ></div>
+                    <div class="cs-carousel-dot" data-pro-index="1"></div>
+                    <div class="cs-carousel-dot" data-pro-index="2"></div>
+                    <div class="cs-carousel-dot" data-pro-index="3"></div>
+                  </div>
+                  <span class="cs-carousel-count" id="modeProCount"
+                    >01 / 04</span
+                  >
+                </div>
+              </div>
+            </div>
+            <!-- Pro features strip -->
+            <div class="mode-features" id="modeFeatures">
+              <div class="mode-feature">
+                <span class="mode-feature-dot"></span>
+                <p class="mode-feature-text">Browse &amp; save professionals</p>
+              </div>
+              <div class="mode-feature">
+                <span class="mode-feature-dot"></span>
+                <p class="mode-feature-text">Book appointments</p>
+              </div>
+              <div class="mode-feature">
+                <span class="mode-feature-dot"></span>
+                <p class="mode-feature-text">Chat with providers</p>
+              </div>
+            </div>
+          </div>
+
+          <p class="cs-col-title" style="margin-top: 48px; margin-bottom: 12px">
+            2. Referral Feature Iteration
+          </p>
+          <p class="cs-text">
+            My first design showed a referral count beneath each post. Users
+            consistently mistook it for a like count, and the metric lost its
+            meaning. I moved the referral count to the provider's main profile
+            page where reputation context is expected, and replaced the
+            post-level count with a saves metric. One repositioning, two
+            problems solved.
+          </p>
+          <img
+            src="khoics-referral.jpg"
+            alt="Before and after — referral feature repositioning"
+            style="
+              width: 100%;
+              display: block;
+              border-radius: 2px;
+              margin-top: 24px;
+            "
+          />
+
+          <p class="cs-col-title" style="margin-top: 48px; margin-bottom: 12px">
+            3. Chat Discoverability
+          </p>
+          <p class="cs-text">
+            Chat existed in the first iteration, buried at the top of the
+            provider profile. Five usability participants wanted it, none found
+            it. I moved it into the primary navigation bar. Discoverability
+            isn't just a visual problem, it's a trust problem: if clients can't
+            easily reach a provider before booking, they won't book.
+          </p>
+          <img
+            src="khoics-chatdiscover.jpg"
+            alt="Before and after — chat placement in navigation"
+            style="
+              width: 100%;
+              display: block;
+              border-radius: 2px;
+              margin-top: 24px;
+            "
+          />
+
+          <p class="cs-col-title" style="margin-top: 48px; margin-bottom: 12px">
+            4. Designing for the App Store, Not Just the User
+          </p>
+          <p class="cs-text">
+            Late in development, Apple's review guidelines required users to
+            access core features without an account. My original flow gated
+            everything behind signup. This forced a fundamental rethink of the
+            onboarding architecture, and taught me that platform constraints are
+            design constraints, not engineering problems.
+          </p>
+          <div class="onboard-split">
+            <div class="onboard-flow-col">
+              <p class="onboard-col-label">Before / After</p>
+
+              <!-- Before -->
+              <p
+                style="
+                  font-family: &quot;Roboto Mono&quot;, monospace;
+                  font-size: 8px;
+                  letter-spacing: 0.1em;
+                  text-transform: uppercase;
+                  color: rgba(180, 40, 40, 0.5);
+                  margin-bottom: 12px;
+                "
+              >
+                Original Flow
+              </p>
+              <div class="onboard-flow">
+                <div class="onboard-node">
+                  <div class="onboard-node-dot">01</div>
+                  <p class="onboard-node-text">App launch</p>
+                </div>
+                <div class="onboard-connector"></div>
+                <div class="onboard-node">
+                  <div class="onboard-node-dot blocked">02</div>
+                  <p class="onboard-node-text blocked">
+                    Signup required to continue
+                  </p>
+                </div>
+                <div class="onboard-connector"></div>
+                <div class="onboard-node">
+                  <div class="onboard-node-dot blocked">✕</div>
+                  <p class="onboard-node-text blocked">
+                    No guest access — App Store rejection
+                  </p>
+                </div>
+              </div>
+
+              <div class="onboard-divider">
+                <div class="onboard-divider-line"></div>
+                <span class="onboard-divider-label">Apple HIG requirement</span>
+                <div class="onboard-divider-line"></div>
+              </div>
+
+              <!-- After -->
+              <p
+                style="
+                  font-family: &quot;Roboto Mono&quot;, monospace;
+                  font-size: 8px;
+                  letter-spacing: 0.1em;
+                  text-transform: uppercase;
+                  color: var(--emerald);
+                  margin-bottom: 12px;
+                "
+              >
+                Revised Flow
+              </p>
+              <div class="onboard-flow">
+                <div class="onboard-node">
+                  <div class="onboard-node-dot emerald">01</div>
+                  <p class="onboard-node-text">App launch</p>
+                </div>
+                <div class="onboard-connector emerald"></div>
+                <div class="onboard-node">
+                  <div class="onboard-node-dot emerald">02</div>
+                  <p class="onboard-node-text emerald">
+                    Guest access — browse Discover freely
+                  </p>
+                </div>
+                <div class="onboard-connector emerald"></div>
+                <div class="onboard-node">
+                  <div class="onboard-node-dot emerald">03</div>
+                  <p class="onboard-node-text">
+                    Sign In prompt appears on gated action
+                  </p>
+                </div>
+                <div class="onboard-connector emerald"></div>
+                <div class="onboard-node">
+                  <div class="onboard-node-dot emerald">04</div>
+                  <p class="onboard-node-text">
+                    "Continue Browsing" option always available
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="onboard-screenshot-col">
+              <img
+                src="khoics-onboarding.jpg"
+                alt="Onboarding — Sign In Required sheet with Continue Browsing option"
+              />
+            </div>
+          </div>
+
+          <p class="cs-col-title" style="margin-top: 48px; margin-bottom: 12px">
+            5. The Notification Gap
+          </p>
+          <p class="cs-text">
+            Beta testing revealed that verified professionals weren't posting.
+            When asked why, they said they didn't know they were approved. I had
+            designed the verification flow but never designed what came after
+            it: the confirmation, the signal, the moment of activation. A
+            notification system wasn't a nice-to-have. It was load-bearing.
+          </p>
+          <img
+            src="khoics-notification.jpg"
+            alt="Notification design screens"
+            style="
+              width: 100%;
+              display: block;
+              border-radius: 2px;
+              margin-top: 24px;
+            "
+          />
+        </div>
+        <div class="cs-sec" id="sec-designs">
+          <p class="cs-sec-label">Final Designs</p>
+          <h2 class="cs-sec-title">The <em>built</em> thing.</h2>
+          <img
+            src="finalframes4khoi.jpg"
+            alt="KHOI App final screens"
+            style="
+              width: 100%;
+              border-radius: 2px;
+              margin-top: 8px;
+              display: block;
+            "
+          />
+        </div>
+        <div class="cs-sec" id="sec-outcomes">
+          <p class="cs-sec-label">Outcomes & Metrics</p>
+          <h2 class="cs-sec-title">
+            9 testers. 309 sessions. Shipping next month.
+          </h2>
+          <p class="cs-text">
+            9 beta testers. 309 sessions. 34 sessions per tester on average:
+            people kept coming back. One tester logged 238 sessions,
+            stress-testing core flows across the full app. Tested across 8
+            iPhone models and multiple iOS versions.
+          </p>
+          <p class="cs-text" style="margin-top: 16px">
+            10 weeks of research and design. 4 weeks to a shippable product.
+            Shipping to the App Store next month.
+          </p>
+          <div class="cs-stats">
+            <div class="cs-stat">
+              <p class="cs-stat-num">309</p>
+              <p class="cs-stat-label">Beta sessions recorded</p>
+            </div>
+            <div class="cs-stat">
+              <p class="cs-stat-num">34</p>
+              <p class="cs-stat-label">Avg sessions per tester</p>
+            </div>
+            <div class="cs-stat">
+              <p class="cs-stat-num">14<em>wk</em></p>
+              <p class="cs-stat-label">Research to shippable product</p>
+            </div>
+          </div>
+        </div>
+        <div class="cs-sec" id="sec-learnings">
+          <p class="cs-sec-label">Learnings & Reflection</p>
+          <h2 class="cs-sec-title">
+            The hardest problems don't show up in Figma.
+          </h2>
+          <p class="cs-text">
+            Designing solo taught me that the hardest problems aren't visual,
+            they're architectural. The dual-mode decision, the onboarding
+            rethink, the notification gap: none of these showed up in a Figma
+            file. They showed up when real users tried to use a real product.
+            The gap between a prototype that tests well and a product that works
+            is where the most important design thinking happens.
+          </p>
+          <p class="cs-text" style="margin-top: 16px">
+            Beyond the craft, this project forced me to think like a founder:
+            balancing user needs, business viability, platform constraints, and
+            engineering reality simultaneously. That tension is where the best
+            product decisions get made.
+          </p>
+        </div>
+      </div>
+      <!-- /cs-content -->
+    </div>
+    <!-- /cs-layout -->
+
+    <div class="page-sticky-wrap">
+      <div class="cs-next">
+        <div>
+          <p class="cs-next-label">Next project</p>
+          <a href="caselabora.html" class="cs-next-link">Labora Cafe →</a>
+        </div>
+        <div class="cs-arrow">
+          <svg viewBox="0 0 24 24" stroke-width="1.5">
+            <line x1="7" y1="17" x2="17" y2="7" />
+            <polyline points="7 7 17 7 17 17" />
+          </svg>
+        </div>
+      </div>
+    </div>
+    <!-- /page-sticky-wrap -->
+
+    <div class="footer-scroll-zone">
+      <script>
+        const cur = document.getElementById("cur");
+        const curLabel = document.getElementById("curLabel");
+        document.addEventListener("mousemove", (e) => {
+          cur.style.left = e.clientX + "px";
+          cur.style.top = e.clientY + "px";
+          if (curLabel) {
+            curLabel.style.left = e.clientX + "px";
+            curLabel.style.top = e.clientY + "px";
+          }
+        });
+        document.querySelectorAll("a, button").forEach((el) => {
+          if (el.closest(".site-footer")) return;
+          if (el.closest(".cs-sidenav")) return;
+          el.addEventListener("mouseenter", () => cur.classList.add("g"));
+          el.addEventListener("mouseleave", () => cur.classList.remove("g"));
+        });
+
+        //document.getElementById("csImg").style.backgroundImage = "url('casekhoicover.jpg')";
+        const hImg = document.getElementById("csImg");
+        window.addEventListener(
+          "scroll",
+          () => {
+            hImg.style.transform = `translateY(${window.scrollY * 0.2}px)`;
+          },
+          { passive: true },
+        );
+        const obs = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) e.target.classList.add("in");
+            });
+          },
+          { threshold: 0.1 },
+        );
+        document.querySelectorAll(".cs-sec").forEach((el) => obs.observe(el));
+
+        // Sidebar show / stop logic
+        const csLayout = document.querySelector(".cs-layout");
+        const cssidenav = document.querySelector(".cs-sidenav");
+        const learningsText = document.querySelector("#sec-learnings");
+
+        function updateSidenavPosition() {
+          const layoutRect = csLayout.getBoundingClientRect();
+          const learningsRect = learningsText.getBoundingClientRect();
+
+          const pastHero = layoutRect.top < 140;
+          // Stop when the bottom of Learnings scrolls above the sidenav's fixed position
+          const sidenavHeight = cssidenav.offsetHeight;
+          const stopAtLearnings =
+            learningsRect.bottom < window.innerHeight - 52 - sidenavHeight;
+
+          if (!pastHero) {
+            cssidenav.classList.add("hidden");
+            cssidenav.classList.remove("stopped");
+          } else if (stopAtLearnings) {
+            cssidenav.classList.remove("hidden");
+            cssidenav.classList.add("stopped");
+          } else {
+            cssidenav.classList.remove("hidden");
+            cssidenav.classList.remove("stopped");
+          }
+        }
+
+        window.addEventListener("scroll", updateSidenavPosition, {
+          passive: true,
+        });
+        window.addEventListener("resize", updateSidenavPosition);
+        updateSidenavPosition();
+
+        // Sidebar scroll-spy
+        const sections = document.querySelectorAll(".cs-sec[id]");
+        const sideLinks = document.querySelectorAll(".cs-sidenav a");
+        const spyObs = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                sideLinks.forEach((l) => l.classList.remove("active"));
+                const active = document.querySelector(
+                  `.cs-sidenav a[href="#${e.target.id}"]`,
+                );
+                if (active) active.classList.add("active");
+              }
+            });
+          },
+          { rootMargin: "-10% 0px -60% 0px", threshold: 0 },
+        );
+        sections.forEach((s) => spyObs.observe(s));
+
+        // Research Bubbles
+        (function () {
+          const factors = [
+            {
+              label: "Portfolio",
+              size: 110,
+              tooltip:
+                "93% of clients checked a provider's portfolio before booking. Body of work is the first trust signal.",
+            },
+            {
+              label: "Network",
+              size: 95,
+              tooltip:
+                "Word-of-mouth and mutual connections were the most trusted discovery path — more than any platform.",
+            },
+            {
+              label: "Reviews",
+              size: 100,
+              tooltip:
+                "Unbiased reviews were the #1 missing element across all current platforms. Social media reviews felt curated and untrustworthy.",
+            },
+            {
+              label: "Convenience",
+              size: 88,
+              tooltip:
+                "Booking friction was the top drop-off point. Users abandoned providers with slow response times or no scheduling system.",
+            },
+            {
+              label: "Pricing",
+              size: 85,
+              tooltip:
+                "Hidden fees created anxiety. Price transparency was cited as a key factor — users wanted to see it before reaching out.",
+            },
+            {
+              label: "Location",
+              size: 82,
+              tooltip:
+                "70% of users searched '[service] near me' first. Proximity drove comfort, especially with home-based providers.",
+            },
+          ];
+
+          const container = document.getElementById("resBubbles");
+          const tip = document.getElementById("resTip");
+          const placed = [];
+
+          function overlaps(x, y, r) {
+            return placed.some(function (p) {
+              var dx = x - p.x,
+                dy = y - p.y;
+              return Math.sqrt(dx * dx + dy * dy) < r + p.r + 12;
+            });
+          }
+
+          factors.forEach(function (f) {
+            var el = document.createElement("div");
+            el.className = "res-bubble";
+            el.style.width = f.size + "px";
+            el.style.height = f.size + "px";
+
+            var lbl = document.createElement("span");
+            lbl.className = "res-bubble-label";
+            lbl.style.fontSize = Math.round(f.size * 0.13) + "px";
+            lbl.textContent = f.label;
+            el.appendChild(lbl);
+
+            var W = container.offsetWidth;
+            var H = container.offsetHeight;
+            var r = f.size / 2;
+            var x,
+              y,
+              attempts = 0;
+            do {
+              x = Math.random() * (W - f.size) + r;
+              y = Math.random() * (H - f.size) + r;
+              attempts++;
+            } while (overlaps(x, y, r) && attempts < 100);
+
+            placed.push({ x: x, y: y, r: r });
+            el.style.left = x - r + "px";
+            el.style.top = y - r + "px";
+
+            el.addEventListener("mousemove", function (e) {
+              tip.textContent = f.tooltip;
+              var tipW = 260;
+              var bubbleRect = el.getBoundingClientRect();
+              var bubbleCenterX = bubbleRect.left + bubbleRect.width / 2;
+              if (bubbleCenterX > window.innerWidth / 2) {
+                // bubble is on the right — show tooltip to the left
+                tip.style.left = bubbleRect.left - tipW - 12 + "px";
+              } else {
+                // bubble is on the left — show tooltip to the right
+                tip.style.left = bubbleRect.right + 12 + "px";
+              }
+              tip.style.top = bubbleRect.top + bubbleRect.height / 2 + "px";
+              tip.style.transform = "translateY(-50%)";
+              tip.classList.add("show");
+            });
+            el.addEventListener("mouseleave", function () {
+              tip.classList.remove("show");
+            });
+
+            container.appendChild(el);
+          });
+        })();
+
+        // Ideation Flow
+        (function () {
+          var ideaSteps = document.querySelectorAll(".idea-flow-step");
+          var ideaDetail = document.getElementById("ideaDetail");
+          var ideaLine = document.getElementById("ideaLine");
+
+          function imgPanel(num, title, text, src, alt) {
+            return (
+              '<p class="idea-flow-detail-num">' +
+              num +
+              "</p>" +
+              '<div style="flex:1;">' +
+              '<p class="idea-flow-detail-title">' +
+              title +
+              "</p>" +
+              '<p class="idea-flow-detail-text">' +
+              text +
+              "</p>" +
+              '<img class="idea-detail-img" src="' +
+              src +
+              '" alt="' +
+              alt +
+              '" />' +
+              "</div>"
+            );
+          }
+
+          function hmwPanel() {
+            return (
+              '<p class="idea-flow-detail-num">03</p>' +
+              '<div style="flex:1;">' +
+              '<p class="idea-flow-detail-title">How Might We Statements</p>' +
+              '<p class="idea-flow-detail-text">HMW statements reframed each frustration as a design challenge, unlocking divergent thinking before any solutions were proposed.</p>' +
+              '<div class="hmw-wrap">' +
+              '<div class="hmw-card"><span class="hmw-num">HMW 01</span><p class="hmw-text">How might we <em>support users during the decision making phase</em> of their journey?</p></div>' +
+              '<div class="hmw-card"><span class="hmw-num">HMW 02</span><p class="hmw-text">How might we <em>boost visibility of home-based technicians</em> who are invisible on existing platforms?</p></div>' +
+              '<div class="hmw-card"><span class="hmw-num">HMW 03</span><p class="hmw-text">How might we <em>build trust between users and service providers</em> before a booking is made?</p></div>' +
+              "</div></div>"
+            );
+          }
+
+          function protoPanel() {
+            return (
+              '<p class="idea-flow-detail-num">06</p>' +
+              '<div style="flex:1;">' +
+              '<p class="idea-flow-detail-title">Lo-Fi Prototypes</p>' +
+              '<p class="idea-flow-detail-text">Three distinct lo-fi prototypes — each representing a different model. Click each tab to compare.</p>' +
+              '<div class="proto-switcher">' +
+              '<div class="proto-tabs">' +
+              '<button class="proto-tab active" data-proto="a">Prototype A</button>' +
+              '<button class="proto-tab" data-proto="b">Prototype B</button>' +
+              '<button class="proto-tab" data-proto="c">Prototype C</button>' +
+              "</div>" +
+              '<div class="proto-panel active" data-proto="a">' +
+              '<img src="ideation6a.jpg" alt="Prototype A — social media-inspired model" />' +
+              '<p class="proto-panel-desc">Social media-inspired. Won 4 of 6 scenarios. Users cited familiarity, intuitive layout, and the ability to view mutuals and referrals.</p>' +
+              "</div>" +
+              '<div class="proto-panel" data-proto="b">' +
+              '<img src="ideation6b.jpg" alt="Prototype B — directory-style model" />' +
+              '<p class="proto-panel-desc">Directory-style model. Focused on search and filtering by service type, location, and availability.</p>' +
+              "</div>" +
+              '<div class="proto-panel" data-proto="c">' +
+              '<img src="ideation6c.jpg" alt="Prototype C — booking-first model" />' +
+              '<p class="proto-panel-desc">Booking-first model. Won 2 of 6 scenarios — users favored it for pricing transparency and map-based location discovery.</p>' +
+              "</div>" +
+              "</div></div>"
+            );
+          }
+
+          function usabPanel() {
+            var scenarios = [
+              { name: "Network", score: 5, winner: "A" },
+              { name: "Convenience", score: 5, winner: "A" },
+              { name: "Review", score: 4, winner: "A" },
+              { name: "Portfolio", score: 3, winner: "A" },
+              { name: "Pricing", score: 3, winner: "C" },
+              { name: "Location", score: 3, winner: "C" },
+            ];
+            var cards = scenarios
+              .map(function (s) {
+                var barW = (s.score / 5) * 100;
+                var winColor =
+                  s.winner === "A" ? "var(--emerald)" : "rgba(10,10,11,0.4)";
+                return (
+                  '<div class="usab-card">' +
+                  '<p class="usab-scenario">' +
+                  s.name +
+                  "</p>" +
+                  '<p class="usab-score">' +
+                  s.score +
+                  "<span>/5</span></p>" +
+                  '<div class="usab-bar-wrap"><div class="usab-bar" style="width:' +
+                  barW +
+                  "%;background:" +
+                  winColor +
+                  ';"></div></div>' +
+                  '<p class="usab-winner" style="color:' +
+                  winColor +
+                  '">Prototype ' +
+                  s.winner +
+                  "</p>" +
+                  "</div>"
+                );
+              })
+              .join("");
+            return (
+              '<p class="idea-flow-detail-num">07</p>' +
+              '<div style="flex:1;">' +
+              '<p class="idea-flow-detail-title">Usability Testing</p>' +
+              '<p class="idea-flow-detail-text">5 participants. 6 scenarios. Prototype A won 4. Prototype C won 2. The social-first model became the foundation.</p>' +
+              '<div class="usab-grid">' +
+              cards +
+              "</div>" +
+              "</div>"
+            );
+          }
+
+          var renders = [
+            function () {
+              return imgPanel(
+                "01",
+                "Decision Factors",
+                "Six factors surfaced consistently across 30 interviews: portfolio, network, reviews, convenience, pricing, and location. These became the design constraints.",
+                "ideation1.jpg",
+                "Affinity map — decision factors",
+              );
+            },
+            function () {
+              return imgPanel(
+                "02",
+                "Opportunity Mapping",
+                "Each factor was mapped to a user frustration and a potential opportunity. This turned raw research into a prioritized list of design problems worth solving.",
+                "ideation2.jpg",
+                "Opportunity mapping",
+              );
+            },
+            function () {
+              return hmwPanel();
+            },
+            function () {
+              return imgPanel(
+                "04",
+                "Mind Mapping",
+                "A free-form mind mapping session generated solutions without constraints. Quantity over quality — surface as many ideas as possible before filtering.",
+                "ideation4.jpg",
+                "Mind map",
+              );
+            },
+            function () {
+              return imgPanel(
+                "05",
+                "Sketch Generation",
+                "Rapid sketching brought the mind map to life. Mass-producing sketches allowed exploration of more solutions visually.",
+                "ideation5.jpg",
+                "Lo-fi sketches",
+              );
+            },
+            function () {
+              return protoPanel();
+            },
+            function () {
+              return usabPanel();
+            },
+          ];
+
+          function setIdeaStep(i) {
+            ideaSteps.forEach(function (s, idx) {
+              s.classList.toggle("lit", idx <= i);
+            });
+            var pct =
+              i === 0 ? 0 : (i / (ideaSteps.length - 1)) * (100 - 100 / 7);
+            ideaLine.style.width = pct + "%";
+            ideaDetail.innerHTML = renders[i]();
+
+            // Wire proto tabs if step 6
+            if (i === 5) {
+              var tabs = ideaDetail.querySelectorAll(".proto-tab");
+              var panels = ideaDetail.querySelectorAll(".proto-panel");
+              tabs.forEach(function (tab) {
+                tab.addEventListener("click", function () {
+                  tabs.forEach(function (t) {
+                    t.classList.remove("active");
+                  });
+                  panels.forEach(function (p) {
+                    p.classList.remove("active");
+                  });
+                  tab.classList.add("active");
+                  ideaDetail
+                    .querySelector(
+                      '.proto-panel[data-proto="' + tab.dataset.proto + '"]',
+                    )
+                    .classList.add("active");
+                });
+              });
+            }
+          }
+
+          ideaSteps.forEach(function (step, i) {
+            step.addEventListener("mouseenter", function () {
+              setIdeaStep(i);
+            });
+          });
+
+          setIdeaStep(0);
+        })();
+
+        // Mode Switcher
+        (function () {
+          var modeTabs = document.querySelectorAll(".mode-tab");
+          var modePanels = document.querySelectorAll(".mode-panel");
+          var modeFeatures = document.getElementById("modeFeatures");
+
+          var clientFeatures = [
+            "Browse &amp; save professionals",
+            "Book appointments",
+            "Chat with providers",
+          ];
+          var proFeatures = [
+            "Post work &amp; build portfolio",
+            "Manage appointments &amp; schedule",
+            "Edit business, services &amp; policies",
+          ];
+
+          function setMode(mode) {
+            modeTabs.forEach(function (t) {
+              t.classList.toggle("active", t.dataset.mode === mode);
+            });
+            modePanels.forEach(function (p) {
+              p.classList.toggle("active", p.dataset.panel === mode);
+            });
+            var features = mode === "client" ? clientFeatures : proFeatures;
+            modeFeatures.innerHTML = features
+              .map(function (f) {
+                return (
+                  '<div class="mode-feature"><span class="mode-feature-dot"></span><p class="mode-feature-text">' +
+                  f +
+                  "</p></div>"
+                );
+              })
+              .join("");
+          }
+
+          modeTabs.forEach(function (tab) {
+            tab.addEventListener("click", function () {
+              setMode(tab.dataset.mode);
+              // restore client panel display
+              document.querySelector(
+                '.mode-panel[data-panel="client"]',
+              ).style.display = tab.dataset.mode === "client" ? "grid" : "none";
+            });
+          });
+
+          // Pro carousel
+          var proTrack = document.getElementById("modeProTrack");
+          var proDots = document.querySelectorAll(
+            "#modeProDots .cs-carousel-dot",
+          );
+          var proCount = document.getElementById("modeProCount");
+          var proTotal = 4;
+          var proCurrent = 0;
+
+          function goProSlide(i) {
+            proCurrent = (i + proTotal) % proTotal;
+            // show 2 slides at a time — shift by 50% per slide
+            proTrack.style.transform = "translateX(-" + proCurrent * 50 + "%)";
+            proDots.forEach(function (d, idx) {
+              d.classList.toggle("active", idx === proCurrent);
+            });
+            proCount.textContent =
+              String(proCurrent + 1).padStart(2, "0") +
+              " / " +
+              String(proTotal).padStart(2, "0");
+          }
+
+          document
+            .getElementById("modeProPrev")
+            .addEventListener("click", function () {
+              goProSlide(proCurrent - 1);
+            });
+          document
+            .getElementById("modeProNext")
+            .addEventListener("click", function () {
+              goProSlide(proCurrent + 1);
+            });
+          proDots.forEach(function (d) {
+            d.addEventListener("click", function () {
+              goProSlide(+d.dataset.proIndex);
+            });
+          });
+        })();
+
+        // Dual Mode Flow Tooltip
+        (function () {
+          var dmTip = document.getElementById("dmTip");
+          var steps = document.querySelectorAll(".dm-step");
+          steps.forEach(function (step) {
+            var text = step.querySelector(".dm-step-tooltip");
+            if (!text) return;
+            step.addEventListener("mouseenter", function (e) {
+              dmTip.textContent = text.textContent;
+              dmTip.classList.add("show");
+              positionTip(e);
+            });
+            step.addEventListener("mousemove", positionTip);
+            step.addEventListener("mouseleave", function () {
+              dmTip.classList.remove("show");
+            });
+          });
+
+          function positionTip(e) {
+            // Position off-screen first so we can measure
+            dmTip.style.left = "-9999px";
+            dmTip.style.top = "-9999px";
+            dmTip.style.visibility = "hidden";
+            dmTip.classList.add("show");
+            var tipW = dmTip.getBoundingClientRect().width;
+            dmTip.style.visibility = "";
+
+            var x = e.clientX - tipW / 2;
+            if (x < 8) x = 8;
+            if (x + tipW > window.innerWidth - 8)
+              x = window.innerWidth - tipW - 8;
+            dmTip.style.left = x + "px";
+            dmTip.style.top = e.clientY + "px";
+          }
+        })();
+
+        // Competitive Matrix
+        (function () {
+          var headers = document.querySelectorAll("#compMatrix th[data-col]");
+          var footer = document.getElementById("compFooter");
+
+          headers.forEach(function (th) {
+            var col = th.dataset.col;
+            var tip = th.dataset.tip;
+            var cells = document.querySelectorAll(
+              "#compMatrix [data-col='" + col + "']",
+            );
+
+            th.addEventListener("mouseenter", function () {
+              cells.forEach(function (c) {
+                c.classList.add("col-hover");
+              });
+              footer.innerHTML = tip;
+            });
+            th.addEventListener("mouseleave", function () {
+              cells.forEach(function (c) {
+                c.classList.remove("col-hover");
+              });
+              footer.innerHTML = "Hover a platform column to see its key gap.";
+            });
+          });
+        })();
+      </script>
+
+      <footer class="site-footer" id="site-footer">
+        <div>
+          <p class="f-label">Let's build something together</p>
+          <a href="mailto:khoiqnguyen27@gmail.com" class="f-cta">
+            <span class="en">Work with me.</span>
+            <span class="vn">Làm việc với tôi.</span>
+          </a>
+        </div>
+        <div class="f-bottom">
+          <span class="f-copy">&copy; 2026 Khoi Nguyen</span>
+          <div class="f-soc">
+            <a href="#" target="_blank">Github</a>
+            <a href="#" target="_blank">Spotify</a>
+            <a href="#" target="_blank">LinkedIn</a>
+          </div>
+          <button
+            class="f-top"
+            onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+          >
+            <svg viewBox="0 0 24 24" stroke-width="1.5">
+              <line x1="12" y1="19" x2="12" y2="5" />
+              <polyline points="5 12 12 5 19 12" />
+            </svg>
+            Back to top
+          </button>
+        </div>
+      </footer>
+      <script>
+        // Footer cursor grow — runs after footer exists in DOM
+        document.querySelectorAll(".f-soc a, .f-top, .f-cta").forEach((el) => {
+          el.addEventListener("mouseenter", () => cur.classList.add("g"));
+          el.addEventListener("mouseleave", () => cur.classList.remove("g"));
+        });
+      </script>
+    </div>
+    <!-- /footer-scroll-zone -->
+
+    <script>
+      // Mobile menu
+      var navMenuBtn = document.getElementById("navMenuBtn");
+      var navDropdown = document.getElementById("navDropdown");
+      var navDropdownClose = document.getElementById("navDropdownClose");
+      if (navMenuBtn)
+        navMenuBtn.addEventListener("click", function () {
+          navDropdown.classList.add("open");
+        });
+      if (navDropdownClose)
+        navDropdownClose.addEventListener("click", function () {
+          navDropdown.classList.remove("open");
+        });
+      navDropdown &&
+        navDropdown
+          .querySelectorAll("a:not(.nav-dropdown-logo)")
+          .forEach(function (a) {
+            a.addEventListener("click", function () {
+              navDropdown.classList.remove("open");
+            });
+          });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,2581 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Labora Cafe — Khoi Nguyen</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --almond: #cdbbb7;
+        --emerald: #23583a;
+        --onyx: #0a0a0b;
+        --snow: #f8f8f8;
+      }
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Roboto Mono", monospace;
+        background: var(--snow);
+        color: var(--onyx);
+        overflow-x: hidden;
+        cursor: none;
+      }
+      .cur {
+        position: fixed;
+        width: 8px;
+        height: 8px;
+        background: var(--almond);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition:
+          width 0.28s,
+          height 0.28s,
+          background 0.28s;
+        mix-blend-mode: difference;
+      }
+      .cur.g {
+        width: 48px;
+        height: 48px;
+        background: rgba(205, 187, 183, 0.4);
+      }
+      .cur.view {
+        width: 80px;
+        height: 80px;
+        background: transparent;
+        border: 1px solid var(--almond);
+        mix-blend-mode: normal;
+      }
+      .cur-label {
+        position: fixed;
+        z-index: 10000;
+        font-family: "Manrope", sans-serif;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--almond);
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        transition: opacity 0.25s;
+      }
+      .cur-label.show {
+        opacity: 1;
+      }
+      nav.site-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        padding: 30px 52px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        mix-blend-mode: exclusion;
+      }
+      .nav-logo {
+        font-family: "Manrope", sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--snow);
+        text-decoration: none;
+      }
+      .nav-links {
+        display: flex;
+        gap: 44px;
+        list-style: none;
+      }
+      .nav-links a {
+        font-family: "Roboto Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--snow);
+        text-decoration: none;
+        position: relative;
+        padding-bottom: 3px;
+      }
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: currentColor;
+        transition: width 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+      }
+      .nav-links a:hover::after,
+      .nav-links a.active::after {
+        width: 100%;
+      }
+
+      .cs-hero {
+        position: relative;
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        align-items: flex-end;
+      }
+      .cs-hero-img {
+        position: absolute;
+        inset: -12%;
+        background: center center/cover no-repeat;
+        will-change: transform;
+        filter: brightness(0.62) saturate(0.85);
+        view-transition-name: labora-hero;
+      }
+      .cs-grain {
+        position: absolute;
+        inset: -20%;
+        width: 140%;
+        height: 140%;
+        background: url("noise texture GIF by hoppip.gif");
+        background-size: 200px 200px;
+        opacity: 0.13;
+        mix-blend-mode: soft-light;
+        pointer-events: none;
+        z-index: 1;
+      }
+      .cs-grad {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to bottom,
+          rgba(10, 10, 11, 0.2) 0%,
+          transparent 35%,
+          rgba(10, 10, 11, 0.88) 100%
+        );
+      }
+      .cs-hero-content {
+        position: relative;
+        z-index: 2;
+        padding: 0 52px 72px;
+        width: 100%;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+      }
+      .cs-back {
+        font-size: 9px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.6);
+        text-decoration: none;
+        margin-bottom: 20px;
+        display: block;
+        transition: color 0.3s;
+      }
+      .cs-back:hover {
+        color: var(--snow);
+      }
+      .cs-num {
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--almond);
+        margin-bottom: 14px;
+      }
+      .cs-htitle {
+        font-family: "Manrope", sans-serif;
+        font-size: clamp(52px, 8vw, 120px);
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        line-height: 0.88;
+        color: var(--snow);
+        opacity: 0;
+        transform: translateY(28px);
+        animation: fadeUp 0.9s cubic-bezier(0.76, 0, 0.24, 1) 0.3s forwards;
+      }
+      .cs-htitle em {
+        font-style: italic;
+        font-weight: 300;
+        color: var(--almond);
+      }
+      .cs-tags {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        align-items: flex-end;
+        padding-bottom: 6px;
+      }
+      .cs-tag {
+        font-size: 8px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--almond);
+        border: 1px solid rgba(205, 187, 183, 0.25);
+        padding: 5px 12px;
+        border-radius: 2px;
+      }
+      @keyframes fadeUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .cs-meta {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        margin: 0 52px;
+        border-bottom: 1px solid rgba(10, 10, 11, 0.08);
+      }
+      .cs-meta-item {
+        padding: 36px 0;
+      }
+      .cs-meta-item:not(:first-child) {
+        padding-left: 40px;
+        border-left: 1px solid rgba(10, 10, 11, 0.08);
+      }
+      .cs-meta-label {
+        font-size: 8px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--almond);
+        margin-bottom: 8px;
+      }
+      .cs-meta-val {
+        font-family: "Manrope", sans-serif;
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--onyx);
+        letter-spacing: -0.01em;
+      }
+      .cs-layout {
+        display: flex;
+        align-items: flex-start;
+      }
+      .cs-sidebar {
+        width: 20%;
+        flex-shrink: 0;
+        border-right: 1px solid rgba(10, 10, 11, 0.08);
+        position: relative;
+        align-self: stretch;
+      }
+      .cs-sidenav {
+        position: fixed;
+        bottom: 52px;
+        left: 52px;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        transition: opacity 0.3s;
+      }
+      .cs-sidenav.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .cs-sidenav.stopped {
+        position: absolute;
+        bottom: 52px;
+        left: 52px;
+      }
+      .cs-sidenav-label {
+        font-family: "Roboto Mono", monospace;
+        font-size: 10px;
+        font-weight: bold;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--onyx);
+        margin-bottom: 8px;
+        display: block;
+      }
+      .cs-sidenav a {
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #9a9a9a;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        padding: 3px 0;
+        line-height: 1.2;
+        transition: color 0.3s;
+      }
+      .cs-sidenav a .sn-arrow {
+        display: inline-block;
+        opacity: 0;
+        transform: translateX(-8px);
+        width: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        transition:
+          opacity 0.3s cubic-bezier(0.76, 0, 0.24, 1),
+          transform 0.3s cubic-bezier(0.76, 0, 0.24, 1),
+          width 0.3s cubic-bezier(0.76, 0, 0.24, 1),
+          margin-right 0.3s cubic-bezier(0.76, 0, 0.24, 1);
+        margin-right: 0;
+      }
+      .cs-sidenav a:hover {
+        color: var(--onyx);
+      }
+      .cs-sidenav a.active {
+        color: var(--emerald);
+      }
+      .cs-sidenav a:hover .sn-arrow,
+      .cs-sidenav a.active .sn-arrow {
+        opacity: 1;
+        transform: translateX(0);
+        width: 12px;
+        margin-right: 6px;
+      }
+      .cs-content {
+        flex: 1;
+        padding: 80px 52px 40px 52px;
+      }
+      .page-sticky-wrap {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background: var(--snow);
+        width: 100%;
+      }
+      .footer-scroll-zone {
+        position: relative;
+        z-index: 2;
+      }
+      .cs-sec {
+        margin-bottom: 96px;
+        opacity: 0;
+        transform: translateY(32px);
+        transition:
+          opacity 0.85s cubic-bezier(0.76, 0, 0.24, 1),
+          transform 0.85s cubic-bezier(0.76, 0, 0.24, 1);
+      }
+      .cs-sec.in {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .cs-sec-label {
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--emerald);
+        margin-bottom: 24px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .cs-sec-label::after {
+        content: "";
+        flex: 0 0 32px;
+        height: 1px;
+        background: var(--emerald);
+      }
+      .cs-sec-title {
+        font-family: "Manrope", sans-serif;
+        font-size: clamp(28px, 3.5vw, 48px);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 0.95;
+        color: var(--onyx);
+        margin-bottom: 28px;
+      }
+      .cs-sec-title em {
+        font-style: italic;
+        font-weight: 300;
+        color: var(--emerald);
+      }
+      .cs-text {
+        font-size: 13px;
+        line-height: 1.9;
+        letter-spacing: -0.01em;
+        color: rgba(10, 10, 11, 0.55);
+        max-width: 680px;
+      }
+      .cs-ph {
+        width: 100%;
+        height: 480px;
+        background: rgba(10, 10, 11, 0.03);
+        border: 1px solid rgba(10, 10, 11, 0.07);
+        border-radius: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 40px 0;
+      }
+      .cs-ph.tall {
+        height: 600px;
+      }
+      .cs-ph span {
+        font-size: 9px;
+        letter-spacing: 0.08em;
+        color: rgba(10, 10, 11, 0.18);
+      }
+      .cs-live-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: "Roboto Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--onyx);
+        text-decoration: none;
+        border-bottom: 1px solid rgba(10, 10, 11, 0.25);
+        padding-bottom: 3px;
+        margin-top: 8px;
+        transition:
+          color 0.3s,
+          border-color 0.3s;
+      }
+      .cs-live-link:hover {
+        color: var(--emerald);
+        border-color: var(--emerald);
+      }
+      .cs-live-arrow {
+        transition: transform 0.3s cubic-bezier(0.76, 0, 0.24, 1);
+        display: inline-block;
+      }
+      .cs-live-link:hover .cs-live-arrow {
+        transform: translate(2px, -2px);
+      }
+      .cs-live-link:hover .cs-live-arrow {
+        transform: translate(2px, -2px);
+      }
+      /* Carousel */
+      .cs-carousel {
+        position: relative;
+        width: 100%;
+        margin: 40px 0 0;
+        overflow: hidden;
+        border-radius: 2px;
+        border: 1px solid rgba(10, 10, 11, 0.07);
+      }
+      .cs-carousel-track {
+        display: flex;
+        transition: transform 0.55s cubic-bezier(0.76, 0, 0.24, 1);
+      }
+      .cs-carousel-slide {
+        min-width: 100%;
+      }
+      .cs-carousel-slide img {
+        width: 100%;
+        display: block;
+        border-radius: 2px;
+      }
+      .cs-carousel-controls {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 14px 20px;
+        border-top: 1px solid rgba(10, 10, 11, 0.07);
+        margin-top: 0;
+      }
+      .cs-carousel-btn {
+        background: none;
+        border: 1px solid rgba(10, 10, 11, 0.15);
+        border-radius: 2px;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition:
+          border-color 0.25s,
+          color 0.25s;
+        color: var(--onyx);
+        font-size: 14px;
+      }
+      .cs-carousel-btn:hover {
+        border-color: var(--emerald);
+        color: var(--emerald);
+      }
+      .cs-carousel-dots {
+        display: flex;
+        gap: 8px;
+      }
+      .cs-carousel-dot {
+        width: 20px;
+        height: 2px;
+        background: rgba(10, 10, 11, 0.15);
+        border-radius: 1px;
+        transition:
+          background 0.3s,
+          width 0.3s;
+        cursor: pointer;
+      }
+      .cs-carousel-dot.active {
+        background: var(--emerald);
+        width: 32px;
+      }
+      .cs-carousel-count {
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.1em;
+        color: rgba(10, 10, 11, 0.35);
+        margin-left: auto;
+      }
+      /* Site Carousel */
+      .site-carousel-wrap {
+        position: relative;
+        width: 100%;
+        margin-top: 48px;
+        border-radius: 2px;
+        overflow: hidden;
+        background: var(--snow);
+        border: 1px solid rgba(10, 10, 11, 0.07);
+      }
+      .site-carousel-nav {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        padding: 0 20px;
+        border-bottom: 1px solid rgba(10, 10, 11, 0.08);
+        background: var(--snow);
+      }
+      .site-carousel-nav-btn {
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(10, 10, 11, 0.3);
+        background: none;
+        border: none;
+        border-bottom: 2px solid transparent;
+        padding: 14px 16px;
+        cursor: pointer;
+        transition:
+          color 0.25s,
+          border-color 0.25s;
+        margin-bottom: -1px;
+      }
+      .site-carousel-nav-btn:hover {
+        color: rgba(10, 10, 11, 0.7);
+      }
+      .site-carousel-nav-btn.active {
+        color: var(--onyx);
+        border-bottom-color: var(--emerald);
+      }
+      .site-carousel-track-wrap {
+        overflow: hidden;
+      }
+      .site-carousel-track {
+        display: flex;
+        transition: transform 0.55s cubic-bezier(0.76, 0, 0.24, 1);
+      }
+      .site-carousel-slide {
+        min-width: 100%;
+        overflow: hidden;
+      }
+      .site-carousel-slide video {
+        width: 100%;
+        display: block;
+        height: 560px;
+        object-fit: cover;
+        object-position: center top;
+      }
+      .site-carousel-footer {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 14px 20px;
+        border-top: 1px solid rgba(10, 10, 11, 0.08);
+        background: var(--snow);
+      }
+      .site-carousel-footer .cs-carousel-btn {
+        border-color: rgba(10, 10, 11, 0.15);
+        color: var(--onyx);
+      }
+      .site-carousel-footer .cs-carousel-btn:hover {
+        border-color: var(--emerald);
+        color: var(--emerald);
+      }
+      .site-carousel-footer .cs-carousel-dot {
+        background: rgba(10, 10, 11, 0.15);
+      }
+      .site-carousel-footer .cs-carousel-dot.active {
+        background: var(--emerald);
+      }
+      .site-carousel-footer .cs-carousel-count {
+        color: rgba(10, 10, 11, 0.35);
+      }
+      /* Retention Grid */
+      .ret-grid {
+        margin-top: 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .ret-row {
+        display: grid;
+        gap: 16px;
+      }
+      .ret-row.two {
+        grid-template-columns: 1fr 1fr;
+      }
+      .ret-row.one {
+        grid-template-columns: 1fr;
+        max-width: 60%;
+        margin: 0 auto;
+      }
+      .ret-item {
+        position: relative;
+        border: 1px solid rgba(10, 10, 11, 0.07);
+        border-radius: 2px;
+        overflow: hidden;
+        background: rgba(10, 10, 11, 0.02);
+      }
+      .ret-item img {
+        width: 100%;
+        display: block;
+        border-radius: 2px 2px 0 0;
+      }
+      .ret-item-ph {
+        width: 100%;
+        aspect-ratio: 16/10;
+        background: rgba(10, 10, 11, 0.03);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .ret-item-ph span {
+        font-family: "Roboto Mono", monospace;
+        font-size: 8px;
+        letter-spacing: 0.08em;
+        color: rgba(10, 10, 11, 0.18);
+        text-align: center;
+        padding: 0 20px;
+      }
+      .ret-item-label {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 14px 16px;
+        border-top: 1px solid rgba(10, 10, 11, 0.07);
+      }
+      .ret-item-arrow {
+        flex-shrink: 0;
+        width: 16px;
+        height: 16px;
+        margin-top: 1px;
+        color: var(--emerald);
+      }
+      .ret-item-title {
+        font-family: "Manrope", sans-serif;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        color: var(--onyx);
+        margin-bottom: 2px;
+      }
+      .ret-item-desc {
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.04em;
+        color: rgba(10, 10, 11, 0.45);
+        line-height: 1.6;
+      }
+      /* Word Cloud */
+      .wcloud {
+        position: relative;
+        width: 100%;
+        height: 340px;
+        margin: 40px 0 8px;
+        user-select: none;
+      }
+      .wcloud-word {
+        position: absolute;
+        font-family: "Roboto Mono", monospace;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: rgba(10, 10, 11, 0.22);
+        cursor: default;
+        transition:
+          color 0.25s ease,
+          transform 0.25s ease;
+        white-space: nowrap;
+      }
+      .wcloud-word:hover {
+        color: var(--emerald);
+        transform: scale(1.06);
+      }
+      .wcloud-word.primary {
+        font-size: 22px;
+        color: rgba(10, 10, 11, 0.7);
+      }
+      .wcloud-word.secondary {
+        font-size: 14px;
+        color: rgba(10, 10, 11, 0.38);
+      }
+      .wcloud-word.tertiary {
+        font-size: 10px;
+        color: rgba(10, 10, 11, 0.2);
+      }
+      .wcloud-tooltip {
+        position: fixed;
+        background: var(--onyx);
+        color: var(--snow);
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.08em;
+        padding: 6px 12px;
+        border-radius: 2px;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+        z-index: 100;
+        white-space: nowrap;
+        transform: translate(-50%, -130%);
+      }
+      .wcloud-tooltip.show {
+        opacity: 1;
+      }
+      .cs-two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 48px;
+        margin-top: 40px;
+      }
+      .cs-col-title {
+        font-family: "Manrope", sans-serif;
+        font-size: 16px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: var(--onyx);
+        margin-bottom: 12px;
+      }
+      .cs-col-text {
+        font-size: 12px;
+        line-height: 1.85;
+        letter-spacing: -0.01em;
+        color: rgba(10, 10, 11, 0.48);
+      }
+      .cs-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        background: rgba(10, 10, 11, 0.08);
+        border: 1px solid rgba(10, 10, 11, 0.08);
+        border-radius: 2px;
+        margin-top: 40px;
+        overflow: hidden;
+      }
+      .cs-stat {
+        background: var(--snow);
+        padding: 36px 32px;
+      }
+      .cs-stat-num {
+        font-family: "Manrope", sans-serif;
+        font-size: clamp(36px, 4vw, 56px);
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        color: var(--onyx);
+        line-height: 1;
+        margin-bottom: 8px;
+      }
+      .cs-stat-num em {
+        font-style: italic;
+        color: var(--emerald);
+        font-weight: 300;
+      }
+      .cs-stat-label {
+        font-size: 10px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: rgba(10, 10, 11, 0.38);
+      }
+      .cs-next {
+        border-top: 1px solid rgba(10, 10, 11, 0.08);
+        padding: 80px 52px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .cs-next-label {
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(10, 10, 11, 0.35);
+        margin-bottom: 12px;
+      }
+      .cs-next-link {
+        font-family: "Manrope", sans-serif;
+        font-size: clamp(28px, 4vw, 56px);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        color: var(--onyx);
+        text-decoration: none;
+        transition: color 0.3s;
+        display: block;
+      }
+      .cs-next-link:hover {
+        color: var(--emerald);
+      }
+      .cs-arrow {
+        width: 56px;
+        height: 56px;
+        border: 1px solid rgba(10, 10, 11, 0.15);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: border-color 0.3s;
+      }
+      .cs-next-link:hover ~ .cs-arrow,
+      .cs-arrow:hover {
+        border-color: var(--emerald);
+      }
+      .cs-arrow svg {
+        width: 18px;
+        height: 18px;
+        stroke: var(--onyx);
+        fill: none;
+      }
+
+      /* ── FOOTER ── */
+      .site-footer {
+        background: var(--onyx);
+        padding: 80px 52px 52px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 100vh;
+        border-top: 1px solid rgba(255, 255, 255, 0.07);
+      }
+      .f-label {
+        font-size: 9px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--almond);
+        margin-bottom: 18px;
+      }
+      /* Big CTA link */
+      .f-cta {
+        font-family: "Manrope", sans-serif;
+        font-size: clamp(46px, 8vw, 124px);
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        line-height: 0.88;
+        color: var(--snow);
+        text-decoration: none;
+        display: block;
+        position: relative;
+        overflow: hidden;
+      }
+      .f-cta-inner {
+        display: block;
+        position: relative;
+      }
+      .f-cta-inner::after {
+        content: "";
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--almond);
+        transition: width 0.55s cubic-bezier(0.76, 0, 0.24, 1);
+      }
+      .f-cta:hover .f-cta-inner::after {
+        width: 100%;
+      }
+      .f-cta .vn {
+        font-weight: 300;
+        font-style: italic;
+        color: var(--almond);
+        display: block;
+      }
+      /* Bottom row */
+      .f-bottom {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: auto;
+        padding-top: 48px;
+        border-top: 1px solid rgba(255, 255, 255, 0.07);
+      }
+      .f-copy {
+        font-size: 9px;
+        letter-spacing: 0.04em;
+        color: rgba(255, 255, 255, 0.18);
+      }
+      .f-soc {
+        display: flex;
+        gap: 32px;
+      }
+      .f-soc a {
+        font-size: 9px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.35);
+        text-decoration: none;
+        position: relative;
+        padding-bottom: 3px;
+        transition: color 0.3s;
+      }
+      .f-soc a::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: var(--almond);
+        transition: width 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+      }
+      .f-soc a:hover {
+        color: var(--snow);
+      }
+      .f-soc a:hover::after {
+        width: 100%;
+      }
+      .f-top {
+        font-size: 9px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.35);
+        background: none;
+        border: none;
+        cursor: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        position: relative;
+        padding-bottom: 3px;
+        transition: color 0.3s;
+      }
+      .f-top::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: var(--almond);
+        transition: width 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+      }
+      .f-top:hover {
+        color: var(--snow);
+      }
+      .f-top:hover::after {
+        width: 100%;
+      }
+      .f-top svg {
+        width: 11px;
+        height: 11px;
+        stroke: currentColor;
+        fill: none;
+      }
+      /* View Transitions */
+      @view-transition {
+        navigation: auto;
+      }
+      ::view-transition-old(labora-hero),
+      ::view-transition-new(labora-hero) {
+        animation-duration: 0.8s;
+        animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        object-fit: cover;
+        mix-blend-mode: normal;
+      }
+      ::view-transition-old(root),
+      ::view-transition-new(root) {
+        animation-duration: 0.8s;
+        animation-timing-function: ease;
+      }
+
+      /* ── MOBILE ── */
+      .nav-dropdown {
+        display: none;
+      }
+      .nav-menu-btn {
+        display: none;
+      }
+
+      @media (max-width: 768px) {
+        nav.site-nav {
+          padding: 24px;
+        }
+        .nav-links {
+          display: none;
+        }
+        .nav-menu-btn {
+          display: flex;
+          font-family: "Roboto Mono", monospace;
+          font-size: 10px;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: var(--snow);
+          background: none;
+          border: none;
+          cursor: none;
+          align-items: center;
+          gap: 8px;
+        }
+        .nav-dropdown {
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: var(--onyx);
+          z-index: 1001;
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: flex-end;
+          padding: 52px 24px;
+          gap: 8px;
+        }
+        .nav-dropdown.open {
+          display: flex;
+        }
+        .nav-dropdown-top {
+          position: absolute;
+          top: 24px;
+          left: 24px;
+          right: 24px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+        .nav-dropdown-logo {
+          font-family: "Manrope", sans-serif;
+          font-size: 12px;
+          font-weight: 700;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: var(--snow);
+          text-decoration: none;
+        }
+        .nav-dropdown-close {
+          font-family: "Roboto Mono", monospace;
+          font-size: 10px;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: rgba(248, 248, 248, 0.4);
+          background: none;
+          border: none;
+          cursor: none;
+        }
+        .nav-dropdown a:not(.nav-dropdown-logo) {
+          font-family: "Manrope", sans-serif;
+          font-size: clamp(40px, 12vw, 72px);
+          font-weight: 800;
+          letter-spacing: -0.03em;
+          color: var(--snow);
+          text-decoration: none;
+          line-height: 1;
+          opacity: 0;
+          transform: translateY(20px);
+          transition:
+            opacity 0.4s,
+            transform 0.4s;
+        }
+        .nav-dropdown.open a:not(.nav-dropdown-logo) {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        .nav-dropdown.open a:nth-child(2) {
+          transition-delay: 0.05s;
+        }
+        .nav-dropdown.open a:nth-child(3) {
+          transition-delay: 0.1s;
+        }
+        .nav-dropdown.open a:nth-child(4) {
+          transition-delay: 0.15s;
+        }
+
+        .cs-hero-content {
+          padding: 0 24px 48px;
+          flex-direction: column;
+          gap: 20px;
+        }
+        .cs-htitle {
+          font-size: clamp(40px, 12vw, 72px);
+        }
+        .cs-tags {
+          align-items: flex-start;
+        }
+
+        .cs-meta {
+          grid-template-columns: 1fr;
+          margin: 0 24px;
+        }
+        .cs-meta-item:not(:first-child) {
+          padding-left: 0;
+          border-left: none;
+          border-top: 1px solid rgba(10, 10, 11, 0.08);
+        }
+
+        .cs-layout {
+          display: block;
+        }
+        .cs-sidebar {
+          display: none;
+        }
+        .cs-content {
+          padding: 48px 24px 24px;
+        }
+
+        .cs-two-col {
+          grid-template-columns: 1fr;
+          gap: 24px;
+        }
+        .cs-stats {
+          grid-template-columns: 1fr;
+        }
+        .ret-row.two {
+          grid-template-columns: 1fr;
+        }
+        .ret-row.one {
+          max-width: 100%;
+        }
+
+        .site-carousel-slide video {
+          height: 260px;
+        }
+        .site-carousel-nav {
+          overflow-x: auto;
+          white-space: nowrap;
+        }
+        .site-carousel-nav-btn {
+          flex-shrink: 0;
+        }
+
+        .cs-next {
+          padding: 48px 24px;
+        }
+        .cs-next-link {
+          font-size: clamp(24px, 7vw, 40px);
+        }
+
+        .site-footer {
+          padding: 60px 24px 40px;
+        }
+        .f-bottom {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 20px;
+        }
+        .f-soc {
+          gap: 20px;
+        }
+
+        .wcloud {
+          height: auto;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          padding: 16px 0;
+        }
+        .wcloud-word {
+          position: static !important;
+          font-size: 11px !important;
+          color: rgba(10, 10, 11, 0.5) !important;
+        }
+        .wcloud-word.primary {
+          font-size: 14px !important;
+          color: rgba(10, 10, 11, 0.75) !important;
+        }
+      }
+      @media (max-width: 480px) {
+        .cs-htitle {
+          font-size: clamp(36px, 11vw, 60px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="cur" id="cur"></div>
+    <nav class="site-nav">
+      <a href="index.html" class="nav-logo">Khoi Nguyen</a>
+      <ul class="nav-links">
+        <li><a href="work.html">Work</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="mailto:khoiqnguyen27@gmail.com">Contact</a></li>
+      </ul>
+      <button class="nav-menu-btn" id="navMenuBtn" aria-label="Open menu">
+        Menu
+      </button>
+    </nav>
+
+    <div class="nav-dropdown" id="navDropdown">
+      <div class="nav-dropdown-top">
+        <a href="index.html" class="nav-dropdown-logo">Khoi Nguyen</a>
+        <button class="nav-dropdown-close" id="navDropdownClose">Close</button>
+      </div>
+      <a href="work.html">Work</a>
+      <a href="about.html">About</a>
+      <a href="mailto:khoiqnguyen27@gmail.com">Contact</a>
+    </div>
+
+    <section class="cs-hero">
+      <div class="cs-hero-img" id="csImg">
+        <video
+          autoplay
+          loop
+          muted
+          playsinline
+          style="width: 100%; height: 100%; object-fit: cover; display: block"
+        >
+          <source src="previewlabora.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <div class="cs-grain"></div>
+      <div class="cs-grad"></div>
+      <div class="cs-hero-content">
+        <div>
+          <a href="work.html" class="cs-back">← Back to work</a>
+          <p class="cs-num">02 — Brand Identity + Web Design</p>
+          <h1 class="cs-htitle">Labora<br /><em>Cafe</em></h1>
+        </div>
+        <div class="cs-tags">
+          <span class="cs-tag">Brand Identity</span
+          ><span class="cs-tag">Framer</span><span class="cs-tag">Figma</span
+          ><span class="cs-tag">Strategy</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="cs-meta">
+      <div class="cs-meta-item">
+        <p class="cs-meta-label">My Role</p>
+        <p class="cs-meta-val">Brand Designer + Web Designer</p>
+      </div>
+      <div class="cs-meta-item">
+        <p class="cs-meta-label">Timeline</p>
+        <p class="cs-meta-val">4 weeks</p>
+      </div>
+      <div class="cs-meta-item">
+        <p class="cs-meta-label">Category</p>
+        <p class="cs-meta-val">Brand Identity + Web Design</p>
+      </div>
+    </div>
+
+    <div class="cs-layout">
+      <aside class="cs-sidebar">
+        <div class="cs-sidenav hidden">
+          <span class="cs-sidenav-label">Project Roadmap</span>
+          <a href="#sec-problem"><span class="sn-arrow">→</span>Problem</a>
+          <a href="#sec-role"><span class="sn-arrow">→</span>My Role</a>
+          <a href="#sec-process"><span class="sn-arrow">→</span>Process</a>
+          <a href="#sec-decisions"
+            ><span class="sn-arrow">→</span>Key Decisions</a
+          >
+          <a href="#sec-designs"
+            ><span class="sn-arrow">→</span>Final Designs</a
+          >
+          <a href="#sec-outcomes"><span class="sn-arrow">→</span>Outcomes</a>
+          <a href="#sec-learnings"><span class="sn-arrow">→</span>Learnings</a>
+        </div>
+      </aside>
+      <div class="cs-content">
+        <div class="cs-sec" id="sec-problem">
+          <p class="cs-sec-label">Problem / Challenge</p>
+          <h2 class="cs-sec-title">
+            A new cafe with four weeks and no digital presence.
+          </h2>
+          <p class="cs-text">
+            Labora Cafe had a physical space nearly ready to open and nothing
+            else. No color system, no typography, no web presence. Just a logo,
+            a set of brand adjectives, an unfinished space, and a four-week
+            window to launch a website ahead of their soft opening. They needed
+            to establish their brand, drive foot traffic, and build the
+            infrastructure for long-term customer retention before their first
+            customer walked in.
+          </p>
+        </div>
+        <div class="cs-sec" id="sec-role">
+          <p class="cs-sec-label">My Role</p>
+          <h2 class="cs-sec-title">
+            Designer, developer, copywriter, and creative director.
+          </h2>
+          <p class="cs-text">
+            Sole designer and developer across 4 weeks. I owned the full stack:
+            brand identity development, UX strategy, visual design, copywriting,
+            Framer development with custom code overrides, and multi-breakpoint
+            implementation across mobile, tablet, and desktop.
+          </p>
+        </div>
+        <div class="cs-sec" id="sec-process">
+          <p class="cs-sec-label">Process</p>
+          <h2 class="cs-sec-title">Adjectives into a design system.</h2>
+          <p class="cs-text">
+            The owner handed me a list of brand adjectives. My job was to
+            translate them into a design system before a single frame was built.
+            Hover each word to see what it became.
+          </p>
+          <div class="wcloud" id="wcloud"></div>
+          <div class="wcloud-tooltip" id="wcloudTip"></div>
+          <div class="cs-two-col" style="margin-top: 40px">
+            <div>
+              <p class="cs-col-title">Discovery + Design</p>
+              <p class="cs-col-text">
+                Two weeks mapping site architecture, building the design system,
+                presenting mood boards, and coordinating the photography and
+                video brief with the owner's production team.
+              </p>
+            </div>
+            <div>
+              <p class="cs-col-title">Build + Launch</p>
+              <p class="cs-col-text">
+                Two weeks in Framer with custom code overrides for features the
+                platform did not natively support, built across mobile, tablet,
+                and desktop breakpoints.
+              </p>
+            </div>
+          </div>
+          <img
+            src="Timeline.jpg"
+            alt="Project roadmap — 4-week timeline across Discovery, Design, Build, and Launch phases"
+            style="
+              width: 100%;
+              display: block;
+              border-radius: 2px;
+              margin-top: 32px;
+            "
+          />
+        </div>
+        <div class="cs-sec" id="sec-decisions">
+          <p class="cs-sec-label">Key Design Decisions</p>
+          <h2 class="cs-sec-title">Every decision had a reason.</h2>
+
+          <p class="cs-col-title" style="margin-bottom: 12px">
+            1. Typography as Brand Voice
+          </p>
+          <p class="cs-text">
+            Labora had no type system. I chose Bell Gothic Std, a compressed
+            utilitarian grotesque with an almost bureaucratic precision, paired
+            with Magda Clean Mono, which brought the laboratory concept directly
+            into the letterforms. No accent color anywhere in the palette. The
+            brand communicates entirely through restraint, texture, and type.
+            Sophisticated yet approachable lives in that pairing.
+          </p>
+          <div class="cs-carousel" id="typeCarousel">
+            <div class="cs-carousel-track" id="typeTrack">
+              <div class="cs-carousel-slide">
+                <img
+                  src="labora-type1.jpg"
+                  alt="Bell Gothic and Magda Clean Mono typeface specimens"
+                />
+              </div>
+              <div class="cs-carousel-slide">
+                <img
+                  src="labora-type2.jpg"
+                  alt="Typeface hierarchy — Header 1 through Caption"
+                />
+              </div>
+            </div>
+            <div class="cs-carousel-controls">
+              <button
+                class="cs-carousel-btn"
+                id="typePrev"
+                aria-label="Previous slide"
+              >
+                &#8592;
+              </button>
+              <button
+                class="cs-carousel-btn"
+                id="typeNext"
+                aria-label="Next slide"
+              >
+                &#8594;
+              </button>
+              <div class="cs-carousel-dots" id="typeDots">
+                <div class="cs-carousel-dot active" data-index="0"></div>
+                <div class="cs-carousel-dot" data-index="1"></div>
+              </div>
+              <span class="cs-carousel-count" id="typeCount">01 / 02</span>
+            </div>
+          </div>
+          <p class="cs-col-title" style="margin-top: 48px; margin-bottom: 12px">
+            2. The 5-Column Homepage Interaction
+          </p>
+          <p class="cs-text">
+            Most cafe websites are static: a hero image, a menu link, a contact
+            page. I designed the homepage as a full-screen navigation
+            experience. Five columns map directly to the five site sections,
+            each labeled with its destination and a short descriptor. On hover,
+            the background video switches to the video from that respective
+            page. Every element serves wayfinding. The same video a user
+            previews on the homepage is the video they land on when they
+            navigate there, creating continuity across the experience.
+          </p>
+          <video
+            autoplay
+            loop
+            muted
+            playsinline
+            style="
+              width: 100%;
+              display: block;
+              border-radius: 2px;
+              margin-top: 24px;
+            "
+          >
+            <source src="5col-vis.mp4" type="video/mp4" />
+          </video>
+
+          <p class="cs-col-title" style="margin-top: 48px; margin-bottom: 12px">
+            3. Copywriting as Design Material
+          </p>
+          <p class="cs-text">
+            I wrote the site copy alongside the visual design, treating language
+            as a design material. The bracket notation [about us], the Latin
+            etymology LabOra (Latin) / la.bo.ra / to work, and the headline
+            "Work in Quiet Luxury, Distilled in Coffee" all came from the same
+            design thinking that drove the typography choice. The owner adopted
+            the headline for their merchandise. The copy became part of the
+            brand identity.
+          </p>
+
+          <p class="cs-col-title" style="margin-top: 48px; margin-bottom: 12px">
+            4. Color as Restraint
+          </p>
+          <p class="cs-text">
+            Labora came with no color system. I made a deliberate choice to
+            build a monochromatic palette — no accent color, no decorative hues.
+            Six values from white to near-black, with a single Matcha green
+            reserved exclusively for CTAs and interactive elements. The
+            restraint was the point. When everything else is neutral, the
+            product photography does all the work.
+          </p>
+          <img
+            src="labora-color.jpg"
+            alt="Labora color palette — White, Fog, Ash, Labora Black, Ink, Matcha"
+            style="
+              width: 100%;
+              display: block;
+              border-radius: 2px;
+              margin-top: 24px;
+            "
+          />
+
+          <p class="cs-col-title" style="margin-top: 48px; margin-bottom: 12px">
+            5. Retention Infrastructure
+          </p>
+          <p class="cs-text">
+            The brief included a retention goal. I translated that into concrete
+            features: an Order Online CTA in the nav bar, a featured drink
+            section on the menu page, a contact form for event collaborations, a
+            careers page with a custom file upload form built via code override,
+            and social media integration throughout.
+          </p>
+          <div class="cs-carousel" id="retCarousel">
+            <div class="cs-carousel-track" id="retTrack">
+              <div class="cs-carousel-slide">
+                <div class="ret-item" style="border: none; border-radius: 0">
+                  <img
+                    src="order-onlineCTA.jpg"
+                    alt="Order Online CTA"
+                    style="width: 100%; display: block"
+                  />
+                  <div class="ret-item-label">
+                    <svg
+                      class="ret-item-arrow"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                    >
+                      <line x1="3" y1="13" x2="13" y2="3" />
+                      <polyline points="5 3 13 3 13 11" />
+                    </svg>
+                    <div class="ret-item-text">
+                      <p class="ret-item-title">Order Online CTA</p>
+                      <p class="ret-item-desc">
+                        Persistent CTA in the nav bar — visible on every page,
+                        driving direct conversion at all times.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="cs-carousel-slide">
+                <div class="ret-item" style="border: none; border-radius: 0">
+                  <img
+                    src="featureddrink.jpg"
+                    alt="Featured Drink"
+                    style="width: 100%; display: block"
+                  />
+                  <div class="ret-item-label">
+                    <svg
+                      class="ret-item-arrow"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                    >
+                      <line x1="3" y1="13" x2="13" y2="3" />
+                      <polyline points="5 3 13 3 13 11" />
+                    </svg>
+                    <div class="ret-item-text">
+                      <p class="ret-item-title">Featured Drink</p>
+                      <p class="ret-item-desc">
+                        Rotating hero product on the menu page — creates a
+                        reason to return and check what's new.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="cs-carousel-slide">
+                <div class="ret-item" style="border: none; border-radius: 0">
+                  <img
+                    src="eventform.jpg"
+                    alt="Event Collaboration Form"
+                    style="width: 100%; display: block"
+                  />
+                  <div class="ret-item-label">
+                    <svg
+                      class="ret-item-arrow"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                    >
+                      <line x1="3" y1="13" x2="13" y2="3" />
+                      <polyline points="5 3 13 3 13 11" />
+                    </svg>
+                    <div class="ret-item-text">
+                      <p class="ret-item-title">Event Collaboration Form</p>
+                      <p class="ret-item-desc">
+                        Contact form scoped specifically to event inquiries —
+                        turns community interest into a direct pipeline.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="cs-carousel-slide">
+                <div class="ret-item" style="border: none; border-radius: 0">
+                  <img
+                    src="applyform.jpg"
+                    alt="Careers File Upload"
+                    style="width: 100%; display: block"
+                  />
+                  <div class="ret-item-label">
+                    <svg
+                      class="ret-item-arrow"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                    >
+                      <line x1="3" y1="13" x2="13" y2="3" />
+                      <polyline points="5 3 13 3 13 11" />
+                    </svg>
+                    <div class="ret-item-text">
+                      <p class="ret-item-title">Careers + File Upload</p>
+                      <p class="ret-item-desc">
+                        Custom file upload built via code override — not native
+                        to Framer. Turns community members into potential team
+                        members.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="cs-carousel-slide">
+                <div class="ret-item" style="border: none; border-radius: 0">
+                  <img
+                    src="socials.jpg"
+                    alt="Social Media Integration"
+                    style="width: 100%; display: block"
+                  />
+                  <div class="ret-item-label">
+                    <svg
+                      class="ret-item-arrow"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                    >
+                      <line x1="3" y1="13" x2="13" y2="3" />
+                      <polyline points="5 3 13 3 13 11" />
+                    </svg>
+                    <div class="ret-item-text">
+                      <p class="ret-item-title">Social Media Integration</p>
+                      <p class="ret-item-desc">
+                        Instagram and social links woven throughout — bridges
+                        the website to the community where Labora already lives.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="cs-carousel-slide">
+                <div class="ret-item" style="border: none; border-radius: 0">
+                  <img
+                    src="loyaltyapp-overlay.jpg"
+                    alt="Loyalty App Overlay"
+                    style="width: 100%; display: block"
+                  />
+                  <div class="ret-item-label">
+                    <svg
+                      class="ret-item-arrow"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                    >
+                      <line x1="3" y1="13" x2="13" y2="3" />
+                      <polyline points="5 3 13 3 13 11" />
+                    </svg>
+                    <div class="ret-item-text">
+                      <p class="ret-item-title">Loyalty App Overlay</p>
+                      <p class="ret-item-desc">
+                        "The Next One's On Us" — a homepage overlay promoting
+                        the loyalty app. Converts first-time visitors into
+                        repeat customers before they leave.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="cs-carousel-controls">
+              <button
+                class="cs-carousel-btn"
+                id="retPrev"
+                aria-label="Previous"
+              >
+                &#8592;
+              </button>
+              <button class="cs-carousel-btn" id="retNext" aria-label="Next">
+                &#8594;
+              </button>
+              <div class="cs-carousel-dots" id="retDots">
+                <div class="cs-carousel-dot active" data-ret-index="0"></div>
+                <div class="cs-carousel-dot" data-ret-index="1"></div>
+                <div class="cs-carousel-dot" data-ret-index="2"></div>
+                <div class="cs-carousel-dot" data-ret-index="3"></div>
+                <div class="cs-carousel-dot" data-ret-index="4"></div>
+              </div>
+              <span class="cs-carousel-count" id="retCount">01 / 05</span>
+            </div>
+          </div>
+        </div>
+        <div class="cs-sec" id="sec-designs">
+          <p class="cs-sec-label">Final Designs</p>
+          <h2 class="cs-sec-title">The <em>built</em> thing.</h2>
+          <div class="site-carousel-wrap">
+            <nav class="site-carousel-nav" aria-label="Site pages">
+              <button class="site-carousel-nav-btn active" data-site-index="0">
+                Menu
+              </button>
+              <button class="site-carousel-nav-btn" data-site-index="1">
+                About
+              </button>
+              <button class="site-carousel-nav-btn" data-site-index="2">
+                Careers
+              </button>
+              <button class="site-carousel-nav-btn" data-site-index="3">
+                FAQ
+              </button>
+              <button class="site-carousel-nav-btn" data-site-index="4">
+                Contact
+              </button>
+            </nav>
+            <div class="site-carousel-track-wrap">
+              <div class="site-carousel-track" id="siteTrack">
+                <div class="site-carousel-slide">
+                  <video muted playsinline preload="metadata" loop>
+                    <source src="laboramenupage.mp4" type="video/mp4" />
+                  </video>
+                </div>
+                <div class="site-carousel-slide">
+                  <video muted playsinline preload="metadata" loop>
+                    <source src="laboraaboutpage.mp4" type="video/mp4" />
+                  </video>
+                </div>
+                <div class="site-carousel-slide">
+                  <video muted playsinline preload="metadata" loop>
+                    <source src="laboracareerpage.mp4" type="video/mp4" />
+                  </video>
+                </div>
+                <div class="site-carousel-slide">
+                  <video muted playsinline preload="metadata" loop>
+                    <source src="laborafaqpage.mp4" type="video/mp4" />
+                  </video>
+                </div>
+                <div class="site-carousel-slide">
+                  <video muted playsinline preload="metadata" loop>
+                    <source src="laboracontactpage.mp4" type="video/mp4" />
+                  </video>
+                </div>
+              </div>
+            </div>
+            <div class="site-carousel-footer">
+              <button
+                class="cs-carousel-btn"
+                id="sitePrev"
+                aria-label="Previous page"
+              >
+                &#8592;
+              </button>
+              <button
+                class="cs-carousel-btn"
+                id="siteNext"
+                aria-label="Next page"
+              >
+                &#8594;
+              </button>
+              <div class="cs-carousel-dots" id="siteDots">
+                <div class="cs-carousel-dot active" data-site-dot="0"></div>
+                <div class="cs-carousel-dot" data-site-dot="1"></div>
+                <div class="cs-carousel-dot" data-site-dot="2"></div>
+                <div class="cs-carousel-dot" data-site-dot="3"></div>
+                <div class="cs-carousel-dot" data-site-dot="4"></div>
+              </div>
+              <span class="cs-carousel-count" id="siteCount">01 / 05</span>
+            </div>
+          </div>
+          <a
+            href="https://www.laboracafe.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="cs-live-link"
+          >
+            Visit the live site <span class="cs-live-arrow">↗</span>
+          </a>
+        </div>
+        <div class="cs-sec" id="sec-outcomes">
+          <p class="cs-sec-label">Outcomes &amp; Metrics</p>
+          <h2 class="cs-sec-title">
+            1,100 visitors. Two weeks. Zero paid promotion.
+          </h2>
+          <p class="cs-text">
+            1,100 unique visitors and 2,600 page views in the first two weeks
+            after launch, driven by organic search, Instagram, and word of
+            mouth. Google PageSpeed Insights returned a perfect 100 in both SEO
+            and best practices.
+          </p>
+          <p class="cs-text" style="margin-top: 16px">
+            Post-launch auditing surfaced two issues. First, accessibility gaps
+            from unlabeled interactive elements: several links relied on icons
+            without descriptive text, creating screen reader failures. I
+            resolved this by implementing aria-label attributes on all
+            icon-based interactive elements. Second, performance degradation
+            from uncompressed video assets. I compressed the video files to
+            reduce load time. The site launched on schedule, ahead of the soft
+            opening.
+          </p>
+          <div class="cs-stats">
+            <div class="cs-stat">
+              <p class="cs-stat-num">1.1k</p>
+              <p class="cs-stat-label">Unique visitors in first 2 weeks</p>
+            </div>
+            <div class="cs-stat">
+              <p class="cs-stat-num">2.6k</p>
+              <p class="cs-stat-label">Page views in first 2 weeks</p>
+            </div>
+            <div class="cs-stat">
+              <p class="cs-stat-num">100</p>
+              <p class="cs-stat-label">PageSpeed SEO score</p>
+            </div>
+          </div>
+        </div>
+        <div class="cs-sec" id="sec-learnings">
+          <p class="cs-sec-label">Learnings &amp; Reflection</p>
+          <h2 class="cs-sec-title">
+            The best freelance projects blur the line.
+          </h2>
+          <p class="cs-text">
+            Working fast forces prioritization. Four weeks from blank canvas to
+            live site meant every decision had weight. There was no time to
+            second-guess a type choice or redesign a page. What surprised me
+            most was how much the work extended beyond the screen: coordinating
+            asset production with the photographer, writing copy that became
+            merchandise, building features the platform did not natively
+            support.
+          </p>
+          <p class="cs-text" style="margin-top: 16px">
+            The best freelance projects blur the line between designer,
+            developer, and creative director. This was one of them.
+          </p>
+        </div>
+      </div>
+      <!-- /cs-content -->
+    </div>
+    <!-- /cs-layout -->
+
+    <div class="page-sticky-wrap">
+      <div class="cs-next">
+        <div>
+          <p class="cs-next-label">Next project</p>
+          <a href="casescentsync.html" class="cs-next-link">ScentSync →</a>
+        </div>
+        <div class="cs-arrow">
+          <svg viewBox="0 0 24 24" stroke-width="1.5">
+            <line x1="7" y1="17" x2="17" y2="7" />
+            <polyline points="7 7 17 7 17 17" />
+          </svg>
+        </div>
+      </div>
+    </div>
+    <!-- /page-sticky-wrap -->
+
+    <div class="footer-scroll-zone">
+      <script>
+        const cur = document.getElementById("cur");
+        const curLabel = document.getElementById("curLabel");
+        document.addEventListener("mousemove", (e) => {
+          cur.style.left = e.clientX + "px";
+          cur.style.top = e.clientY + "px";
+          if (curLabel) {
+            curLabel.style.left = e.clientX + "px";
+            curLabel.style.top = e.clientY + "px";
+          }
+        });
+        document.querySelectorAll("a, button").forEach((el) => {
+          if (el.closest(".site-footer")) return;
+          if (el.closest(".cs-sidenav")) return;
+          el.addEventListener("mouseenter", () => cur.classList.add("g"));
+          el.addEventListener("mouseleave", () => cur.classList.remove("g"));
+        });
+
+        //document.getElementById("csImg").style.backgroundImage = "url('previewlabora.gif')";
+        const hImg = document.getElementById("csImg");
+        window.addEventListener(
+          "scroll",
+          () => {
+            hImg.style.transform = `translateY(${window.scrollY * 0.2}px)`;
+          },
+          { passive: true },
+        );
+
+        const obs = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) e.target.classList.add("in");
+            });
+          },
+          { threshold: 0.1 },
+        );
+        document.querySelectorAll(".cs-sec").forEach((el) => obs.observe(el));
+
+        // Sidebar show / stop logic
+        const csLayout = document.querySelector(".cs-layout");
+        const cssidenav = document.querySelector(".cs-sidenav");
+        const learningsText = document.querySelector("#sec-learnings");
+
+        function updateSidenavPosition() {
+          const layoutRect = csLayout.getBoundingClientRect();
+          const learningsRect = learningsText.getBoundingClientRect();
+
+          const pastHero = layoutRect.top < 140;
+          // Stop when the bottom of Learnings scrolls above the sidenav's fixed position
+          const sidenavHeight = cssidenav.offsetHeight;
+          const stopAtLearnings =
+            learningsRect.bottom < window.innerHeight - 52 - sidenavHeight;
+
+          if (!pastHero) {
+            cssidenav.classList.add("hidden");
+            cssidenav.classList.remove("stopped");
+          } else if (stopAtLearnings) {
+            cssidenav.classList.remove("hidden");
+            cssidenav.classList.add("stopped");
+          } else {
+            cssidenav.classList.remove("hidden");
+            cssidenav.classList.remove("stopped");
+          }
+        }
+
+        window.addEventListener("scroll", updateSidenavPosition, {
+          passive: true,
+        });
+        window.addEventListener("resize", updateSidenavPosition);
+        updateSidenavPosition();
+
+        // Sidebar scroll-spy
+        const sections = document.querySelectorAll(".cs-sec[id]");
+        const sideLinks = document.querySelectorAll(".cs-sidenav a");
+        const spyObs = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                sideLinks.forEach((l) => l.classList.remove("active"));
+                const active = document.querySelector(
+                  `.cs-sidenav a[href="#${e.target.id}"]`,
+                );
+                if (active) active.classList.add("active");
+              }
+            });
+          },
+          { rootMargin: "-10% 0px -60% 0px", threshold: 0 },
+        );
+        sections.forEach((s) => spyObs.observe(s));
+
+        // Carousel
+        (function () {
+          const track = document.getElementById("typeTrack");
+          const dots = document.querySelectorAll("#typeDots .cs-carousel-dot");
+          const count = document.getElementById("typeCount");
+          const total = track.children.length;
+          let current = 0;
+
+          function goTo(i) {
+            current = (i + total) % total;
+            track.style.transform = "translateX(-" + current * 100 + "%)";
+            dots.forEach((d, idx) =>
+              d.classList.toggle("active", idx === current),
+            );
+            count.textContent =
+              String(current + 1).padStart(2, "0") +
+              " / " +
+              String(total).padStart(2, "0");
+          }
+
+          document
+            .getElementById("typePrev")
+            .addEventListener("click", () => goTo(current - 1));
+          document
+            .getElementById("typeNext")
+            .addEventListener("click", () => goTo(current + 1));
+          dots.forEach((d) =>
+            d.addEventListener("click", () => goTo(+d.dataset.index)),
+          );
+
+          document.getElementById("typeCarousel").setAttribute("tabindex", "0");
+          document
+            .getElementById("typeCarousel")
+            .addEventListener("keydown", (e) => {
+              if (e.key === "ArrowLeft") goTo(current - 1);
+              if (e.key === "ArrowRight") goTo(current + 1);
+            });
+        })();
+
+        // Site Page Carousel
+        (function () {
+          const track = document.getElementById("siteTrack");
+          const navBtns = document.querySelectorAll(".site-carousel-nav-btn");
+          const dots = document.querySelectorAll("#siteDots .cs-carousel-dot");
+          const count = document.getElementById("siteCount");
+          const total = track.children.length;
+          let current = 0;
+          let currentVideo = null;
+
+          function goTo(i) {
+            current = (i + total) % total;
+            track.style.transform = "translateX(-" + current * 100 + "%)";
+
+            // Update nav buttons
+            navBtns.forEach((b, idx) =>
+              b.classList.toggle("active", idx === current),
+            );
+
+            // Update dots
+            dots.forEach((d, idx) =>
+              d.classList.toggle("active", idx === current),
+            );
+
+            // Update count
+            count.textContent =
+              String(current + 1).padStart(2, "0") +
+              " / " +
+              String(total).padStart(2, "0");
+
+            // Pause previous video, play current
+            if (currentVideo) {
+              currentVideo.pause();
+              currentVideo.currentTime = 0;
+            }
+            const videos = track.querySelectorAll("video");
+            currentVideo = videos[current];
+            if (currentVideo) currentVideo.play();
+          }
+
+          document
+            .getElementById("sitePrev")
+            .addEventListener("click", () => goTo(current - 1));
+          document
+            .getElementById("siteNext")
+            .addEventListener("click", () => goTo(current + 1));
+          navBtns.forEach((b) =>
+            b.addEventListener("click", () => goTo(+b.dataset.siteIndex)),
+          );
+          dots.forEach((d) =>
+            d.addEventListener("click", () => goTo(+d.dataset.siteDot)),
+          );
+
+          // Keyboard nav
+          track.closest(".site-carousel-wrap").setAttribute("tabindex", "0");
+          track
+            .closest(".site-carousel-wrap")
+            .addEventListener("keydown", (e) => {
+              if (e.key === "ArrowLeft") goTo(current - 1);
+              if (e.key === "ArrowRight") goTo(current + 1);
+            });
+
+          // Autoplay first slide
+          goTo(0);
+        })();
+
+        // Retention Carousel
+        (function () {
+          const track = document.getElementById("retTrack");
+          const dots = document.querySelectorAll("#retDots .cs-carousel-dot");
+          const count = document.getElementById("retCount");
+          const total = track.children.length;
+          let current = 0;
+
+          function goTo(i) {
+            current = (i + total) % total;
+            track.style.transform = "translateX(-" + current * 100 + "%)";
+            dots.forEach((d, idx) =>
+              d.classList.toggle("active", idx === current),
+            );
+            count.textContent =
+              String(current + 1).padStart(2, "0") +
+              " / " +
+              String(total).padStart(2, "0");
+          }
+
+          document
+            .getElementById("retPrev")
+            .addEventListener("click", () => goTo(current - 1));
+          document
+            .getElementById("retNext")
+            .addEventListener("click", () => goTo(current + 1));
+          dots.forEach((d) =>
+            d.addEventListener("click", () => goTo(+d.dataset.retIndex)),
+          );
+
+          document.getElementById("retCarousel").setAttribute("tabindex", "0");
+          document
+            .getElementById("retCarousel")
+            .addEventListener("keydown", (e) => {
+              if (e.key === "ArrowLeft") goTo(current - 1);
+              if (e.key === "ArrowRight") goTo(current + 1);
+            });
+        })();
+
+        // Word Cloud
+        const words = [
+          {
+            text: "Laboratory-Inspired",
+            size: "primary",
+            tooltip: "Magda Clean Mono typeface",
+          },
+          {
+            text: "Editorial",
+            size: "primary",
+            tooltip: "Bracket notation + Latin etymology in copy",
+          },
+          {
+            text: "Minimalist",
+            size: "primary",
+            tooltip: "Monochromatic palette, zero accent color",
+          },
+          {
+            text: "Industrial-Modern",
+            size: "secondary",
+            tooltip: "Bell Gothic Std — compressed, utilitarian grotesque",
+          },
+          {
+            text: "Understated Luxury",
+            size: "secondary",
+            tooltip: "Typography does the work, not decoration",
+          },
+          {
+            text: "Atmospheric",
+            size: "secondary",
+            tooltip: "Full-screen video as primary navigation",
+          },
+          {
+            text: "Refined",
+            size: "secondary",
+            tooltip: "Tight grid system across all breakpoints",
+          },
+          {
+            text: "Handcrafted",
+            size: "secondary",
+            tooltip: "Custom code overrides beyond Framer's native features",
+          },
+          {
+            text: "Sophisticated",
+            size: "tertiary",
+            tooltip: "Restrained color — off-white, black, nothing else",
+          },
+          {
+            text: "Calm",
+            size: "tertiary",
+            tooltip: "Generous whitespace and slow transitions",
+          },
+          {
+            text: "Community-Driven",
+            size: "tertiary",
+            tooltip: "Careers page with custom file upload form",
+          },
+          {
+            text: "Curated",
+            size: "tertiary",
+            tooltip: "Featured Drink section on menu page",
+          },
+          {
+            text: "Authentic",
+            size: "tertiary",
+            tooltip: "Real photography and video, no stock",
+          },
+          {
+            text: "Experimental",
+            size: "tertiary",
+            tooltip: "5-column hover interaction on homepage",
+          },
+        ];
+
+        const cloud = document.getElementById("wcloud");
+        const tip = document.getElementById("wcloudTip");
+
+        // Scatter words with collision-aware placement
+        const placed = [];
+        function overlaps(x, y, w, h) {
+          return placed.some(
+            (p) =>
+              x < p.x + p.w + 16 &&
+              x + w + 16 > p.x &&
+              y < p.y + p.h + 12 &&
+              y + h + 12 > p.y,
+          );
+        }
+
+        words.forEach((word) => {
+          const el = document.createElement("span");
+          el.className = "wcloud-word " + word.size;
+          el.textContent = word.text;
+          el.style.opacity = "0";
+          cloud.appendChild(el);
+
+          const W = cloud.offsetWidth;
+          const H = cloud.offsetHeight;
+          const ew = el.offsetWidth;
+          const eh = el.offsetHeight;
+
+          let x,
+            y,
+            attempts = 0;
+          do {
+            x = Math.random() * (W - ew - 20) + 10;
+            y = Math.random() * (H - eh - 20) + 10;
+            attempts++;
+          } while (overlaps(x, y, ew, eh) && attempts < 80);
+
+          placed.push({ x, y, w: ew, h: eh });
+          el.style.left = x + "px";
+          el.style.top = y + "px";
+          el.style.opacity = "1";
+
+          el.addEventListener("mousemove", (e) => {
+            tip.textContent = word.tooltip;
+            tip.style.left = e.clientX + "px";
+            tip.style.top = e.clientY + "px";
+            tip.classList.add("show");
+          });
+          el.addEventListener("mouseleave", () => {
+            tip.classList.remove("show");
+          });
+        });
+      </script>
+
+      <footer class="site-footer" id="site-footer">
+        <div>
+          <p class="f-label">Let's build something together</p>
+          <a href="mailto:khoiqnguyen27@gmail.com" class="f-cta">
+            <span class="en">Work with me.</span>
+            <span class="vn">Làm việc với tôi.</span>
+          </a>
+        </div>
+        <div class="f-bottom">
+          <span class="f-copy">&copy; 2026 Khoi Nguyen</span>
+          <div class="f-soc">
+            <a href="#" target="_blank">Github</a>
+            <a href="#" target="_blank">Spotify</a>
+            <a href="#" target="_blank">LinkedIn</a>
+          </div>
+          <button
+            class="f-top"
+            onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+          >
+            <svg viewBox="0 0 24 24" stroke-width="1.5">
+              <line x1="12" y1="19" x2="12" y2="5" />
+              <polyline points="5 12 12 5 19 12" />
+            </svg>
+            Back to top
+          </button>
+        </div>
+      </footer>
+      <script>
+        // Footer cursor grow — runs after footer exists in DOM
+        document.querySelectorAll(".f-soc a, .f-top, .f-cta").forEach((el) => {
+          el.addEventListener("mouseenter", () => cur.classList.add("g"));
+          el.addEventListener("mouseleave", () => cur.classList.remove("g"));
+        });
+      </script>
+    </div>
+    <!-- /footer-scroll-zone -->
+
+    <script>
+      // Drag support for all carousels
+      (function () {
+        function addDrag(trackEl, getTotal, getCurrent, goTo) {
+          var startX = 0,
+            isDragging = false;
+          var wrap = trackEl.parentElement;
+          wrap.style.cursor = "grab";
+          wrap.addEventListener("mousedown", function (e) {
+            isDragging = true;
+            startX = e.pageX;
+            wrap.style.cursor = "grabbing";
+          });
+          document.addEventListener("mouseup", function (e) {
+            if (!isDragging) return;
+            isDragging = false;
+            wrap.style.cursor = "grab";
+            var diff = e.pageX - startX;
+            if (Math.abs(diff) > 50)
+              goTo(diff < 0 ? getCurrent() + 1 : getCurrent() - 1);
+          });
+          document.addEventListener("mousemove", function (e) {
+            if (isDragging) e.preventDefault();
+          });
+          // Touch
+          wrap.addEventListener(
+            "touchstart",
+            function (e) {
+              startX = e.touches[0].clientX;
+            },
+            { passive: true },
+          );
+          wrap.addEventListener("touchend", function (e) {
+            var diff = e.changedTouches[0].clientX - startX;
+            if (Math.abs(diff) > 50)
+              goTo(diff < 0 ? getCurrent() + 1 : getCurrent() - 1);
+          });
+        }
+
+        // Type carousel drag
+        (function () {
+          var track = document.getElementById("typeTrack");
+          if (!track) return;
+          var total = track.children.length,
+            current = 0;
+          function getCurrent() {
+            return current;
+          }
+          function goTo(i) {
+            current = (i + total) % total;
+            track.style.transform = "translateX(-" + current * 100 + "%)";
+            document
+              .querySelectorAll("#typeDots .cs-carousel-dot")
+              .forEach(function (d, idx) {
+                d.classList.toggle("active", idx === current);
+              });
+            var c = document.getElementById("typeCount");
+            if (c)
+              c.textContent =
+                String(current + 1).padStart(2, "0") +
+                " / " +
+                String(total).padStart(2, "0");
+          }
+          addDrag(
+            track,
+            function () {
+              return total;
+            },
+            getCurrent,
+            goTo,
+          );
+        })();
+
+        // Retention carousel drag
+        (function () {
+          var track = document.getElementById("retTrack");
+          if (!track) return;
+          var total = track.children.length,
+            current = 0;
+          function getCurrent() {
+            return current;
+          }
+          function goTo(i) {
+            current = (i + total) % total;
+            track.style.transform = "translateX(-" + current * 100 + "%)";
+            document
+              .querySelectorAll("#retDots .cs-carousel-dot")
+              .forEach(function (d, idx) {
+                d.classList.toggle("active", idx === current);
+              });
+            var c = document.getElementById("retCount");
+            if (c)
+              c.textContent =
+                String(current + 1).padStart(2, "0") +
+                " / " +
+                String(total).padStart(2, "0");
+          }
+          addDrag(
+            track,
+            function () {
+              return total;
+            },
+            getCurrent,
+            goTo,
+          );
+        })();
+
+        // Site carousel drag
+        (function () {
+          var track = document.getElementById("siteTrack");
+          if (!track) return;
+          var total = track.children.length,
+            current = 0;
+          function getCurrent() {
+            return current;
+          }
+          function goTo(i) {
+            current = (i + total) % total;
+            track.style.transform = "translateX(-" + current * 100 + "%)";
+            document
+              .querySelectorAll("#siteDots .cs-carousel-dot")
+              .forEach(function (d, idx) {
+                d.classList.toggle("active", idx === current);
+              });
+            document
+              .querySelectorAll(".site-carousel-nav-btn")
+              .forEach(function (b, idx) {
+                b.classList.toggle("active", idx === current);
+              });
+            var c = document.getElementById("siteCount");
+            if (c)
+              c.textContent =
+                String(current + 1).padStart(2, "0") +
+                " / " +
+                String(total).padStart(2, "0");
+            var videos = track.querySelectorAll("video");
+            videos.forEach(function (v, idx) {
+              if (idx !== current) {
+                v.pause();
+                v.currentTime = 0;
+              }
+            });
+            if (videos[current]) videos[current].play();
+          }
+          addDrag(
+            track,
+            function () {
+              return total;
+            },
+            getCurrent,
+            goTo,
+          );
+        })();
+      })();
+
+      // Mobile menu
+      var navMenuBtn = document.getElementById("navMenuBtn");
+      var navDropdown = document.getElementById("navDropdown");
+      var navDropdownClose = document.getElementById("navDropdownClose");
+      if (navMenuBtn)
+        navMenuBtn.addEventListener("click", function () {
+          navDropdown.classList.add("open");
+        });
+      if (navDropdownClose)
+        navDropdownClose.addEventListener("click", function () {
+          navDropdown.classList.remove("open");
+        });
+      navDropdown &&
+        navDropdown
+          .querySelectorAll("a:not(.nav-dropdown-logo)")
+          .forEach(function (a) {
+            a.addEventListener("click", function () {
+              navDropdown.classList.remove("open");
+            });
+          });
+    </script>
+
+    <script>
+      // Drag support for all carousels
+      (function () {
+        function addDrag(trackEl, getTotal, getCurrent, goTo) {
+          var startX = 0,
+            isDragging = false;
+          var wrap = trackEl.parentElement;
+          wrap.style.cursor = "grab";
+          wrap.addEventListener("mousedown", function (e) {
+            isDragging = true;
+            startX = e.pageX;
+            wrap.style.cursor = "grabbing";
+          });
+          document.addEventListener("mouseup", function (e) {
+            if (!isDragging) return;
+            isDragging = false;
+            wrap.style.cursor = "grab";
+            var diff = e.pageX - startX;
+            if (Math.abs(diff) > 50)
+              goTo(diff < 0 ? getCurrent() + 1 : getCurrent() - 1);
+          });
+          document.addEventListener("mousemove", function (e) {
+            if (isDragging) e.preventDefault();
+          });
+          wrap.addEventListener(
+            "touchstart",
+            function (e) {
+              startX = e.touches[0].clientX;
+            },
+            { passive: true },
+          );
+          wrap.addEventListener("touchend", function (e) {
+            var diff = e.changedTouches[0].clientX - startX;
+            if (Math.abs(diff) > 50)
+              goTo(diff < 0 ? getCurrent() + 1 : getCurrent() - 1);
+          });
+        }
+
+        // Type carousel drag
+        (function () {
+          var track = document.getElementById("typeTrack");
+          if (!track) return;
+          var total = track.children.length,
+            current = 0;
+          function getCurrent() {
+            return current;
+          }
+          function goTo(i) {
+            current = (i + total) % total;
+            track.style.transform = "translateX(-" + current * 100 + "%)";
+            document
+              .querySelectorAll("#typeDots .cs-carousel-dot")
+              .forEach(function (d, idx) {
+                d.classList.toggle("active", idx === current);
+              });
+            var c = document.getElementById("typeCount");
+            if (c)
+              c.textContent =
+                String(current + 1).padStart(2, "0") +
+                " / " +
+                String(total).padStart(2, "0");
+          }
+          addDrag(
+            track,
+            function () {
+              return total;
+            },
+            getCurrent,
+            goTo,
+          );
+        })();
+
+        // Retention carousel drag
+        (function () {
+          var track = document.getElementById("retTrack");
+          if (!track) return;
+          var total = track.children.length,
+            current = 0;
+          function getCurrent() {
+            return current;
+          }
+          function goTo(i) {
+            current = (i + total) % total;
+            track.style.transform = "translateX(-" + current * 100 + "%)";
+            document
+              .querySelectorAll("#retDots .cs-carousel-dot")
+              .forEach(function (d, idx) {
+                d.classList.toggle("active", idx === current);
+              });
+            var c = document.getElementById("retCount");
+            if (c)
+              c.textContent =
+                String(current + 1).padStart(2, "0") +
+                " / " +
+                String(total).padStart(2, "0");
+          }
+          addDrag(
+            track,
+            function () {
+              return total;
+            },
+            getCurrent,
+            goTo,
+          );
+        })();
+
+        // Site carousel drag
+        (function () {
+          var track = document.getElementById("siteTrack");
+          if (!track) return;
+          var total = track.children.length,
+            current = 0;
+          function getCurrent() {
+            return current;
+          }
+          function goTo(i) {
+            current = (i + total) % total;
+            track.style.transform = "translateX(-" + current * 100 + "%)";
+            document
+              .querySelectorAll("#siteDots .cs-carousel-dot")
+              .forEach(function (d, idx) {
+                d.classList.toggle("active", idx === current);
+              });
+            document
+              .querySelectorAll(".site-carousel-nav-btn")
+              .forEach(function (b, idx) {
+                b.classList.toggle("active", idx === current);
+              });
+            var c = document.getElementById("siteCount");
+            if (c)
+              c.textContent =
+                String(current + 1).padStart(2, "0") +
+                " / " +
+                String(total).padStart(2, "0");
+            var videos = track.querySelectorAll("video");
+            videos.forEach(function (v, idx) {
+              if (idx !== current) {
+                v.pause();
+                v.currentTime = 0;
+              }
+            });
+            if (videos[current]) videos[current].play();
+          }
+          addDrag(
+            track,
+            function () {
+              return total;
+            },
+            getCurrent,
+            goTo,
+          );
+        })();
+      })();
+
+      // Mobile menu
+      var navMenuBtn = document.getElementById("navMenuBtn");
+      var navDropdown = document.getElementById("navDropdown");
+      var navDropdownClose = document.getElementById("navDropdownClose");
+      if (navMenuBtn)
+        navMenuBtn.addEventListener("click", function () {
+          navDropdown.classList.add("open");
+        });
+      if (navDropdownClose)
+        navDropdownClose.addEventListener("click", function () {
+          navDropdown.classList.remove("open");
+        });
+      navDropdown &&
+        navDropdown
+          .querySelectorAll("a:not(.nav-dropdown-logo)")
+          .forEach(function (a) {
+            a.addEventListener("click", function () {
+              navDropdown.classList.remove("open");
+            });
+          });
+    </script>
+  </body>
+</html>
