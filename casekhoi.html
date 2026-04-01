@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>KHOI App — Khoi Nguyen</title>
-    <link rel="icon" type="image/png" href="favicon.png" />
     <link
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@300;400;500&display=swap"
       rel="stylesheet"
@@ -1080,7 +1079,7 @@
         padding: 14px 24px;
         border-top: 1px solid rgba(10, 10, 11, 0.07);
       }
-      .mode-pro-controls .cs-carousel-btn {
+      .cs-carousel-btn {
         background: none;
         border: 1px solid rgba(10, 10, 11, 0.15);
         border-radius: 2px;
@@ -1096,7 +1095,7 @@
           border-color 0.25s,
           color 0.25s;
       }
-      .mode-pro-controls .cs-carousel-btn:hover {
+      .cs-carousel-btn:hover {
         border-color: var(--emerald);
         color: var(--emerald);
       }
@@ -1625,269 +1624,52 @@
         opacity: 1;
       }
 
-      /* ── MOBILE ── */
-      .nav-dropdown {
-        display: none;
-      }
-      .nav-menu-btn {
-        display: none;
-      }
-
+      /* Review Phone Frames */
+      .review-phones { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 32px; align-items: start; }
+      .review-phone-wrap { display: flex; flex-direction: column; gap: 16px; align-items: center; }
+      .review-phone-frame { position: relative; width: 100%; max-width: 240px; margin: 0 auto; }
+      .review-phone-frame img.frame { position: relative; z-index: 2; width: 100%; display: block; pointer-events: none; }
+      .review-phone-frame video { position: absolute; top: -0.5%; left: 2%; width: 96%; height: 101%; object-fit: cover; z-index: 1; border-radius: 36px; }
+      .review-phone-label { font-family: "Manrope", sans-serif; font-size: 11px; font-weight: 700; letter-spacing: -0.01em; color: var(--onyx); text-align: center; }
+      .review-phone-desc { font-family: "Roboto Mono", monospace; font-size: 9px; letter-spacing: 0.03em; color: rgba(10,10,11,0.45); text-align: center; line-height: 1.6; max-width: 220px; }
+      .review-phones-wrap { border: 1px solid rgba(10,10,11,0.08); border-radius: 2px; padding: 32px; margin-top: 32px; }
+      /* Learnings Carousel */
+      #sec-learnings { opacity: 1 !important; transform: none !important; }
+      .learn-carousel { width: 100%; margin-top: 32px; border: 1px solid rgba(10,10,11,0.07); border-radius: 2px; overflow: hidden; }
+      .learn-carousel-track-wrap { overflow: hidden; width: 100%; transition: height 0.5s cubic-bezier(0.76,0,0.24,1); }
+      .learn-carousel-track { display: flex; width: 100%; align-items: flex-start; transition: transform 0.5s cubic-bezier(0.76,0,0.24,1); }
+      .learn-panel { min-width: 100%; width: 100%; padding: 32px; box-sizing: border-box; flex-shrink: 0; opacity: 1 !important; transform: none !important; }
+      .learn-panel-num { font-family: "Roboto Mono", monospace; font-size: 8px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--emerald); margin-bottom: 12px; }
+      .learn-panel-title { font-family: "Manrope", sans-serif; font-size: 16px; font-weight: 700; letter-spacing: -0.02em; color: var(--onyx); margin-bottom: 12px; }
+      .learn-panel-text { font-size: 12px; line-height: 1.9; letter-spacing: -0.01em; color: rgba(10,10,11,0.55); max-width: 640px; margin-bottom: 24px; }
+      .learn-carousel-controls { display: flex; align-items: center; gap: 16px; padding: 14px 20px; border-top: 1px solid rgba(10,10,11,0.07); }
+      .learn-carousel-dots { display: flex; gap: 8px; }
+      .learn-carousel-dot { width: 20px; height: 2px; background: rgba(10,10,11,0.15); border-radius: 1px; cursor: pointer; transition: background 0.3s, width 0.3s; }
+      .learn-carousel-dot.active { background: var(--emerald); width: 32px; }
+      .learn-carousel-count { font-family: "Roboto Mono", monospace; font-size: 9px; letter-spacing: 0.1em; color: rgba(10,10,11,0.35); margin-left: auto; }
       @media (max-width: 768px) {
-        nav {
-          padding: 24px;
-        }
-        .nav-links {
-          display: none;
-        }
-        .nav-menu-btn {
-          display: flex;
-          font-family: "Roboto Mono", monospace;
-          font-size: 10px;
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
-          color: var(--snow);
-          background: none;
-          border: none;
-          cursor: none;
-          align-items: center;
-          gap: 8px;
-        }
-        .nav-dropdown {
-          display: none;
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: var(--onyx);
-          z-index: 1001;
-          flex-direction: column;
-          align-items: flex-start;
-          justify-content: flex-end;
-          padding: 52px 24px;
-          gap: 8px;
-        }
-        .nav-dropdown.open {
-          display: flex;
-        }
-        .nav-dropdown-top {
-          position: absolute;
-          top: 24px;
-          left: 24px;
-          right: 24px;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-        }
-        .nav-dropdown-logo {
-          font-family: "Manrope", sans-serif;
-          font-size: 12px;
-          font-weight: 700;
-          letter-spacing: 0.18em;
-          text-transform: uppercase;
-          color: var(--snow);
-          text-decoration: none;
-        }
-        .nav-dropdown-close {
-          font-family: "Roboto Mono", monospace;
-          font-size: 10px;
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
-          color: rgba(248, 248, 248, 0.4);
-          background: none;
-          border: none;
-          cursor: none;
-        }
-        .nav-dropdown a:not(.nav-dropdown-logo) {
-          font-family: "Manrope", sans-serif;
-          font-size: clamp(40px, 12vw, 72px);
-          font-weight: 800;
-          letter-spacing: -0.03em;
-          color: var(--snow);
-          text-decoration: none;
-          line-height: 1;
-          opacity: 0;
-          transform: translateY(20px);
-          transition:
-            opacity 0.4s,
-            transform 0.4s;
-        }
-        .nav-dropdown.open a:not(.nav-dropdown-logo) {
-          opacity: 1;
-          transform: translateY(0);
-        }
-        .nav-dropdown.open a:nth-child(2) {
-          transition-delay: 0.05s;
-        }
-        .nav-dropdown.open a:nth-child(3) {
-          transition-delay: 0.1s;
-        }
-        .nav-dropdown.open a:nth-child(4) {
-          transition-delay: 0.15s;
-        }
-
-        /* Hero */
-        .cs-hero-content {
-          padding: 0 24px 48px;
-          flex-direction: column;
-          gap: 24px;
-        }
-        .cs-htitle {
-          font-size: clamp(40px, 12vw, 72px);
-        }
-        .cs-tags {
-          align-items: flex-start;
-        }
-
-        /* Meta */
-        .cs-meta {
-          grid-template-columns: 1fr;
-          margin: 0 24px;
-        }
-        .cs-meta-item:not(:first-child) {
-          padding-left: 0;
-          border-left: none;
-          border-top: 1px solid rgba(10, 10, 11, 0.08);
-        }
-
-        /* Layout — hide sidebar, full width content */
-        .cs-layout {
-          display: block;
-        }
-        .cs-sidebar {
-          display: none;
-        }
-        .cs-content {
-          padding: 48px 24px 24px;
-        }
-
-        /* DM flow steps — scrollable row */
-        .dm-flow {
-          padding: 24px;
-        }
-        .dm-steps-row {
-          overflow-x: auto;
-          gap: 8px;
-          padding-bottom: 8px;
-        }
-        .dm-connector {
-          flex: 0 0 16px;
-        }
-        .dm-branch-row {
-          grid-template-columns: 1fr;
-        }
-
-        /* Onboarding split — stack */
-        .onboard-split {
-          grid-template-columns: 1fr;
-        }
-        .onboard-flow-col {
-          border-right: none;
-          border-bottom: 1px solid rgba(10, 10, 11, 0.07);
-        }
-        .onboard-screenshot-col {
-          padding: 24px;
-        }
-
-        /* Mode switcher phone cols */
-        .mode-phone-col {
-          padding: 20px 16px;
-        }
-        .mode-phone-wrap {
-          max-width: 160px;
-        }
-        .mode-features {
-          grid-template-columns: 1fr;
-        }
-
-        /* Two col / stats */
-        .cs-two-col {
-          grid-template-columns: 1fr;
-          gap: 24px;
-        }
-        .cs-stats {
-          grid-template-columns: 1fr;
-        }
-
-        /* Ideation flow track */
-        .idea-flow {
-          padding: 24px;
-        }
-        .idea-flow-track {
-          overflow-x: auto;
-          grid-template-columns: repeat(7, 56px);
-          padding-bottom: 8px;
-        }
-        .idea-flow-name {
-          font-size: 7px;
-        }
-
-        /* Comp matrix — horizontal scroll */
-        .comp-matrix {
-          overflow-x: auto;
-        }
-        .comp-matrix-inner {
-          min-width: 600px;
-        }
-
-        /* cs-next */
-        .cs-next {
-          padding: 48px 24px;
-        }
-        .cs-next-link {
-          font-size: clamp(24px, 7vw, 40px);
-        }
-
-        /* Footer */
-        .site-footer {
-          padding: 60px 24px 40px;
-        }
-        .f-bottom {
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 20px;
-        }
-        .f-soc {
-          gap: 20px;
-        }
-      }
-
-      @media (max-width: 480px) {
-        .cs-htitle {
-          font-size: clamp(36px, 11vw, 60px);
-        }
-        .mode-phone-wrap {
-          max-width: 130px;
-        }
+        .review-phones { grid-template-columns: 1fr; gap: 40px; }
+        .cs-next { padding: 48px 24px; }
+        .cs-next-link { font-size: clamp(24px, 7vw, 40px); }
+        .cs-arrow { display: none; }
       }
     </style>
   </head>
   <body>
     <div class="cur" id="cur"></div>
-    <!-- NAV -->
     <nav>
       <a href="index.html" class="nav-logo">Khoi Nguyen</a>
       <ul class="nav-links">
         <li><a href="work.html">Work</a></li>
         <li><a href="about.html">About</a></li>
-        <li><a href="mailto:khoiqnguyen27@gmail.com">Contact</a></li>
+        <li>
+          <a
+            href="mailto:khoiqnguyen27@gmail.com"
+            >Contact</a
+          >
+        </li>
       </ul>
-      <button class="nav-menu-btn" id="navMenuBtn" aria-label="Open menu">
-        Menu
-      </button>
     </nav>
-
-    <!-- Mobile dropdown -->
-    <div class="nav-dropdown" id="navDropdown">
-      <div class="nav-dropdown-top">
-        <a href="#" class="nav-dropdown-logo">Khoi Nguyen</a>
-        <button class="nav-dropdown-close" id="navDropdownClose">Close</button>
-      </div>
-      <a href="work.html">Work</a>
-      <a href="about.html">About</a>
-      <a href="mailto:khoiqnguyen27@gmail.com">Contact</a>
-    </div>
 
     <section class="cs-hero">
       <div class="cs-hero-img" id="csImg">
@@ -2516,6 +2298,7 @@
               display: block;
               border-radius: 2px;
               margin-top: 24px;
+              border: 1px solid rgba(10,10,11,0.08);
             "
           />
 
@@ -2537,133 +2320,42 @@
               display: block;
               border-radius: 2px;
               margin-top: 24px;
+              border: 1px solid rgba(10,10,11,0.08);
             "
           />
 
           <p class="cs-col-title" style="margin-top: 48px; margin-bottom: 12px">
-            4. Designing for the App Store, Not Just the User
+            4. Anonymous Verified Review System
           </p>
           <p class="cs-text">
-            Late in development, Apple's review guidelines required users to
-            access core features without an account. My original flow gated
-            everything behind signup. This forced a fundamental rethink of the
-            onboarding architecture, and taught me that platform constraints are
-            design constraints, not engineering problems.
+            No platform in this space has a trustworthy review system. Instagram has none. Yelp excludes home-based providers entirely. And even when clients had opinions, research surfaced a consistent pattern: people stayed silent because their identity was attached to the feedback. Nobody wants to be seen as a hater in a community they're part of.
           </p>
-          <div class="onboard-split">
-            <div class="onboard-flow-col">
-              <p class="onboard-col-label">Before / After</p>
+          <p class="cs-text" style="margin-top: 16px">
+            Reviews on KHOI are gated behind a verified, completed appointment — they can't be faked or left by people who never showed up. Users can also post anonymously, removing the social cost without removing accountability. If reviews are verified and honest, KHOI becomes the trust layer that doesn't exist anywhere else.
+          </p>
 
-              <!-- Before -->
-              <p
-                style="
-                  font-family: &quot;Roboto Mono&quot;, monospace;
-                  font-size: 8px;
-                  letter-spacing: 0.1em;
-                  text-transform: uppercase;
-                  color: rgba(180, 40, 40, 0.5);
-                  margin-bottom: 12px;
-                "
-              >
-                Original Flow
-              </p>
-              <div class="onboard-flow">
-                <div class="onboard-node">
-                  <div class="onboard-node-dot">01</div>
-                  <p class="onboard-node-text">App launch</p>
-                </div>
-                <div class="onboard-connector"></div>
-                <div class="onboard-node">
-                  <div class="onboard-node-dot blocked">02</div>
-                  <p class="onboard-node-text blocked">
-                    Signup required to continue
-                  </p>
-                </div>
-                <div class="onboard-connector"></div>
-                <div class="onboard-node">
-                  <div class="onboard-node-dot blocked">✕</div>
-                  <p class="onboard-node-text blocked">
-                    No guest access — App Store rejection
-                  </p>
-                </div>
+          <div class="review-phones-wrap">
+          <div class="review-phones">
+            <div class="review-phone-wrap">
+              <div class="review-phone-frame">
+                <video autoplay loop muted playsinline src="assets/review1.mp4"></video>
+                <img class="frame" src="assets/iphone-frame.png" alt="iPhone frame" />
               </div>
-
-              <div class="onboard-divider">
-                <div class="onboard-divider-line"></div>
-                <span class="onboard-divider-label">Apple HIG requirement</span>
-                <div class="onboard-divider-line"></div>
-              </div>
-
-              <!-- After -->
-              <p
-                style="
-                  font-family: &quot;Roboto Mono&quot;, monospace;
-                  font-size: 8px;
-                  letter-spacing: 0.1em;
-                  text-transform: uppercase;
-                  color: var(--emerald);
-                  margin-bottom: 12px;
-                "
-              >
-                Revised Flow
-              </p>
-              <div class="onboard-flow">
-                <div class="onboard-node">
-                  <div class="onboard-node-dot emerald">01</div>
-                  <p class="onboard-node-text">App launch</p>
-                </div>
-                <div class="onboard-connector emerald"></div>
-                <div class="onboard-node">
-                  <div class="onboard-node-dot emerald">02</div>
-                  <p class="onboard-node-text emerald">
-                    Guest access — browse Discover freely
-                  </p>
-                </div>
-                <div class="onboard-connector emerald"></div>
-                <div class="onboard-node">
-                  <div class="onboard-node-dot emerald">03</div>
-                  <p class="onboard-node-text">
-                    Sign In prompt appears on gated action
-                  </p>
-                </div>
-                <div class="onboard-connector emerald"></div>
-                <div class="onboard-node">
-                  <div class="onboard-node-dot emerald">04</div>
-                  <p class="onboard-node-text">
-                    "Continue Browsing" option always available
-                  </p>
-                </div>
-              </div>
+              <p class="review-phone-label">Review Locked</p>
+              <p class="review-phone-desc">Review submission is blocked until a booking has been completed and approved.</p>
             </div>
-            <div class="onboard-screenshot-col">
-              <img
-                src="assets/khoics-onboarding.jpg"
-                alt="Onboarding — Sign In Required sheet with Continue Browsing option"
-              />
+            <div class="review-phone-wrap">
+              <div class="review-phone-frame">
+                <video autoplay loop muted playsinline src="assets/review2.mp4"></video>
+                <img class="frame" src="assets/iphone-frame.png" alt="iPhone frame" />
+              </div>
+              <p class="review-phone-label">Anonymous Review</p>
+              <p class="review-phone-desc">After a verified appointment, users can leave a review anonymously — removing the social cost of honest feedback.</p>
             </div>
           </div>
-
-          <p class="cs-col-title" style="margin-top: 48px; margin-bottom: 12px">
-            5. The Notification Gap
-          </p>
-          <p class="cs-text">
-            Beta testing revealed that verified professionals weren't posting.
-            When asked why, they said they didn't know they were approved. I had
-            designed the verification flow but never designed what came after
-            it: the confirmation, the signal, the moment of activation. A
-            notification system wasn't a nice-to-have. It was load-bearing.
-          </p>
-          <img
-            src="assets/khoics-notification.jpg"
-            alt="Notification design screens"
-            style="
-              width: 100%;
-              display: block;
-              border-radius: 2px;
-              margin-top: 24px;
-            "
-          />
+          </div>
         </div>
+
         <div class="cs-sec" id="sec-designs">
           <p class="cs-sec-label">Final Designs</p>
           <h2 class="cs-sec-title">The <em>built</em> thing.</h2>
@@ -2693,6 +2385,9 @@
             10 weeks of research and design. 4 weeks to a shippable product.
             Shipping to the App Store next month.
           </p>
+          <p class="cs-text" style="margin-top: 16px">
+            Beta engagement confirms the product works. The deeper question of whether KHOI actually reduces app-switching for clients and surfaces home-based professionals who were previously invisible will be answered post-launch. The metrics that matter: booking completion rate, provider discovery rate, and day-30 retention split by user type.
+          </p>
           <div class="cs-stats">
             <div class="cs-stat">
               <p class="cs-stat-num">309</p>
@@ -2709,27 +2404,102 @@
           </div>
         </div>
         <div class="cs-sec" id="sec-learnings">
-          <p class="cs-sec-label">Learnings & Reflection</p>
+          <p class="cs-sec-label">Learnings &amp; Reflection</p>
           <h2 class="cs-sec-title">
             The hardest problems don't show up in Figma.
           </h2>
           <p class="cs-text">
-            Designing solo taught me that the hardest problems aren't visual,
-            they're architectural. The dual-mode decision, the onboarding
-            rethink, the notification gap: none of these showed up in a Figma
-            file. They showed up when real users tried to use a real product.
-            The gap between a prototype that tests well and a product that works
-            is where the most important design thinking happens.
+            Designing solo taught me that the most important problems aren't visual — they're architectural. None of the gaps below showed up in a prototype. They showed up when real users tried to use a real product.
           </p>
-          <p class="cs-text" style="margin-top: 16px">
-            Beyond the craft, this project forced me to think like a founder:
-            balancing user needs, business viability, platform constraints, and
-            engineering reality simultaneously. That tension is where the best
-            product decisions get made.
-          </p>
+
+          <div class="learn-carousel">
+            <div class="learn-carousel-track-wrap">
+              <div class="learn-carousel-track" id="learnTrack">
+                <div class="learn-panel">
+                  <p class="learn-panel-num">Learning 01</p>
+                  <p class="learn-panel-title">Design the moment after the flow, not just the flow.</p>
+                  <p class="learn-panel-text">Beta testing revealed that verified professionals weren't posting. When asked why, they said they didn't know they were approved. I had designed a 6-step verification flow in detail and never designed what came after it. The confirmation, the signal, the moment of activation. A notification system wasn't a nice-to-have. It was load-bearing.</p>
+                  <img src="assets/khoics-notification.jpg" alt="Notification system" style="width:100%;display:block;border-radius:2px;margin-top:16px;" />
+                </div>
+                <div class="learn-panel">
+                  <p class="learn-panel-num">Learning 02</p>
+                  <p class="learn-panel-title">Platform constraints are design constraints.</p>
+                  <p class="learn-panel-text">Late in development, Apple's review guidelines required users to access core features without an account. My original flow gated everything behind signup. I had designed for the user and forgotten I also had to design for the platform. This forced a complete rethink of the onboarding architecture.</p>
+                  <div class="onboard-split">
+                    <div class="onboard-flow-col">
+                      <p class="onboard-col-label">Before / After</p>
+                      <p style="font-family:'Roboto Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(180,40,40,0.5);margin-bottom:12px;">Original Flow</p>
+                      <div class="onboard-flow">
+                        <div class="onboard-node">
+                          <div class="onboard-node-dot">01</div>
+                          <p class="onboard-node-text">App launch</p>
+                        </div>
+                        <div class="onboard-connector"></div>
+                        <div class="onboard-node">
+                          <div class="onboard-node-dot blocked">02</div>
+                          <p class="onboard-node-text blocked">Signup required to continue</p>
+                        </div>
+                        <div class="onboard-connector"></div>
+                        <div class="onboard-node">
+                          <div class="onboard-node-dot blocked">✕</div>
+                          <p class="onboard-node-text blocked">No guest access — App Store rejection</p>
+                        </div>
+                      </div>
+                      <div class="onboard-divider">
+                        <div class="onboard-divider-line"></div>
+                        <span class="onboard-divider-label">Apple HIG Requirement</span>
+                        <div class="onboard-divider-line"></div>
+                      </div>
+                      <p style="font-family:'Roboto Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--emerald);margin-bottom:12px;">Revised Flow</p>
+                      <div class="onboard-flow">
+                        <div class="onboard-node">
+                          <div class="onboard-node-dot emerald">01</div>
+                          <p class="onboard-node-text">App launch</p>
+                        </div>
+                        <div class="onboard-connector emerald"></div>
+                        <div class="onboard-node">
+                          <div class="onboard-node-dot emerald">02</div>
+                          <p class="onboard-node-text emerald">Guest access — browse Discover freely</p>
+                        </div>
+                        <div class="onboard-connector emerald"></div>
+                        <div class="onboard-node">
+                          <div class="onboard-node-dot emerald">03</div>
+                          <p class="onboard-node-text">Sign In prompt appears on gated action</p>
+                        </div>
+                        <div class="onboard-connector emerald"></div>
+                        <div class="onboard-node">
+                          <div class="onboard-node-dot emerald">04</div>
+                          <p class="onboard-node-text">"Continue Browsing" option always available</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="onboard-screenshot-col">
+                      <img src="assets/khoics-onboarding.jpg" alt="Onboarding sign-in modal" />
+                    </div>
+                  </div>
+                </div>
+                <div class="learn-panel">
+                  <p class="learn-panel-num">Learning 03</p>
+                  <p class="learn-panel-title">Product design at this level means thinking like a founder.</p>
+                  <p class="learn-panel-text">Designing and building KHOI solo forced me to hold user needs, business viability, platform constraints, and engineering reality simultaneously. That tension is where the most important product decisions get made, and it's a fundamentally different kind of thinking than designing within a team where those concerns are distributed.</p>
+                </div>
+              </div>
+            </div>
+            <div class="learn-carousel-controls">
+              <button class="cs-carousel-btn" id="learnPrev">&#8592;</button>
+              <button class="cs-carousel-btn" id="learnNext">&#8594;</button>
+              <div class="learn-carousel-dots" id="learnDots">
+                <div class="learn-carousel-dot active" data-learn-dot="0"></div>
+                <div class="learn-carousel-dot" data-learn-dot="1"></div>
+                <div class="learn-carousel-dot" data-learn-dot="2"></div>
+              </div>
+              <span class="learn-carousel-count" id="learnCount">01 / 03</span>
+            </div>
+          </div>
         </div>
       </div>
       <!-- /cs-content -->
+    </div>
     </div>
     <!-- /cs-layout -->
 
@@ -2739,21 +2509,17 @@
           <p class="cs-next-label">Next project</p>
           <a href="caselabora.html" class="cs-next-link">Labora Cafe →</a>
         </div>
-        <div class="cs-arrow">
+        <a href="caselabora.html" class="cs-arrow">
           <svg viewBox="0 0 24 24" stroke-width="1.5">
             <line x1="7" y1="17" x2="17" y2="7" />
             <polyline points="7 7 17 7 17 17" />
           </svg>
-        </div>
+        </a>
       </div>
     </div>
     <!-- /page-sticky-wrap -->
 
     <div class="footer-scroll-zone">
-      <script
-        data-cfasync="false"
-        src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"
-      ></script>
       <script>
         const cur = document.getElementById("cur");
         const curLabel = document.getElementById("curLabel");
@@ -3306,7 +3072,10 @@
       <footer class="site-footer" id="site-footer">
         <div>
           <p class="f-label">Let's build something together</p>
-          <a href="mailto:khoiqnguyen27@gmail.com" class="f-cta">
+          <a
+            href="mailto:khoiqnguyen27@gmail.com"
+            class="f-cta"
+          >
             <span class="en">Work with me.</span>
             <span class="vn">Làm việc với tôi.</span>
           </a>
@@ -3330,10 +3099,6 @@
           </button>
         </div>
       </footer>
-      <script
-        data-cfasync="false"
-        src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"
-      ></script>
       <script>
         // Footer cursor grow — runs after footer exists in DOM
         document.querySelectorAll(".f-soc a, .f-top, .f-cta").forEach((el) => {
@@ -3349,22 +3114,44 @@
       var navMenuBtn = document.getElementById("navMenuBtn");
       var navDropdown = document.getElementById("navDropdown");
       var navDropdownClose = document.getElementById("navDropdownClose");
-      if (navMenuBtn)
-        navMenuBtn.addEventListener("click", function () {
-          navDropdown.classList.add("open");
+      if (navMenuBtn) navMenuBtn.addEventListener("click", function() { navDropdown.classList.add("open"); });
+      if (navDropdownClose) navDropdownClose.addEventListener("click", function() { navDropdown.classList.remove("open"); });
+      navDropdown && navDropdown.querySelectorAll("a:not(.nav-dropdown-logo)").forEach(function(a) {
+        a.addEventListener("click", function() { navDropdown.classList.remove("open"); });
+      });
+      // Learnings carousel
+      (function() {
+        var track = document.getElementById("learnTrack");
+        var dots = document.querySelectorAll("#learnDots .learn-carousel-dot");
+        var count = document.getElementById("learnCount");
+        var total = 3;
+        var current = 0;
+        var wrap = track.parentElement;
+        function setWrapHeight() {
+          wrap.style.height = track.children[current].offsetHeight + "px";
+        }
+        function goTo(i) {
+          current = (i + total) % total;
+          track.style.transform = "translateX(-" + current * 100 + "%)";
+          dots.forEach(function(d, idx) { d.classList.toggle("active", idx === current); });
+          count.textContent = String(current + 1).padStart(2, "0") + " / " + String(total).padStart(2, "0");
+          setWrapHeight();
+        }
+        // Set initial height after images load
+        if (document.readyState === "complete") { setWrapHeight(); }
+        else { window.addEventListener("load", setWrapHeight); }
+        document.getElementById("learnPrev").addEventListener("click", function() { goTo(current - 1); });
+        document.getElementById("learnNext").addEventListener("click", function() { goTo(current + 1); });
+        dots.forEach(function(d) {
+          d.addEventListener("click", function() { goTo(+d.dataset.learnDot); });
         });
-      if (navDropdownClose)
-        navDropdownClose.addEventListener("click", function () {
-          navDropdown.classList.remove("open");
+        var startX = 0;
+        track.parentElement.addEventListener("touchstart", function(e) { startX = e.touches[0].clientX; }, { passive: true });
+        track.parentElement.addEventListener("touchend", function(e) {
+          var diff = e.changedTouches[0].clientX - startX;
+          if (Math.abs(diff) > 50) goTo(diff < 0 ? current + 1 : current - 1);
         });
-      navDropdown &&
-        navDropdown
-          .querySelectorAll("a:not(.nav-dropdown-logo)")
-          .forEach(function (a) {
-            a.addEventListener("click", function () {
-              navDropdown.classList.remove("open");
-            });
-          });
+      })();
     </script>
   </body>
 </html>
