@@ -1,0 +1,21 @@
+{
+  "name": "portfolio-khoinguyen",
+  "version": "1.0.0",
+  "description": "Portfolio of a product designer and front-end developer, showcasing end-to-end design thinking, interaction design, and shipped digital experiences.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kqngyn/Portfolio-KhoiNguyen.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/kqngyn/Portfolio-KhoiNguyen/issues"
+  },
+  "homepage": "https://github.com/kqngyn/Portfolio-KhoiNguyen#readme"
+}

@@ -111,55 +111,42 @@
       .ab-hero {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        height: 100vh;
-        overflow: hidden;
+        align-items: center;
+        gap: 56px;
+        min-height: 100vh;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 140px 52px 80px;
       }
-      .ab-hero-img {
-        position: relative;
-        overflow: hidden;
-      }
-      .ab-hero-img-inner {
-        position: absolute;
-        inset: -12%;
-        background: url("assets/aboutImage.jpg") center 20% / cover no-repeat;
-        will-change: transform;
-      }
-      .ab-hero-content {
-        background: var(--onyx);
+      .ab-hero-photo {
         display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        padding: 52px;
-        position: relative;
+        justify-content: center;
       }
-      .ab-hero-eyebrow {
-        font-family: "Roboto Mono", monospace;
-        font-size: 9px;
-        letter-spacing: 0.16em;
-        text-transform: uppercase;
-        color: var(--almond);
-        margin-bottom: 20px;
+      .ab-hero-photo img {
+        width: 100%;
+        max-width: 440px;
+        aspect-ratio: 4 / 5;
+        object-fit: cover;
+        object-position: center 20%;
+        border-radius: 2px;
+        display: block;
       }
-      .ab-hero-title {
-        font-family: "Manrope", sans-serif;
-        font-size: clamp(40px, 5.5vw, 88px);
-        font-weight: 800;
-        letter-spacing: -0.04em;
-        line-height: 0.9;
-        color: var(--snow);
-        margin-bottom: 24px;
+      .ab-hero-text {
+        max-width: 480px;
       }
-      .ab-hero-title em {
-        font-style: italic;
-        font-weight: 300;
-        color: var(--almond);
+      .ab-hero-text p {
+        font-size: clamp(13px, 1.05vw, 15px);
+        line-height: 1.95;
+        color: rgba(10, 10, 11, 0.64);
+        letter-spacing: -0.01em;
+        margin-bottom: 22px;
       }
-      .ab-hero-sub {
-        font-family: "Roboto Mono", monospace;
-        font-size: 10px;
-        letter-spacing: 0.06em;
-        color: rgba(248, 248, 248, 0.4);
-        line-height: 1.8;
+      .ab-hero-text p:last-child {
+        margin-bottom: 0;
+      }
+      .ab-hero-text p strong {
+        color: var(--onyx);
+        font-weight: 600;
       }
 
       /* Scroll reveal */
@@ -904,19 +891,15 @@
         /* Hero */
         .ab-hero {
           grid-template-columns: 1fr;
-          height: auto;
+          min-height: auto;
+          gap: 36px;
+          padding: 120px 24px 60px;
         }
-        .ab-hero-img {
-          height: 60vw;
+        .ab-hero-photo img {
+          max-width: 300px;
         }
-        .ab-hero-img-inner {
-          inset: 0;
-        }
-        .ab-hero-content {
-          padding: 40px 24px;
-        }
-        .ab-hero-title {
-          font-size: clamp(36px, 10vw, 56px);
+        .ab-hero-text {
+          max-width: none;
         }
 
         /* Sections */
@@ -1029,7 +1012,7 @@
     <nav>
       <a href="index.html" class="nav-logo">Khoi Nguyen</a>
       <ul class="nav-links">
-        <li><a href="work.html">Work</a></li>
+        <li><a href="index.html#work">Work</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="mailto:khoiqnguyen27@gmail.com">Contact</a></li>
       </ul>
@@ -1044,86 +1027,43 @@
         <a href="#" class="nav-dropdown-logo">Khoi Nguyen</a>
         <button class="nav-dropdown-close" id="navDropdownClose">Close</button>
       </div>
-      <a href="work.html">Work</a>
+      <a href="index.html#work">Work</a>
       <a href="about.html">About</a>
       <a href="mailto:khoiqnguyen27@gmail.com">Contact</a>
     </div>
 
     <!-- HERO -->
+    <!-- HERO -->
     <section class="ab-hero">
-      <div class="ab-hero-img">
-        <div class="ab-hero-img-inner" id="abHeroImg"></div>
+      <div class="ab-hero-photo rv">
+        <img src="assets/aboutImage.jpg" alt="Khoi Nguyen" />
       </div>
-      <div class="ab-hero-content">
-        <p class="ab-hero-eyebrow rv">Khoi Nguyen</p>
-        <h1 class="ab-hero-title rv rv-d1">
-          Interdisciplinary<br /><em>by design.</em>
-        </h1>
-        <p class="ab-hero-sub rv rv-d2">
-          Product Designer<br />
-          Front-End Developer<br />
-          USC Iovine and Young Academy<br />
-          UCSD Cognitive Science
+      <div class="ab-hero-text rv rv-d1">
+        <p>
+          I'm a freelance product designer and front-end developer based in Los
+          Angeles. I graduated from <strong>UC San Diego</strong> in June 2025
+          with a B.S. in Cognitive Science (Design &amp; Interaction) and am now
+          pursuing my M.S. at the
+          <strong>USC Iovine and Young Academy</strong> in Integrated Design,
+          Business &amp; Technology.
         </p>
-      </div>
-    </section>
-
-    <!-- INTRO -->
-    <section class="ab-section">
-      <div class="ab-intro-grid">
-        <div>
-          <p class="ab-eyebrow rv">About</p>
-          <h2 class="ab-intro-title rv rv-d1">
-            Designer who codes.<br /><em>Researcher</em> who ships.
-          </h2>
-          <div class="ab-currently rv rv-d2">
-            <p class="ab-currently-label">Currently</p>
-            <div class="ab-currently-item">
-              <span class="ab-currently-dot"></span>
-              <p class="ab-currently-text">
-                M.S. Integrated Design, Business &amp; Technology — USC Iovine
-                and Young Academy
-              </p>
-            </div>
-            <div class="ab-currently-item">
-              <span class="ab-currently-dot"></span>
-              <p class="ab-currently-text">
-                Freelance Product Designer + Front-End Developer
-              </p>
-            </div>
-            <div class="ab-currently-item">
-              <span class="ab-currently-dot"></span>
-              <p class="ab-currently-text">
-                Seeking full-time opportunities starting Summer 2027.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="ab-intro-body rv rv-d2">
-          <p>
-            I'm a freelance product designer and front-end developer based in
-            Los Angeles. I graduated from <strong>UC San Diego</strong> in June
-            2025 with a B.S. in Cognitive Science (Design &amp; Interaction) and
-            am now pursuing my M.S. at the
-            <strong>USC Iovine and Young Academy</strong> in Integrated Design,
-            Business &amp; Technology.
-          </p>
-          <p>
-            My path started junior year of high school as a marketing intern at
-            a non-profit. Working closely with industry product designers, I
-            became immediately fascinated by how they blended technical and
-            creative skill sets to turn ideas into real, usable products. I
-            never looked back.
-          </p>
-          <p>
-            I bring together a technical background, a creative mind, and a
-            genuine love for people to advocate for real users while solving
-            problems inventively. Five years from now, I hope to be part of a
-            team of engineers, designers, and PMs building the future of
-            technology. In the meantime, I'm dedicated to shipping impactful
-            work.
-          </p>
-        </div>
+        <p>
+          My path started junior year of high school as a marketing intern at a
+          non-profit. Working closely with industry product designers, I became
+          immediately fascinated by how they blended technical and creative
+          skill sets to turn ideas into real, usable products. I never looked
+          back.
+        </p>
+        <p>
+          I bring together a technical background, a creative mind, and a
+          genuine love for people to advocate for real users while solving
+          problems inventively.
+        </p>
+        <p>
+          Five years from now, I hope to be part of a team of engineers,
+          designers, and PMs building the future of technology. In the meantime,
+          I'm dedicated to shipping impactful work.
+        </p>
       </div>
     </section>
 
@@ -1604,11 +1544,9 @@
       })();
 
       setTimeout(function () {
-        document
-          .querySelectorAll(".ab-hero-content .rv")
-          .forEach(function (el) {
-            el.classList.add("in");
-          });
+        document.querySelectorAll(".ab-hero .rv").forEach(function (el) {
+          el.classList.add("in");
+        });
       }, 100);
 
       (function () {

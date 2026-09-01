@@ -47,15 +47,39 @@
         z-index: 9999;
         transform: translate(-50%, -50%);
         transition:
-          width 0.3s,
-          height 0.3s,
-          background 0.3s;
+          width 0.28s,
+          height 0.28s,
+          background 0.28s;
         mix-blend-mode: difference;
       }
       .cur.g {
-        width: 50px;
-        height: 50px;
-        background: rgba(205, 187, 183, 0.45);
+        width: 48px;
+        height: 48px;
+        background: rgba(205, 187, 183, 0.4);
+      }
+      .cur.view {
+        width: 80px;
+        height: 80px;
+        background: transparent;
+        border: 1px solid var(--almond);
+        mix-blend-mode: normal;
+      }
+      .cur-label {
+        position: fixed;
+        z-index: 10000;
+        font-family: "Manrope", sans-serif;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--almond);
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        transition: opacity 0.25s;
+      }
+      .cur-label.show {
+        opacity: 1;
       }
 
       /* LOADER */
@@ -174,431 +198,183 @@
         display: none;
       }
 
-      /* HERO */
-      .hero {
-        position: relative;
-        height: 100vh;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+      /* INTRO */
+      .intro {
+        padding: 150px 52px 84px;
+        border-bottom: 1px solid rgba(10, 10, 11, 0.08);
       }
-      .hero-img {
-        position: absolute;
-        inset: -15%;
-        background: center center/cover no-repeat;
-        will-change: transform;
+      .intro-cols {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 56px;
+        max-width: 1180px;
       }
-      .hero-grad {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
-          to bottom,
-          rgba(10, 10, 11, 0.15) 0%,
-          transparent 40%,
-          rgba(10, 10, 11, 0.5) 100%
-        );
+      .intro-p {
+        font-family: "Manrope", sans-serif;
+        font-size: clamp(18px, 1.9vw, 26px);
+        font-weight: 400;
+        line-height: 1.45;
+        letter-spacing: -0.015em;
+        color: rgba(10, 10, 11, 0.82);
       }
-      .hero-sub {
-        position: relative;
-        z-index: 2;
-        font-family: "Roboto Mono", monospace;
-        font-size: 10px;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        color: rgba(255, 255, 255, 0.82);
-        mix-blend-mode: exclusion;
-        text-align: center;
-        opacity: 0;
-        animation: fadeSlideUp 0.8s ease 0.3s forwards;
-      }
-      .hero-scroll {
-        position: absolute;
-        bottom: 48px;
-        right: 52px;
-        z-index: 2;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-        mix-blend-mode: exclusion;
-        opacity: 0;
-        animation: fadeIn 0.5s ease 0.7s forwards;
-      }
-      .hero-scroll span {
-        font-size: 8px;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        color: var(--snow);
-        writing-mode: vertical-rl;
-        font-family: "Roboto Mono", monospace;
-      }
-      .sline {
-        width: 1px;
-        height: 52px;
-        background: rgba(255, 255, 255, 0.25);
-        position: relative;
-        overflow: hidden;
-      }
-      .sline::after {
-        content: "";
-        position: absolute;
-        top: -100%;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: var(--snow);
-        animation: sDrop 2s ease infinite 1.2s;
-      }
-      @keyframes sDrop {
-        0% {
-          top: -100%;
-        }
-        100% {
-          top: 100%;
-        }
-      }
-      @keyframes fadeSlideUp {
-        from {
-          transform: translateY(12px);
-          opacity: 0;
-        }
-        to {
-          transform: translateY(0);
-          opacity: 1;
-        }
-      }
-      .hero-grain {
-        position: absolute;
-        inset: -20%;
-        width: 140%;
-        height: 140%;
-        background: url("assets/noise texture GIF by hoppip.gif");
-        background-size: 200px 200px;
-        opacity: 0.16;
-        mix-blend-mode: soft-light;
-        pointer-events: none;
-        will-change: transform;
-        z-index: 1;
+      .intro-p strong {
+        font-weight: 800;
+        color: var(--onyx);
       }
 
-      /* WORK */
-      .work {
-        background: var(--onyx);
-        padding-top: 100px;
-      }
-      .work-header {
-        padding: 0 52px;
-        margin-bottom: 72px;
+      /* WORK GRID */
+      .work-grid-sticky-wrap {
+        position: relative;
+        height: 100vh;
+        background: var(--snow);
+        overflow: hidden;
         display: flex;
-        align-items: baseline;
-        gap: 16px;
-        opacity: 0;
-        transform: translateY(28px);
-        transition:
-          opacity 0.8s cubic-bezier(0.76, 0, 0.24, 1),
-          transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
+        align-items: center;
       }
-      .work-header.in {
+      .work-grid {
+        padding: 0 52px;
+        height: 80vh;
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        grid-template-rows: 1fr 1fr;
+        gap: 24px;
+        align-content: stretch;
+      }
+      .wcard {
+        position: relative;
+        overflow: hidden;
+        border-radius: 2px;
+        cursor: none;
+        opacity: 0;
+        transform: translateY(40px);
+        transition:
+          opacity 0.85s cubic-bezier(0.76, 0, 0.24, 1),
+          transform 0.85s cubic-bezier(0.76, 0, 0.24, 1);
+        text-decoration: none;
+        display: block;
+      }
+      .wcard.in {
         opacity: 1;
         transform: translateY(0);
       }
-      .work-eyebrow {
-        font-family: "Roboto Mono", monospace;
-        font-size: 9px;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: var(--snow);
-        display: flex;
-        align-items: center;
-        gap: 10px;
+      .wcard:nth-child(2) {
+        transition-delay: 0.15s;
       }
-      .work-eyebrow::after {
-        content: "";
-        width: 28px;
-        height: 1px;
-        background: var(--snow);
+      .wcard:nth-child(3) {
+        transition-delay: 0.3s;
       }
-      .work-title {
-        font-family: "Manrope", sans-serif;
-        font-size: clamp(34px, 4vw, 56px);
-        font-weight: 700;
-        letter-spacing: -0.03em;
-        color: var(--snow);
+      .wcard-1 {
+        grid-column: 1/8;
+        grid-row: 1/3;
       }
-      .czone {
-        position: relative;
-        height: 350vh;
+      .wcard-2 {
+        grid-column: 8/13;
+        grid-row: 1/2;
       }
-      .csticky {
-        position: sticky;
-        top: 0;
-        height: 100vh;
-        overflow: hidden;
+      .wcard-3 {
+        grid-column: 8/13;
+        grid-row: 2/3;
       }
-      .ccard {
+      .wcard-img {
+        width: 100%;
+        height: 100%;
+      }
+      .wcard-img video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition:
+          transform 0.7s cubic-bezier(0.76, 0, 0.24, 1),
+          filter 0.5s ease;
+      }
+      .wcard:hover .wcard-img video {
+        transform: scale(1.04);
+        filter: brightness(0.62);
+      }
+      .wcard-overlay {
         position: absolute;
         inset: 0;
-        display: flex;
-        align-items: flex-end;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.7s cubic-bezier(0.76, 0, 0.24, 1);
-      }
-      .ccard.active {
-        opacity: 1;
-        pointer-events: auto;
-      }
-      .cbg {
-        position: absolute;
-        inset: 0;
-      }
-      .ccard:nth-child(1) .cbg {
-        background: linear-gradient(150deg, #1a2e22 0%, #0c1710 100%);
-      }
-      .ccard:nth-child(2) .cbg {
-        background: linear-gradient(150deg, #2e1f1a 0%, #160d09 100%);
-      }
-      .ccard:nth-child(3) .cbg {
-        background: linear-gradient(150deg, #0f0f1e 0%, #0a0a14 100%);
-      }
-      .cscrim {
-        position: absolute;
-        inset: 0;
-        z-index: 1;
         background: linear-gradient(
           to top,
-          rgba(0, 0, 0, 0.88) 0%,
-          rgba(0, 0, 0, 0.45) 42%,
-          transparent 68%
+          rgba(10, 10, 11, 0.88) 0%,
+          transparent 50%
         );
         pointer-events: none;
       }
-      .cnum {
+      .wcard-meta {
         position: absolute;
-        left: 24px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-family: "Roboto Mono", monospace;
-        font-size: 9px;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: rgba(205, 187, 183, 0.22);
-        writing-mode: vertical-rl;
-        user-select: none;
+        bottom: 28px;
+        left: 28px;
+        right: 28px;
       }
-      .ccontent {
-        position: relative;
-        z-index: 2;
-        width: 100%;
-        padding: 0 52px 80px;
-        display: grid;
-        grid-template-columns: 1fr minmax(0, 280px);
-        align-items: flex-end;
-        gap: 48px;
-      }
-      .ccat {
-        font-family: "Roboto Mono", monospace;
+      .wcard-num {
         font-size: 9px;
-        letter-spacing: 0.12em;
+        letter-spacing: 0.1em;
         text-transform: uppercase;
         color: var(--almond);
+        margin-bottom: 10px;
+      }
+      .wcard-title {
+        font-family: "Manrope", sans-serif;
+        font-size: clamp(24px, 3vw, 40px);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 0.95;
+        color: var(--snow);
         margin-bottom: 14px;
       }
-      .ctitle {
-        font-family: "Manrope", sans-serif;
-        font-size: clamp(58px, 8.5vw, 128px);
-        font-weight: 800;
-        line-height: 0.88;
-        letter-spacing: -0.04em;
-        color: var(--snow);
+      .wcard-2 .wcard-title,
+      .wcard-3 .wcard-title {
+        font-size: clamp(20px, 2vw, 28px);
       }
-      .ctitle em {
-        font-style: italic;
-        font-weight: 300;
-        color: var(--almond);
-      }
-      .cright {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-        align-items: flex-end;
-      }
-      .cdesc {
-        font-family: "Roboto Mono", monospace;
-        font-size: 11px;
-        line-height: 1.8;
-        letter-spacing: -0.01em;
-        color: rgba(255, 255, 255, 0.85);
-        text-align: right;
-      }
-      .ctags {
+      .wcard-tags {
         display: flex;
         gap: 6px;
         flex-wrap: wrap;
-        justify-content: flex-end;
       }
-      .ctag {
-        font-family: "Roboto Mono", monospace;
+      .wcard-tag {
         font-size: 8px;
         letter-spacing: 0.07em;
         text-transform: uppercase;
-        color: var(--almond);
-        border: 1px solid rgba(205, 187, 183, 0.2);
+        color: rgba(255, 255, 255, 0.45);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         padding: 4px 10px;
         border-radius: 2px;
-      }
-      .clink {
-        font-family: "Roboto Mono", monospace;
-        font-size: 9px;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: var(--snow);
-        text-decoration: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.22);
-        padding-bottom: 3px;
         transition:
           color 0.3s,
           border-color 0.3s;
       }
-      .clink:hover {
+      .wcard:hover .wcard-tag {
         color: var(--almond);
-        border-color: var(--almond);
-      }
-      .cdots {
-        position: absolute;
-        right: 52px;
-        top: 50%;
-        transform: translateY(-50%);
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        z-index: 10;
-      }
-      .cdot {
-        width: 4px;
-        height: 4px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.18);
-        transition:
-          background 0.4s,
-          transform 0.4s;
-      }
-      .cdot.on {
-        background: var(--almond);
-        transform: scale(1.6);
-      }
-
-      /* ABOUT */
-      .about {
-        position: sticky;
-        top: 0;
-        background: var(--snow);
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        height: 100vh;
-        z-index: 1;
-      }
-      .about-img {
-        overflow: hidden;
-      }
-      .about-img-inner {
-        width: 100%;
-        height: 100%;
-        background: center center/cover no-repeat;
-        transition: transform 0.9s cubic-bezier(0.76, 0, 0.24, 1);
-      }
-      .about:hover .about-img-inner {
-        transform: scale(1.03);
-      }
-      .about-body {
-        padding: 80px 64px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-      }
-      .about-ey {
-        font-family: "Roboto Mono", monospace;
-        font-size: 9px;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: var(--emerald);
-        margin-bottom: 28px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-      .about-ey::after {
-        content: "";
-        width: 28px;
-        height: 1px;
-        background: var(--emerald);
-      }
-      .about-h2 {
-        font-family: "Manrope", sans-serif;
-        font-size: clamp(36px, 4.2vw, 64px);
-        font-weight: 800;
-        line-height: 0.92;
-        letter-spacing: -0.035em;
-        color: var(--onyx);
-        margin-bottom: 32px;
-      }
-      .about-h2 em {
-        font-style: italic;
-        font-weight: 300;
-        color: var(--emerald);
-      }
-      .about-p {
-        font-family: "Roboto Mono", monospace;
-        font-size: 12px;
-        line-height: 1.9;
-        letter-spacing: -0.01em;
-        color: rgba(10, 10, 11, 0.55);
-        margin-bottom: 40px;
-      }
-      .about-cta {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        font-family: "Roboto Mono", monospace;
-        font-size: 9px;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: var(--onyx);
-        text-decoration: none;
-        border-bottom: 1px solid var(--onyx);
-        padding-bottom: 4px;
-        align-self: flex-start;
-        transition:
-          color 0.3s,
-          border-color 0.3s;
-      }
-      .about-cta:hover {
-        color: var(--emerald);
-        border-color: var(--emerald);
-      }
-      .about-cta svg {
-        width: 11px;
-        height: 11px;
-        transition: transform 0.3s;
-      }
-      .about-cta:hover svg {
-        transform: translate(3px, -3px);
+        border-color: rgba(205, 187, 183, 0.3);
       }
 
       /* FOOTER */
-      .footer-scroll-zone {
+      /* The page scrolls fully (every card visible). Over the final
+         viewport of scroll, the fixed footer slides UP on top while the
+         page is held still behind it (driven by the footerReveal script). */
+      .page {
         position: relative;
-        z-index: 2;
-        margin-top: 100vh;
+        z-index: 1;
+        background: var(--snow);
+        margin-bottom: 100vh;
       }
       .site-footer {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 100vh;
+        z-index: 5;
+        transform: translateY(100%);
+        will-change: transform;
         background: var(--onyx);
         padding: 80px 52px 52px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        min-height: 100vh;
         border-top: 1px solid rgba(255, 255, 255, 0.07);
       }
       .f-label {
@@ -626,13 +402,6 @@
         font-style: italic;
         color: var(--almond);
         display: block;
-      }
-      .f-cta-inner {
-        display: block;
-        position: relative;
-      }
-      .f-cta-inner::after {
-        display: none;
       }
       .f-bottom {
         display: flex;
@@ -718,31 +487,39 @@
         fill: none;
       }
 
-      /* Reveal */
-      .rv {
-        opacity: 0;
-        transform: translateY(28px);
-        transition:
-          opacity 0.8s cubic-bezier(0.76, 0, 0.24, 1),
-          transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
+      @view-transition {
+        navigation: auto;
       }
-      .rv.in {
-        opacity: 1;
-        transform: translateY(0);
+      ::view-transition-old(khoi-hero),
+      ::view-transition-new(khoi-hero),
+      ::view-transition-old(labora-hero),
+      ::view-transition-new(labora-hero),
+      ::view-transition-old(curated-hero),
+      ::view-transition-new(curated-hero) {
+        animation-duration: 0.8s;
+        animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        object-fit: cover;
+        mix-blend-mode: normal;
       }
-      .rv-d1 {
-        transition-delay: 0.12s;
-      }
-      .rv-d2 {
-        transition-delay: 0.24s;
-      }
-      .rv-d3 {
-        transition-delay: 0.36s;
+      ::view-transition-old(root),
+      ::view-transition-new(root) {
+        animation-duration: 0.8s;
+        animation-timing-function: ease;
       }
 
       /* ── MOBILE ── */
       @media (max-width: 768px) {
-        /* Nav */
+        #loader {
+          padding: 32px 24px;
+        }
+        .loader-name {
+          left: 24px;
+          top: 32px;
+        }
+        .loader-tag {
+          left: 24px;
+          bottom: 32px;
+        }
         nav {
           padding: 24px;
         }
@@ -762,8 +539,6 @@
           align-items: center;
           gap: 8px;
         }
-
-        /* Mobile dropdown */
         .nav-dropdown {
           display: none;
           position: fixed;
@@ -838,79 +613,54 @@
           transition-delay: 0.15s;
         }
 
-        /* Loader */
-        #loader {
-          padding: 32px 24px;
+        .intro {
+          padding: 120px 24px 56px;
         }
-        .loader-name {
-          left: 24px;
-          top: 32px;
-        }
-        .loader-tag {
-          left: 24px;
-          bottom: 32px;
-        }
-
-        /* Hero */
-        .hero-sub {
-          font-size: 8px;
-          letter-spacing: 0.08em;
-          padding: 0 16px;
-        }
-        .hero-scroll {
-          display: none;
-        }
-
-        /* Work */
-        .work {
-          padding-top: 72px;
-        }
-        .work-header {
-          padding: 0 24px;
-          margin-bottom: 48px;
-        }
-        .ccontent {
-          padding: 0 24px 60px;
+        .intro-cols {
           grid-template-columns: 1fr;
-          gap: 24px;
-        }
-        .cright {
-          align-items: flex-start;
-        }
-        .cdesc {
-          text-align: left;
-        }
-        .ctags {
-          justify-content: flex-start;
-        }
-        .ctitle {
-          font-size: clamp(40px, 12vw, 72px);
-        }
-        .cnum {
-          display: none;
-        }
-        .cdots {
-          right: 24px;
+          gap: 28px;
         }
 
-        /* About */
-        .about {
-          grid-template-columns: 1fr;
+        .work-grid-sticky-wrap {
+          position: static;
+          height: auto;
+          overflow: visible;
+          display: block;
+        }
+        .more {
+          position: static;
+        }
+        .work-grid {
+          padding: 0 24px 80px;
+          height: auto;
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+        }
+        .wcard-1,
+        .wcard-2,
+        .wcard-3 {
+          grid-column: unset;
+          grid-row: unset;
+          height: 72vw;
+          min-height: 260px;
+        }
+        .wcard-title {
+          font-size: clamp(22px, 6vw, 32px);
+        }
+        .wcard-2 .wcard-title,
+        .wcard-3 .wcard-title {
+          font-size: clamp(20px, 5vw, 28px);
+        }
+
+        .page {
+          margin-bottom: 0;
+        }
+        .site-footer {
+          position: static;
           height: auto;
           min-height: 100vh;
-        }
-        .about-img {
-          height: 55vw;
-        }
-        .about-body {
-          padding: 48px 24px;
-        }
-        .about-h2 {
-          font-size: clamp(32px, 8vw, 52px);
-        }
-
-        /* Footer */
-        .site-footer {
+          transform: none;
           padding: 60px 24px 40px;
         }
         .f-bottom {
@@ -921,23 +671,407 @@
         .f-soc {
           gap: 20px;
         }
-        .footer-scroll-zone {
-          margin-top: 0;
+      }
+      @media (max-width: 480px) {
+        .wcard-1,
+        .wcard-2,
+        .wcard-3 {
+          height: 80vw;
         }
       }
 
-      @media (max-width: 480px) {
-        .ctitle {
-          font-size: clamp(36px, 11vw, 60px);
+      /* ── MORE WORK ── */
+      .more {
+        position: relative;
+        background: var(--snow);
+        padding: 110px 52px 120px;
+        border-top: 1px solid rgba(10, 10, 11, 0.08);
+      }
+      .more-head {
+        max-width: 760px;
+        margin-bottom: 56px;
+      }
+      .more-eyebrow {
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--emerald);
+        margin-bottom: 18px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .more-eyebrow::after {
+        content: "";
+        width: 28px;
+        height: 1px;
+        background: var(--emerald);
+      }
+      .more-title {
+        font-family: "Manrope", sans-serif;
+        font-size: clamp(32px, 4.4vw, 60px);
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        line-height: 0.95;
+        color: var(--onyx);
+      }
+      .more-title em {
+        font-style: italic;
+        font-weight: 300;
+        color: var(--emerald);
+      }
+      .more-sub {
+        font-family: "Roboto Mono", monospace;
+        font-size: 12px;
+        line-height: 1.8;
+        letter-spacing: -0.01em;
+        color: rgba(10, 10, 11, 0.5);
+        margin-top: 20px;
+        max-width: 560px;
+      }
+
+      /* Masonry */
+      .masonry {
+        column-count: 3;
+        column-gap: 18px;
+      }
+      .mtile {
+        display: block;
+        width: 100%;
+        break-inside: avoid;
+        margin: 0 0 18px;
+        padding: 0;
+        border: none;
+        background: none;
+        text-align: left;
+        color: inherit;
+        font: inherit;
+        cursor: none;
+        opacity: 0;
+        transform: translateY(24px);
+        transition:
+          opacity 0.7s cubic-bezier(0.76, 0, 0.24, 1),
+          transform 0.7s cubic-bezier(0.76, 0, 0.24, 1);
+      }
+      .mtile.in {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .mtile-media {
+        position: relative;
+        overflow: hidden;
+        border-radius: 3px;
+        background: rgba(10, 10, 11, 0.04);
+      }
+      .mtile-media img,
+      .mtile-media video {
+        width: 100%;
+        display: block;
+        transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
+      }
+      .mtile:hover .mtile-media img,
+      .mtile:hover .mtile-media video {
+        transform: scale(1.04);
+      }
+      .mtile-ph {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(10, 10, 11, 0.22);
+      }
+      .mtile-label {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 14px 2px 0;
+      }
+      .mtile-name {
+        font-family: "Manrope", sans-serif;
+        font-weight: 700;
+        font-size: 15px;
+        letter-spacing: -0.02em;
+        color: var(--onyx);
+      }
+      .mtile-cat {
+        font-family: "Roboto Mono", monospace;
+        font-size: 8px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(10, 10, 11, 0.4);
+        white-space: nowrap;
+      }
+
+      /* Modal (lightbox) */
+      .mm {
+        position: fixed;
+        inset: 0;
+        z-index: 2000;
+        display: none;
+      }
+      .mm.open {
+        display: block;
+      }
+      .mm-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(10, 10, 11, 0.86);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+      .mm.open .mm-backdrop {
+        opacity: 1;
+      }
+      .mm-dialog {
+        position: absolute;
+        inset: 0;
+        margin: auto;
+        width: min(1100px, 92vw);
+        height: min(680px, 86vh);
+        background: var(--snow);
+        border-radius: 4px;
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: 1fr 380px;
+        transform: translateY(18px) scale(0.98);
+        opacity: 0;
+        transition:
+          transform 0.5s cubic-bezier(0.76, 0, 0.24, 1),
+          opacity 0.4s ease;
+      }
+      .mm.open .mm-dialog {
+        transform: none;
+        opacity: 1;
+      }
+      .mm-media {
+        position: relative;
+        background: var(--onyx);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+      .mm-media img,
+      .mm-media video {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+      .mm-media .mtile-ph {
+        color: rgba(248, 248, 248, 0.25);
+        height: 100%;
+      }
+      .mm-slide {
+        animation: mmFade 0.4s ease;
+      }
+      @keyframes mmFade {
+        from {
+          opacity: 0.25;
         }
-        .about-img {
-          height: 70vw;
+        to {
+          opacity: 1;
+        }
+      }
+      .mm-cbtn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40px;
+        height: 40px;
+        border: none;
+        border-radius: 50%;
+        background: rgba(10, 10, 11, 0.35);
+        color: var(--snow);
+        font-size: 22px;
+        line-height: 1;
+        cursor: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 3;
+        transition: background 0.25s;
+      }
+      .mm-cbtn:hover {
+        background: rgba(10, 10, 11, 0.65);
+      }
+      .mm-cprev {
+        left: 16px;
+      }
+      .mm-cnext {
+        right: 16px;
+      }
+      .mm-cdots {
+        position: absolute;
+        bottom: 16px;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        gap: 7px;
+        z-index: 3;
+      }
+      .mm-cdot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: rgba(248, 248, 248, 0.4);
+        cursor: none;
+        transition:
+          background 0.25s,
+          transform 0.25s;
+      }
+      .mm-cdot.on {
+        background: var(--snow);
+        transform: scale(1.3);
+      }
+      .mm-info {
+        padding: 56px 44px;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+      }
+      .mm-cat {
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--emerald);
+        margin-bottom: 18px;
+      }
+      .mm-title {
+        font-family: "Manrope", sans-serif;
+        font-size: clamp(28px, 3vw, 42px);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 0.96;
+        color: var(--onyx);
+        margin-bottom: 22px;
+      }
+      .mm-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 28px;
+      }
+      .mm-tag {
+        font-size: 8px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--emerald);
+        border: 1px solid rgba(35, 88, 58, 0.3);
+        padding: 5px 11px;
+        border-radius: 2px;
+      }
+      .mm-text {
+        font-family: "Roboto Mono", monospace;
+        font-size: 12px;
+        line-height: 1.9;
+        letter-spacing: -0.01em;
+        color: rgba(10, 10, 11, 0.6);
+      }
+      .mm-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 9px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--onyx);
+        text-decoration: none;
+        border-bottom: 1px solid var(--onyx);
+        padding-bottom: 3px;
+        margin-top: 24px;
+        align-self: flex-start;
+        transition:
+          color 0.3s,
+          border-color 0.3s;
+      }
+      .mm-link:hover {
+        color: var(--emerald);
+        border-color: var(--emerald);
+      }
+      .mm-foot {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: auto;
+        padding-top: 28px;
+        border-top: 1px solid rgba(10, 10, 11, 0.1);
+      }
+      .mm-count {
+        font-size: 9px;
+        letter-spacing: 0.08em;
+        color: rgba(10, 10, 11, 0.35);
+      }
+      .mm-nav {
+        display: flex;
+        gap: 18px;
+      }
+      .mm-nav button,
+      .mm-close {
+        background: none;
+        border: none;
+        cursor: none;
+        font-family: "Roboto Mono", monospace;
+        color: var(--onyx);
+      }
+      .mm-nav button {
+        font-size: 9px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        transition: color 0.3s;
+      }
+      .mm-nav button:hover {
+        color: var(--emerald);
+      }
+      .mm-close {
+        position: absolute;
+        top: 18px;
+        right: 20px;
+        z-index: 5;
+        font-size: 16px;
+        line-height: 1;
+        color: rgba(10, 10, 11, 0.5);
+        transition: color 0.3s;
+      }
+      .mm-close:hover {
+        color: var(--onyx);
+      }
+
+      @media (max-width: 900px) {
+        .masonry {
+          column-count: 2;
+        }
+        .mm-dialog {
+          grid-template-columns: 1fr;
+          grid-template-rows: 52% 48%;
+          height: min(760px, 90vh);
+        }
+      }
+      @media (max-width: 600px) {
+        .more {
+          padding: 80px 24px 100px;
+        }
+        .masonry {
+          column-count: 1;
+        }
+        .mm-dialog {
+          width: 94vw;
+          height: 88vh;
+        }
+        .mm-info {
+          padding: 32px 24px;
         }
       }
     </style>
   </head>
   <body>
     <div class="cur" id="cur"></div>
+    <div class="cur-label" id="curLabel">View</div>
 
     <!-- LOADER -->
     <div id="loader">
@@ -950,9 +1084,9 @@
 
     <!-- NAV -->
     <nav>
-      <a href="#" class="nav-logo">Khoi Nguyen</a>
+      <a href="index.html" class="nav-logo">Khoi Nguyen</a>
       <ul class="nav-links">
-        <li><a href="work.html">Work</a></li>
+        <li><a href="#work">Work</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="mailto:khoiqnguyen27@gmail.com">Contact</a></li>
       </ul>
@@ -964,329 +1098,126 @@
     <!-- Mobile dropdown -->
     <div class="nav-dropdown" id="navDropdown">
       <div class="nav-dropdown-top">
-        <a href="#" class="nav-dropdown-logo">Khoi Nguyen</a>
+        <a href="index.html" class="nav-dropdown-logo">Khoi Nguyen</a>
         <button class="nav-dropdown-close" id="navDropdownClose">Close</button>
       </div>
-      <a href="work.html">Work</a>
+      <a href="#work">Work</a>
       <a href="about.html">About</a>
       <a href="mailto:khoiqnguyen27@gmail.com">Contact</a>
     </div>
 
-    <!-- HERO -->
-    <section class="hero" id="hero">
-      <div class="hero-img" id="heroImg"></div>
-      <div class="hero-grad"></div>
-      <div class="hero-grain" id="heroGrain"></div>
-      <p class="hero-sub">
-        Product Designer &nbsp;·&nbsp; Front-End Developer &nbsp;·&nbsp; USC IYA
-        &nbsp;·&nbsp; UCSD COGSCI
-      </p>
-      <div class="hero-scroll">
-        <div class="sline"></div>
-        <span>scroll</span>
-      </div>
-    </section>
+    <div class="page">
+      <!-- INTRO -->
+      <section class="intro">
+        <div class="intro-cols">
+          <p class="intro-p">
+            I'm <strong>Khoi Nguyen</strong>, a
+            <strong>product designer and front-end developer</strong> based in
+            Los Angeles. I work across UI/UX, brand, and the occasional physical
+            product — a recent UCSD graduate in Cognitive Science (Design &amp;
+            Interaction), now earning an M.S. at USC's Iovine and Young Academy.
+          </p>
+          <p class="intro-p">
+            I like to design end to end: from research and interaction models
+            through to shipped SwiftUI and front-end code. My path started in
+            high school, watching designers turn ideas into real products — and
+            I've been chasing that feeling ever since.
+          </p>
+        </div>
+      </section>
 
-    <!-- WORK -->
-    <section class="work" id="work">
-      <div class="work-header rv">
-        <span class="work-eyebrow">[01]</span>
-        <h2 class="work-title">Selected Work</h2>
-      </div>
-      <div class="czone" id="czone">
-        <div class="csticky">
-          <div class="ccard active" data-href="casekhoi.html">
-            <div class="cbg"></div>
-            <video
-              autoplay
-              loop
-              muted
-              playsinline
-              style="
-                position: absolute;
-                inset: 0;
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                object-position: center top;
-              "
-            >
-              <source src="assets/previewkhoi.mp4" type="video/mp4" />
-            </video>
-            <div class="cscrim"></div>
-            <span class="cnum">01 / 03</span>
-            <div class="ccontent">
-              <div>
-                <p class="ccat">Design &amp; Development</p>
-                <h3 class="ctitle">KHOI<br /><em>App</em></h3>
-              </div>
-              <div class="cright">
-                <p class="cdesc">
-                  Beauty service booking — designed and shipped solo, end to
-                  end. Brand identity through SwiftUI implementation.
-                </p>
-                <div class="ctags">
-                  <span class="ctag">Product Design</span>
-                  <span class="ctag">iOS Dev</span>
-                  <span class="ctag">SwiftUI</span>
-                </div>
-                <a href="casekhoi.html" class="clink">View case study &rarr;</a>
+      <!-- WORK -->
+      <div class="work-grid-sticky-wrap" id="work">
+        <div class="work-grid">
+          <a href="casekhoi.html" class="wcard wcard-1">
+            <div class="wcard-img">
+              <video
+                id="wv1"
+                muted
+                playsinline
+                preload="metadata"
+                style="view-transition-name: khoi-hero"
+              >
+                <source src="assets/previewkhoi.mp4" type="video/mp4" />
+              </video>
+            </div>
+            <div class="wcard-overlay"></div>
+            <div class="wcard-meta">
+              <p class="wcard-num">01</p>
+              <h2 class="wcard-title">KHOI App</h2>
+              <div class="wcard-tags">
+                <span class="wcard-tag">Product Design</span>
+                <span class="wcard-tag">iOS Dev</span>
+                <span class="wcard-tag">SwiftUI</span>
               </div>
             </div>
-          </div>
+          </a>
 
-          <div class="ccard" data-href="caselabora.html">
-            <div class="cbg"></div>
-            <video
-              autoplay
-              loop
-              muted
-              playsinline
-              style="
-                position: absolute;
-                inset: 0;
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                object-position: center top;
-              "
-            >
-              <source src="assets/previewlabora.mp4" type="video/mp4" />
-            </video>
-            <div class="cscrim"></div>
-            <span class="cnum">02 / 03</span>
-            <div class="ccontent">
-              <div>
-                <p class="ccat">Brand &amp; Web</p>
-                <h3 class="ctitle">Labora<br /><em>Cafe</em></h3>
-              </div>
-              <div class="cright">
-                <p class="cdesc">
-                  Brand identity and website for a local cafe. 1.1k unique
-                  visitors and 2.6k page views in the first two weeks.
-                </p>
-                <div class="ctags">
-                  <span class="ctag">Brand Identity</span>
-                  <span class="ctag">Web Design</span>
-                  <span class="ctag">Strategy</span>
-                </div>
-                <a href="caselabora.html" class="clink"
-                  >View case study &rarr;</a
-                >
+          <a href="caselabora.html" class="wcard wcard-2">
+            <div class="wcard-img">
+              <video
+                id="wv2"
+                muted
+                playsinline
+                preload="metadata"
+                style="view-transition-name: labora-hero"
+              >
+                <source src="assets/previewlabora.mp4" type="video/mp4" />
+              </video>
+            </div>
+            <div class="wcard-overlay"></div>
+            <div class="wcard-meta">
+              <p class="wcard-num">02</p>
+              <h2 class="wcard-title">Labora Cafe</h2>
+              <div class="wcard-tags">
+                <span class="wcard-tag">Brand Identity</span>
+                <span class="wcard-tag">Web Design</span>
               </div>
             </div>
-          </div>
+          </a>
 
-          <div class="ccard" data-href="casescentsync.html">
-            <div class="cbg"></div>
-            <video
-              autoplay
-              loop
-              muted
-              playsinline
+          <a href="casecurated.html" class="wcard wcard-3">
+            <div
+              class="wcard-img"
               style="
-                position: absolute;
-                inset: 0;
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                object-position: center top;
+                background: linear-gradient(150deg, #1f4030 0%, #0c1710 100%);
               "
             >
-              <source src="assets/previewscentsync.mp4" type="video/mp4" />
-            </video>
-            <div class="cscrim"></div>
-            <span class="cnum">03 / 03</span>
-            <div class="ccontent">
-              <div>
-                <p class="ccat">XR &amp; Innovation</p>
-                <h3 class="ctitle">Scent<br /><em>Sync</em></h3>
-              </div>
-              <div class="cright">
-                <p class="cdesc">
-                  XR fragrance discovery — designing across spatial dimensions
-                  and pushing into emerging interaction paradigms.
-                </p>
-                <div class="ctags">
-                  <span class="ctag">XR Design</span>
-                  <span class="ctag">Spatial UI</span>
-                  <span class="ctag">Innovation</span>
-                </div>
-                <a href="casescentsync.html" class="clink"
-                  >View case study &rarr;</a
-                >
+              <video
+                id="wv3"
+                muted
+                playsinline
+                preload="metadata"
+                style="view-transition-name: curated-hero"
+              >
+                <source src="assets/curated-hero.mp4" type="video/mp4" />
+              </video>
+            </div>
+            <div class="wcard-overlay"></div>
+            <div class="wcard-meta">
+              <p class="wcard-num">03</p>
+              <h2 class="wcard-title">Curated</h2>
+              <div class="wcard-tags">
+                <span class="wcard-tag">UX Design</span>
+                <span class="wcard-tag">Research</span>
+                <span class="wcard-tag">Team Lead</span>
               </div>
             </div>
-          </div>
-
-          <div class="cdots" id="cdots">
-            <div class="cdot on"></div>
-            <div class="cdot"></div>
-            <div class="cdot"></div>
-          </div>
+          </a>
         </div>
       </div>
-    </section>
 
-    <!-- ABOUT -->
-    <section class="about" id="about">
-      <div class="about-img">
-        <div class="about-img-inner" id="aboutImg"></div>
-      </div>
-      <div class="about-body">
-        <p class="about-ey rv">About Khoi</p>
-        <h2 class="about-h2 rv rv-d1">
-          Interdisciplinary<br />by <em>design</em>.
-        </h2>
-        <p class="about-p rv rv-d2">
-          Freelance product designer and front-end developer. I'm a recent UCSD
-          grad in Cognitive Science (Design &amp; Interaction), now earning an
-          M.S. at USC's Iovine and Young Academy. My path started in high school
-          watching designers turn ideas into real products, and I never looked
-          back.
-        </p>
-        <a href="about.html" class="about-cta rv rv-d3">
-          Full story
-          <svg
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            fill="none"
-          >
-            <line x1="7" y1="17" x2="17" y2="7" />
-            <polyline points="7 7 17 7 17 17" />
-          </svg>
-        </a>
-      </div>
-    </section>
+      <!-- MORE WORK -->
+      <section class="more" id="more">
+        <div class="more-head">
+          <p class="more-eyebrow">[More Work]</p>
+        </div>
+        <div class="masonry" id="masonry"></div>
+      </section>
+    </div>
+    <!-- /page -->
 
     <div class="footer-scroll-zone">
-      <script
-        data-cfasync="false"
-        src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"
-      ></script>
-      <script>
-        document.getElementById("heroImg").style.backgroundImage =
-          "url('assets/heroImage.jpg')";
-        document.getElementById("aboutImg").style.backgroundImage =
-          "url('assets/aboutImage.jpg')";
-
-        const cur = document.getElementById("cur");
-        document.addEventListener("mousemove", (e) => {
-          cur.style.left = e.clientX + "px";
-          cur.style.top = e.clientY + "px";
-        });
-        document.querySelectorAll("a,button").forEach((el) => {
-          el.addEventListener("mouseenter", () => cur.classList.add("g"));
-          el.addEventListener("mouseleave", () => cur.classList.remove("g"));
-        });
-
-        const pctEl = document.getElementById("loaderPct");
-        let count = 0;
-        const steps = 1800 / 16;
-        const timer = setInterval(() => {
-          count = Math.min(100, Math.round(count + 100 / steps));
-          pctEl.textContent = count + "%";
-          if (count >= 100) {
-            clearInterval(timer);
-            setTimeout(() => {
-              document.getElementById("loader").classList.add("exit");
-              setTimeout(
-                () =>
-                  (document.getElementById("loader").style.display = "none"),
-                900,
-              );
-            }, 320);
-          }
-        }, 16);
-
-        const heroImg = document.getElementById("heroImg");
-        window.addEventListener(
-          "scroll",
-          () => {
-            heroImg.style.transform = `translateY(${window.scrollY * 0.22}px)`;
-          },
-          { passive: true },
-        );
-
-        const rvObs = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((e) => {
-              if (e.isIntersecting) e.target.classList.add("in");
-            });
-          },
-          { threshold: 0.12 },
-        );
-        document.querySelectorAll(".rv").forEach((el) => rvObs.observe(el));
-
-        const heroGrain = document.getElementById("heroGrain");
-        let mx = 0,
-          my = 0,
-          gx = 0,
-          gy = 0;
-        document.addEventListener("mousemove", (e) => {
-          mx = (e.clientX / window.innerWidth - 0.5) * 28;
-          my = (e.clientY / window.innerHeight - 0.5) * 28;
-        });
-        function animateGrain() {
-          gx += (mx - gx) * 0.06;
-          gy += (my - gy) * 0.06;
-          if (heroGrain)
-            heroGrain.style.transform = `translate(${gx}px, ${gy}px)`;
-          requestAnimationFrame(animateGrain);
-        }
-        animateGrain();
-
-        const czone = document.getElementById("czone");
-        const ccards = document.querySelectorAll(".ccard");
-        const cdots = document.querySelectorAll(".cdot");
-        const N = ccards.length;
-        window.addEventListener("scroll", () => {
-          const rect = czone.getBoundingClientRect();
-          const scrollable = czone.offsetHeight - window.innerHeight;
-          const pct = Math.min(1, Math.max(0, -rect.top) / scrollable);
-          const idx = Math.min(N - 1, Math.floor(pct * N));
-          ccards.forEach((c, i) => c.classList.toggle("active", i === idx));
-          cdots.forEach((d, i) => d.classList.toggle("on", i === idx));
-        });
-
-        document.querySelectorAll(".ccard[data-href]").forEach((card) => {
-          card.style.cursor = "pointer";
-          card.addEventListener("click", (e) => {
-            if (!e.target.closest("a"))
-              window.location.href = card.dataset.href;
-          });
-        });
-
-        document.querySelectorAll(".f-soc a, .f-top, .f-cta").forEach((el) => {
-          el.addEventListener("mouseenter", () => cur.classList.add("g"));
-          el.addEventListener("mouseleave", () => cur.classList.remove("g"));
-        });
-
-        // Mobile menu
-        var navMenuBtn = document.getElementById("navMenuBtn");
-        var navDropdown = document.getElementById("navDropdown");
-        var navDropdownClose = document.getElementById("navDropdownClose");
-        if (navMenuBtn) {
-          navMenuBtn.addEventListener("click", function () {
-            navDropdown.classList.add("open");
-          });
-        }
-        if (navDropdownClose) {
-          navDropdownClose.addEventListener("click", function () {
-            navDropdown.classList.remove("open");
-          });
-        }
-        navDropdown &&
-          navDropdown
-            .querySelectorAll("a:not(.nav-dropdown-logo)")
-            .forEach(function (a) {
-              a.addEventListener("click", function () {
-                navDropdown.classList.remove("open");
-              });
-            });
-      </script>
-
       <footer class="site-footer" id="site-footer">
         <div>
           <p class="f-label">Let's build something together</p>
@@ -1323,31 +1254,461 @@
         </div>
       </footer>
     </div>
-    <script
-      data-cfasync="false"
-      src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"
-    ></script>
+
     <script>
-      (function () {
-        var navMenuBtn = document.getElementById("navMenuBtn");
-        var navDropdown = document.getElementById("navDropdown");
-        var navDropdownClose = document.getElementById("navDropdownClose");
-        if (navMenuBtn)
-          navMenuBtn.addEventListener("click", function () {
-            navDropdown.classList.add("open");
+      var cur = document.getElementById("cur");
+      var curLabel = document.getElementById("curLabel");
+
+      // Loader count-up
+      var pctEl = document.getElementById("loaderPct");
+      var count = 0;
+      var steps = 1800 / 16;
+      var timer = setInterval(function () {
+        count = Math.min(100, Math.round(count + 100 / steps));
+        pctEl.textContent = count + "%";
+        if (count >= 100) {
+          clearInterval(timer);
+          setTimeout(function () {
+            var loader = document.getElementById("loader");
+            loader.classList.add("exit");
+            setTimeout(function () {
+              loader.style.display = "none";
+            }, 900);
+          }, 320);
+        }
+      }, 16);
+
+      document.addEventListener("mousemove", function (e) {
+        cur.style.left = e.clientX + "px";
+        cur.style.top = e.clientY + "px";
+        if (curLabel) {
+          curLabel.style.left = e.clientX + "px";
+          curLabel.style.top = e.clientY + "px";
+        }
+      });
+
+      document.querySelectorAll("a, button").forEach(function (el) {
+        el.addEventListener("mouseenter", function () {
+          cur.classList.add("g");
+        });
+        el.addEventListener("mouseleave", function () {
+          cur.classList.remove("g");
+        });
+      });
+
+      document.querySelectorAll(".wcard").forEach(function (card) {
+        var video = card.querySelector("video");
+        card.addEventListener("mouseenter", function () {
+          cur.classList.remove("g");
+          cur.classList.add("view");
+          if (curLabel) curLabel.classList.add("show");
+          if (video) video.play();
+        });
+        card.addEventListener("mouseleave", function () {
+          cur.classList.remove("view");
+          if (curLabel) curLabel.classList.remove("show");
+          if (video) {
+            video.pause();
+            video.currentTime = 0;
+          }
+        });
+      });
+
+      var obs = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) e.target.classList.add("in");
           });
-        if (navDropdownClose)
-          navDropdownClose.addEventListener("click", function () {
-            navDropdown.classList.remove("open");
-          });
-        navDropdown &&
-          navDropdown
-            .querySelectorAll("a:not(.nav-dropdown-logo)")
-            .forEach(function (a) {
-              a.addEventListener("click", function () {
-                navDropdown.classList.remove("open");
-              });
+        },
+        { threshold: 0.08 },
+      );
+      document.querySelectorAll(".wcard").forEach(function (el) {
+        obs.observe(el);
+      });
+
+      // Footer slides UP on top over the final viewport of scroll, holding
+      // the page still behind it (desktop only; mobile scrolls normally).
+      var pageEl = document.querySelector(".page");
+      var footerEl = document.getElementById("site-footer");
+      function footerReveal() {
+        if (!pageEl || !footerEl) return;
+        var vh = window.innerHeight;
+        if (window.innerWidth <= 768) {
+          footerEl.style.transform = "none";
+          pageEl.style.transform = "none";
+          return;
+        }
+        var revealStart = Math.max(0, pageEl.offsetHeight - vh);
+        var d = window.scrollY - revealStart;
+        if (d <= 0) {
+          footerEl.style.transform = "translateY(100%)";
+          pageEl.style.transform = "none";
+        } else {
+          var progress = Math.min(1, d / vh);
+          footerEl.style.transform =
+            "translateY(" + (100 - progress * 100) + "%)";
+          pageEl.style.transform = "translateY(" + d + "px)";
+        }
+      }
+      window.addEventListener("scroll", footerReveal, { passive: true });
+      window.addEventListener("resize", footerReveal);
+      footerReveal();
+
+      // Mobile menu
+      var navMenuBtn = document.getElementById("navMenuBtn");
+      var navDropdown = document.getElementById("navDropdown");
+      var navDropdownClose = document.getElementById("navDropdownClose");
+      if (navMenuBtn)
+        navMenuBtn.addEventListener("click", function () {
+          navDropdown.classList.add("open");
+        });
+      if (navDropdownClose)
+        navDropdownClose.addEventListener("click", function () {
+          navDropdown.classList.remove("open");
+        });
+      navDropdown &&
+        navDropdown
+          .querySelectorAll("a:not(.nav-dropdown-logo)")
+          .forEach(function (a) {
+            a.addEventListener("click", function () {
+              navDropdown.classList.remove("open");
             });
+          });
+    </script>
+
+    <!-- MORE WORK MODAL -->
+    <div class="mm" id="mm" aria-hidden="true">
+      <div class="mm-backdrop" data-close></div>
+      <div
+        class="mm-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="mmTitle"
+      >
+        <button class="mm-close" data-close aria-label="Close">&times;</button>
+        <div class="mm-media" id="mmMedia"></div>
+        <aside class="mm-info">
+          <p class="mm-cat" id="mmCat"></p>
+          <h3 class="mm-title" id="mmTitle"></h3>
+          <div class="mm-tags" id="mmTags"></div>
+          <p class="mm-text" id="mmText"></p>
+          <a class="mm-link" id="mmLink" target="_blank" rel="noopener"></a>
+          <div class="mm-foot">
+            <span class="mm-count" id="mmCount"></span>
+            <div class="mm-nav">
+              <button id="mmPrev">&larr; Prev</button>
+              <button id="mmNext">Next &rarr;</button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <!-- MORE WORK: data + gallery + modal -->
+    <script>
+      /* ─────────────────────────────────────────────
+         EDIT THIS LIST to add / change gallery pieces.
+         media: array of { type: "img" | "video", src }
+                leave empty [] to show a placeholder tile.
+         ratio: sizes the placeholder only (e.g. "4/5").
+      ───────────────────────────────────────────────── */
+      var MORE_ITEMS = [
+        {
+          name: "ScentSync",
+          cat: "XR · Spatial UI",
+          tags: ["XR Design", "Spatial UI", "Innovation"],
+          text: "An exploration into XR fragrance discovery — designing across spatial dimensions and emerging interaction paradigms. A concept piece pushing into where interfaces are headed next.",
+          link: "casescentsync.html",
+          linkLabel: "View case study",
+          ratio: "16/10",
+          media: [
+            { type: "video", src: "assets/previewscentsync.mp4" },
+            { type: "img", src: "assets/_welcomeview.png" },
+            { type: "img", src: "assets/Springtime_immersiveview2.png" },
+            { type: "img", src: "assets/Springtime_detailpage.png" },
+          ],
+        },
+        {
+          name: "Fried Chicken House",
+          cat: "Web Design",
+          tags: ["Web Design", "Marketing Site", "Brand"],
+          text: "A San Diego restaurant came to me with just a logo and a rough color palette. I took it from there — designing and shipping a full marketing website that turned a loose identity into a cohesive, on-brand presence customers could actually visit.",
+          link: "https://friedchickenhousesd.com",
+          linkLabel: "Visit site",
+          ratio: "2/1",
+          media: [{ type: "img", src: "assets/fch-moreproject.jpg" }],
+        },
+        {
+          name: "Sanctum",
+          cat: "Concept · Product Design",
+          tags: ["UI Design", "Concept", "Mobile"],
+          text: "A concept accommodation app for booking curated garden and architectural retreats. An exploration in designing calm, editorial interfaces for a space that sells atmosphere.",
+          link: "https://www.figma.com/proto/eKHNaUtqlYvAGk1ZcqTTxM/MASTER-WORKSPACE-2?page-id=0%3A1&node-id=270-1555&viewport=-51%2C-5549%2C0.33&t=PxLOSp0nLRftY4sl-1&scaling=contain&content-scaling=fixed&starting-point-node-id=254%3A291",
+          linkLabel: "View prototype",
+          ratio: "1/1",
+          media: [
+            { type: "img", src: "assets/sanctum.png" },
+            { type: "img", src: "assets/sanctum2.png" },
+          ],
+        },
+        /*
+        {
+          name: "Branding Project",
+          cat: "Brand Identity",
+          tags: ["Brand Identity", "Logo", "Art Direction"],
+          text: "A short note on the brief and the direction you took. One line on outcome or what you learned.",
+          link: "",
+          linkLabel: "View on Behance",
+          ratio: "1/1",
+          media: [],
+        },
+        */
+        {
+          name: "Labora Cafe Packaging",
+          cat: "Packaging Design",
+          tags: ["Packaging", "Brand Extension", "Print Production"],
+          text: "Labora Cafe hired me to design the packaging for their first retail line; a ceremonial-grade matcha tin sold in store. An extension of the brand identity I built for them, translated from screen to a physical object that has to earn its place on the shelf.",
+          link: "",
+          linkLabel: "See more",
+          ratio: "3/2",
+          media: [
+            { type: "img", src: "assets/labora-matcha-mockup.jpeg" },
+            { type: "img", src: "assets/labora-matchatin2.jpeg" },
+            { type: "img", src: "assets/labora-matchatin3.jpeg" },
+            { type: "img", src: "assets/labora-matchatin4.jpeg" },
+            { type: "img", src: "assets/labora-matchatin5.jpeg" },
+          ],
+        },
+      ];
+
+      (function () {
+        var cur = document.getElementById("cur");
+        var curLabel = document.getElementById("curLabel");
+        var masonry = document.getElementById("masonry");
+        var mm = document.getElementById("mm");
+        if (!masonry || !mm) return;
+
+        function mediaMarkup(item, forModal) {
+          var m = item.media && item.media[0];
+          if (!m) {
+            var style = forModal
+              ? ""
+              : ' style="aspect-ratio:' + (item.ratio || "4/5") + '"';
+            return '<div class="mtile-ph"' + style + ">Add image / video</div>";
+          }
+          if (m.type === "video") {
+            return (
+              "<video muted loop playsinline " +
+              (forModal ? "autoplay controls" : 'preload="metadata"') +
+              '><source src="' +
+              m.src +
+              '" type="video/mp4" /></video>'
+            );
+          }
+          return '<img src="' + m.src + '" alt="' + item.name + '" />';
+        }
+
+        // Build masonry tiles
+        MORE_ITEMS.forEach(function (item, i) {
+          var tile = document.createElement("button");
+          tile.className = "mtile";
+          tile.setAttribute("data-index", i);
+          tile.setAttribute("aria-label", "Open " + item.name);
+          tile.innerHTML =
+            '<div class="mtile-media">' +
+            mediaMarkup(item, false) +
+            "</div>" +
+            '<div class="mtile-label"><span class="mtile-name">' +
+            item.name +
+            '</span><span class="mtile-cat">' +
+            item.cat +
+            "</span></div>";
+          tile.addEventListener("click", function () {
+            openModal(i);
+          });
+          tile.addEventListener("mouseenter", function () {
+            if (cur) {
+              cur.classList.remove("g");
+              cur.classList.add("view");
+            }
+            if (curLabel) {
+              curLabel.textContent = "Open";
+              curLabel.classList.add("show");
+            }
+          });
+          tile.addEventListener("mouseleave", function () {
+            if (cur) cur.classList.remove("view");
+            if (curLabel) {
+              curLabel.classList.remove("show");
+              curLabel.textContent = "View";
+            }
+          });
+          masonry.appendChild(tile);
+        });
+
+        // Reveal on scroll
+        var mObs = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (e) {
+              if (e.isIntersecting) e.target.classList.add("in");
+            });
+          },
+          { threshold: 0.1 },
+        );
+        masonry.querySelectorAll(".mtile").forEach(function (t, i) {
+          t.style.transitionDelay = (i % 3) * 0.08 + "s";
+          mObs.observe(t);
+        });
+
+        // Modal
+        var mmMedia = document.getElementById("mmMedia");
+        var mmCat = document.getElementById("mmCat");
+        var mmTitle = document.getElementById("mmTitle");
+        var mmTags = document.getElementById("mmTags");
+        var mmText = document.getElementById("mmText");
+        var mmLink = document.getElementById("mmLink");
+        var mmCount = document.getElementById("mmCount");
+        var current = -1;
+        var mediaIndex = 0;
+
+        function pad(n) {
+          return (n < 10 ? "0" : "") + n;
+        }
+
+        function slideMarkup(m, name) {
+          if (m.type === "video") {
+            return (
+              '<video class="mm-slide" muted loop playsinline autoplay controls>' +
+              '<source src="' +
+              m.src +
+              '" type="video/mp4" /></video>'
+            );
+          }
+          return (
+            '<img class="mm-slide" src="' + m.src + '" alt="' + name + '" />'
+          );
+        }
+
+        function renderMedia(item) {
+          var media = item.media || [];
+          if (!media.length) {
+            mmMedia.innerHTML = '<div class="mtile-ph">Add image / video</div>';
+            return;
+          }
+          var html = slideMarkup(media[mediaIndex], item.name);
+          if (media.length > 1) {
+            html +=
+              '<button class="mm-cbtn mm-cprev" aria-label="Previous image">&#8249;</button>' +
+              '<button class="mm-cbtn mm-cnext" aria-label="Next image">&#8250;</button>' +
+              '<div class="mm-cdots">' +
+              media
+                .map(function (_, k) {
+                  return (
+                    '<span class="mm-cdot' +
+                    (k === mediaIndex ? " on" : "") +
+                    '" data-k="' +
+                    k +
+                    '"></span>'
+                  );
+                })
+                .join("") +
+              "</div>";
+          }
+          mmMedia.innerHTML = html;
+        }
+
+        function mediaStep(dir) {
+          var media = (MORE_ITEMS[current] || {}).media || [];
+          if (media.length < 2) return;
+          mediaIndex = (mediaIndex + dir + media.length) % media.length;
+          renderMedia(MORE_ITEMS[current]);
+        }
+
+        mmMedia.addEventListener("click", function (e) {
+          if (e.target.closest(".mm-cnext")) mediaStep(1);
+          else if (e.target.closest(".mm-cprev")) mediaStep(-1);
+          else {
+            var dot = e.target.closest(".mm-cdot");
+            if (dot) {
+              mediaIndex = +dot.getAttribute("data-k");
+              renderMedia(MORE_ITEMS[current]);
+            }
+          }
+        });
+
+        function render(i) {
+          var item = MORE_ITEMS[i];
+          if (!item) return;
+          current = i;
+          mediaIndex = 0;
+          renderMedia(item);
+          mmCat.textContent = item.cat;
+          mmTitle.textContent = item.name;
+          mmText.textContent = item.text;
+          mmTags.innerHTML = (item.tags || [])
+            .map(function (t) {
+              return '<span class="mm-tag">' + t + "</span>";
+            })
+            .join("");
+          if (item.link) {
+            mmLink.style.display = "inline-flex";
+            mmLink.href = item.link;
+            mmLink.textContent = item.linkLabel || "View";
+          } else {
+            mmLink.style.display = "none";
+          }
+          mmCount.textContent = pad(i + 1) + " / " + pad(MORE_ITEMS.length);
+        }
+
+        function openModal(i) {
+          render(i);
+          mm.classList.add("open");
+          mm.setAttribute("aria-hidden", "false");
+          document.body.style.overflow = "hidden";
+        }
+
+        function closeModal() {
+          mm.classList.remove("open");
+          mm.setAttribute("aria-hidden", "true");
+          document.body.style.overflow = "";
+          var v = mmMedia.querySelector("video");
+          if (v) v.pause();
+        }
+
+        function step(dir) {
+          var n = MORE_ITEMS.length;
+          render((current + dir + n) % n);
+        }
+
+        mm.querySelectorAll("[data-close]").forEach(function (el) {
+          el.addEventListener("click", closeModal);
+        });
+        document
+          .getElementById("mmPrev")
+          .addEventListener("click", function () {
+            step(-1);
+          });
+        document
+          .getElementById("mmNext")
+          .addEventListener("click", function () {
+            step(1);
+          });
+        document.addEventListener("keydown", function (e) {
+          if (!mm.classList.contains("open")) return;
+          if (e.key === "Escape") closeModal();
+          else if (e.key === "ArrowLeft") step(-1);
+          else if (e.key === "ArrowRight") step(1);
+        });
+
+        // keep the custom cursor's hover state working on modal controls
+        mm.querySelectorAll("button, a").forEach(function (el) {
+          el.addEventListener("mouseenter", function () {
+            if (cur) cur.classList.add("g");
+          });
+          el.addEventListener("mouseleave", function () {
+            if (cur) cur.classList.remove("g");
+          });
+        });
       })();
     </script>
   </body>
