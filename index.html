@@ -1136,6 +1136,7 @@
                 muted
                 playsinline
                 preload="metadata"
+                poster="assets/poster-khoi.jpg"
                 style="view-transition-name: khoi-hero"
               >
                 <source src="assets/previewkhoi.mp4" type="video/mp4" />
@@ -1160,6 +1161,7 @@
                 muted
                 playsinline
                 preload="metadata"
+                poster="assets/poster-labora.jpg"
                 style="view-transition-name: labora-hero"
               >
                 <source src="assets/previewlabora.mp4" type="video/mp4" />
@@ -1188,6 +1190,7 @@
                 muted
                 playsinline
                 preload="metadata"
+                poster="assets/poster-curated.jpg"
                 style="view-transition-name: curated-hero"
               >
                 <source src="assets/curated-hero.mp4" type="video/mp4" />
@@ -1422,7 +1425,11 @@
           linkLabel: "View case study",
           ratio: "16/10",
           media: [
-            { type: "video", src: "assets/previewscentsync.mp4" },
+            {
+              type: "video",
+              src: "assets/previewscentsync.mp4",
+              poster: "assets/poster-scentsync.jpg",
+            },
             { type: "img", src: "assets/_welcomeview.png" },
             { type: "img", src: "assets/Springtime_immersiveview2.png" },
             { type: "img", src: "assets/Springtime_detailpage.png" },
@@ -1497,9 +1504,10 @@
             return '<div class="mtile-ph"' + style + ">Add image / video</div>";
           }
           if (m.type === "video") {
+            var poster = m.poster ? ' poster="' + m.poster + '"' : "";
             return (
               "<video muted loop playsinline " +
-              (forModal ? "autoplay controls" : 'preload="metadata"') +
+              (forModal ? "autoplay controls" : 'preload="metadata"' + poster) +
               '><source src="' +
               m.src +
               '" type="video/mp4" /></video>'
