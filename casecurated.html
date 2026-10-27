@@ -420,6 +420,153 @@
         color: rgba(10, 10, 11, 0.28);
         text-transform: uppercase;
       }
+      .cs-flow {
+        width: 100%;
+        margin: 48px 0 40px;
+        border: 1px solid rgba(10, 10, 11, 0.07);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .cs-flow-nav {
+        display: flex;
+        padding: 0 20px;
+        border-bottom: 1px solid rgba(10, 10, 11, 0.08);
+        overflow-x: auto;
+      }
+      .cs-flow-nav-btn {
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        color: rgba(10, 10, 11, 0.3);
+        background: none;
+        border: none;
+        border-bottom: 2px solid transparent;
+        padding: 14px 16px;
+        margin-bottom: -1px;
+        cursor: pointer;
+        transition:
+          color 0.25s,
+          border-color 0.25s;
+      }
+      .cs-flow-nav-btn:hover {
+        color: rgba(10, 10, 11, 0.7);
+      }
+      .cs-flow-nav-btn.active {
+        color: var(--onyx);
+        border-bottom-color: var(--emerald);
+      }
+      .cs-flow-track-wrap {
+        overflow: hidden;
+      }
+      .cs-flow-track {
+        display: flex;
+        transition: transform 0.55s cubic-bezier(0.76, 0, 0.24, 1);
+      }
+      .cs-flow-slide {
+        min-width: 100%;
+        display: grid;
+        grid-template-columns: minmax(0, 300px) minmax(0, 340px);
+        justify-content: center;
+        align-items: center;
+        gap: 64px;
+        padding: 48px 40px;
+      }
+      .cs-flow-slide video {
+        width: 100%;
+        aspect-ratio: 720 / 1326;
+        display: block;
+        object-fit: cover;
+      }
+      .cs-flow-footer {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 14px 20px;
+        border-top: 1px solid rgba(10, 10, 11, 0.08);
+      }
+      .cs-flow-btn {
+        background: none;
+        border: 1px solid rgba(10, 10, 11, 0.15);
+        border-radius: 2px;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: var(--onyx);
+        font-size: 14px;
+        transition:
+          border-color 0.25s,
+          color 0.25s;
+      }
+      .cs-flow-btn:hover {
+        border-color: var(--emerald);
+        color: var(--emerald);
+      }
+      .cs-flow-dots {
+        display: flex;
+        gap: 8px;
+      }
+      .cs-flow-dot {
+        width: 20px;
+        height: 2px;
+        background: rgba(10, 10, 11, 0.15);
+        border: none;
+        border-radius: 1px;
+        padding: 0;
+        cursor: pointer;
+        transition:
+          background 0.3s,
+          width 0.3s;
+      }
+      .cs-flow-dot.active {
+        background: var(--emerald);
+        width: 32px;
+      }
+      .cs-flow-count {
+        font-size: 9px;
+        letter-spacing: 0.1em;
+        color: rgba(10, 10, 11, 0.35);
+        margin-left: auto;
+      }
+      .cs-flow-step {
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--emerald);
+        margin-bottom: 12px;
+      }
+      .cs-flow-title {
+        font-family: "Manrope", sans-serif;
+        font-size: clamp(22px, 2.4vw, 32px);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1;
+        color: var(--onyx);
+        margin-bottom: 16px;
+      }
+      .cs-flow-cap {
+        font-size: 13px;
+        line-height: 1.9;
+        letter-spacing: -0.01em;
+        color: rgba(10, 10, 11, 0.55);
+      }
+      @media (max-width: 768px) {
+        .cs-flow-nav {
+          padding: 0 8px;
+        }
+        .cs-flow-nav-btn {
+          padding: 14px 10px;
+        }
+        .cs-flow-slide {
+          grid-template-columns: minmax(0, 240px);
+          gap: 28px;
+          padding: 32px 24px;
+        }
+      }
       .cs-two-col {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -474,6 +621,94 @@
         text-transform: uppercase;
         color: rgba(10, 10, 11, 0.38);
         line-height: 1.5;
+      }
+      .cs-quotes {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+        margin: 40px 0;
+      }
+      .cs-quote {
+        border-left: 1px solid var(--emerald);
+        padding-left: 20px;
+      }
+      .cs-quote-text {
+        font-family: "Manrope", sans-serif;
+        font-size: 16px;
+        font-weight: 500;
+        letter-spacing: -0.02em;
+        line-height: 1.45;
+        color: var(--onyx);
+        margin-bottom: 12px;
+      }
+      .cs-quote-src {
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(10, 10, 11, 0.38);
+      }
+      .cs-roadmap {
+        list-style: none;
+        display: grid;
+        grid-template-columns: 4fr 4fr 6fr 4fr;
+        column-gap: 6px;
+        margin: 48px 0 40px;
+      }
+      .cs-rm-phase:nth-child(2) {
+        margin-top: 64px;
+      }
+      .cs-rm-phase:nth-child(3) {
+        margin-top: 128px;
+      }
+      .cs-rm-phase:nth-child(4) {
+        margin-top: 192px;
+      }
+      .cs-rm-bar {
+        display: block;
+        height: 4px;
+        border-radius: 2px;
+        background: var(--emerald);
+        opacity: var(--tone);
+        margin-bottom: 20px;
+      }
+      .cs-rm-num {
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--emerald);
+        margin-bottom: 10px;
+      }
+      .cs-rm-title {
+        font-family: "Manrope", sans-serif;
+        font-size: clamp(16px, 1.5vw, 20px);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        line-height: 1.15;
+        color: var(--onyx);
+        margin-bottom: 10px;
+        padding-right: 16px;
+      }
+      .cs-rm-goal {
+        font-size: 11px;
+        line-height: 1.7;
+        letter-spacing: -0.01em;
+        color: rgba(10, 10, 11, 0.55);
+        padding-right: 16px;
+      }
+      .cs-pull {
+        font-family: "Manrope", sans-serif;
+        font-size: clamp(24px, 2.8vw, 36px);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1.1;
+        color: var(--onyx);
+        max-width: 760px;
+        margin: 56px 0 40px;
+      }
+      .cs-pull em {
+        font-style: italic;
+        font-weight: 300;
+        color: var(--emerald);
       }
       .cs-next {
         border-top: 1px solid rgba(10, 10, 11, 0.08);
@@ -739,6 +974,21 @@
         .cs-stats {
           grid-template-columns: 1fr;
         }
+        .cs-quotes {
+          grid-template-columns: 1fr;
+          gap: 24px;
+        }
+        .cs-roadmap {
+          grid-template-columns: 1fr;
+          row-gap: 36px;
+        }
+        .cs-rm-phase:nth-child(n) {
+          margin-top: 0;
+        }
+        .cs-rm-bar {
+          width: calc(var(--span) / 6 * 100%);
+          margin-bottom: 16px;
+        }
         .cs-next {
           padding: 48px 24px;
         }
@@ -871,9 +1121,16 @@
             posting isn't just posting anymore. It's editing, reordering,
             curating, and overthinking.
           </p>
-          <div class="cs-ph">
-            <span>[ Persona — Lyne / problem framing ]</span>
-          </div>
+          <img
+            src="assets/curated-persona.jpg"
+            alt="Persona: Lyne, 24 — &ldquo;I have so many photos I love, but somehow none of them feel good enough to post.&rdquo; Her trip photos loop through crop, edit, reorder, and &lsquo;do I look ok?&rsquo; before ending as empty frames: photos taken, none posted."
+            loading="lazy"
+            style="
+              width: 100%;
+              display: block;
+              margin: 40px 0;
+            "
+          />
         </div>
 
         <!-- MY ROLE -->
@@ -916,14 +1173,14 @@
           <p class="cs-sec-label">Research</p>
           <h2 class="cs-sec-title">Lyne isn't alone.</h2>
           <p class="cs-text">
-            We ran a survey with 40 participants about their relationship with
-            posting. The pattern was consistent: the friction isn't
+            We surveyed 40 people about their relationship with posting, with 34
+            completing every question. The pattern was consistent: the friction isn't
             <em>creating</em> content; it's the pressure around
             <em>sharing</em> it.
           </p>
           <div class="cs-stats">
             <div class="cs-stat">
-              <p class="cs-stat-num">63<em>%</em></p>
+              <p class="cs-stat-num">59<em>%</em></p>
               <p class="cs-stat-label">
                 Feel anxiety or hesitation when posting
               </p>
@@ -933,12 +1190,13 @@
               <p class="cs-stat-label">Don't post at all</p>
             </div>
             <div class="cs-stat">
-              <p class="cs-stat-num">25<em>%</em></p>
+              <p class="cs-stat-num">24<em>%</em></p>
               <p class="cs-stat-label">Edit multiple times before posting</p>
             </div>
           </div>
           <p class="cs-text" style="margin-top: 24px">
-            Self-reported, from a survey of <strong>40 participants</strong>.
+            Self-reported, from <strong>34 complete responses</strong> (40
+            participants).
           </p>
           <img
             src="assets/curated-affinitymap.png"
@@ -957,20 +1215,73 @@
         <div class="cs-sec" id="sec-insight">
           <p class="cs-sec-label">The Insight</p>
           <h2 class="cs-sec-title">
-            Our first idea didn't survive the <em>research.</em>
+            Our first idea didn't survive <em>testing.</em>
           </h2>
           <p class="cs-text">
             We started somewhere else entirely. The first concept was a social
-            platform built around control over your profile: a feed you could
-            rearrange and fine-tune to present the "perfect" version of
+            platform built around control over your profile: a grid you could
+            rearrange, crop, and fine-tune to present the "perfect" version of
             yourself.
           </p>
+          <img
+            src="assets/curated-wireframes.jpg"
+            alt="Mid-fidelity wireframes of the first concept: a profile grid, drag-to-rearrange posts, a crop and aspect-ratio editor, and multi-select for moving or deleting posts"
+            loading="lazy"
+            style="width: 100%; display: block; margin: 40px 0"
+          />
           <p class="cs-text">
-            But held up against the research, it fell apart. Giving people more
-            ways to perfect their profile didn't relieve the anxiety; it added
-            to it. We'd designed another reason to overthink. The real problem
-            wasn't <em>how</em> people arrange what they post; it was that
-            posting felt like a high-stakes <em>decision</em> at all.
+            We put the concept in front of the same participants in the second
+            half of our survey. They saw it cold, then told us what they thought
+            it did, what confused them, and whether it would bring them value.
+          </p>
+          <div class="cs-stats">
+            <div class="cs-stat">
+              <p class="cs-stat-num">2.5<em>/5</em></p>
+              <p class="cs-stat-label">Average perceived value</p>
+            </div>
+            <div class="cs-stat">
+              <p class="cs-stat-num">47<em>%</em></p>
+              <p class="cs-stat-label">Rated its value 1 or 2 out of 5</p>
+            </div>
+            <div class="cs-stat">
+              <p class="cs-stat-num">32<em>%</em></p>
+              <p class="cs-stat-label">
+                Said profile control is not or only slightly important
+              </p>
+            </div>
+          </div>
+          <div class="cs-quotes">
+            <div class="cs-quote">
+              <p class="cs-quote-text">
+                "Is it simply Instagram but with more control of how [your]
+                profile looks?"
+              </p>
+              <p class="cs-quote-src">Participant · What's unclear</p>
+            </div>
+            <div class="cs-quote">
+              <p class="cs-quote-text">
+                "I don't put that much thought into my profile's appearance once
+                something is already posted."
+              </p>
+              <p class="cs-quote-src">Participant · Goals</p>
+            </div>
+            <div class="cs-quote">
+              <p class="cs-quote-text">
+                "Would want to spend less time on social media would be my only
+                thing."
+              </p>
+              <p class="cs-quote-src">Participant · Goals</p>
+            </div>
+          </div>
+          <p class="cs-text">
+            The premise wasn't landing. People couldn't see how it differed
+            from Instagram, and the
+            control we were offering wasn't something they were asking for. We'd
+            assumed people wanted to be more involved in posting.
+          </p>
+          <p class="cs-pull">
+            The problem wasn't a lack of tools. <em>It was the decisions they
+            required.</em>
           </p>
           <p class="cs-text">
             So we reframed from <strong>"how"</strong> to
@@ -978,12 +1289,6 @@
             behavior that already felt low-pressure: the photo dump. That
             session is where Curated was born: curate as you go, decide later.
           </p>
-          <div class="cs-ph">
-            <span
-              >[ Concept evolution — profile-control idea → photo dump → Curated
-              ]</span
-            >
-          </div>
         </div>
 
         <!-- SOLUTION -->
@@ -1002,11 +1307,116 @@
             the pressure to be perfect in the moment and gives control back
             after.
           </p>
-          <div class="cs-ph tall">
-            <span
-              >[ Core flow — add to Curation → auto-share → weekly review
-              ]</span
-            >
+          <div class="cs-flow" id="flowCarousel" tabindex="0" aria-label="Core flow, step by step">
+            <div class="cs-flow-nav">
+              <button class="cs-flow-nav-btn active" data-flow-index="0">
+                01 Create
+              </button>
+              <button class="cs-flow-nav-btn" data-flow-index="1">
+                02 Draft
+              </button>
+              <button class="cs-flow-nav-btn" data-flow-index="2">
+                03 Auto-post
+              </button>
+              <button class="cs-flow-nav-btn" data-flow-index="3">
+                04 Decide
+              </button>
+            </div>
+            <div class="cs-flow-track-wrap">
+              <div class="cs-flow-track" id="flowTrack">
+                <div class="cs-flow-slide">
+                  <video
+                    src="assets/curated-flow-1-create.mp4"
+                    poster="assets/curated-flow-1-create.jpg"
+                    muted
+                    loop
+                    playsinline
+                    preload="metadata"
+                    aria-label="Creating a Curation called NYC Trip: importing photos from the camera roll, choosing a visual vibe, and turning on auto-post every 24 hours"
+                  ></video>
+                  <div>
+                    <p class="cs-flow-step">01 — Create</p>
+                    <p class="cs-flow-title">Start a Curation</p>
+                    <p class="cs-flow-cap">
+                      Name it, pull from your roll, pick a vibe. Auto-post is set
+                      once, up front: the only decision Lyne makes in the moment.
+                    </p>
+                  </div>
+                </div>
+                <div class="cs-flow-slide">
+                  <video
+                    src="assets/curated-flow-2-draft.mp4"
+                    poster="assets/curated-flow-2-draft.jpg"
+                    muted
+                    loop
+                    playsinline
+                    preload="metadata"
+                    aria-label="Opening a draft Curation from the Curations tab and adding more photos to it"
+                  ></video>
+                  <div>
+                    <p class="cs-flow-step">02 — Draft</p>
+                    <p class="cs-flow-title">Add as you go</p>
+                    <p class="cs-flow-cap">
+                      A Curation stays a draft all week. Add or swap photos anytime;
+                      nothing is final.
+                    </p>
+                  </div>
+                </div>
+                <div class="cs-flow-slide">
+                  <video
+                    src="assets/curated-flow-3-autopost.mp4"
+                    poster="assets/curated-flow-3-autopost.jpg"
+                    muted
+                    loop
+                    playsinline
+                    preload="metadata"
+                    aria-label="Lyne's post in the feed automatically rotating between photos from her Curation"
+                  ></video>
+                  <div>
+                    <p class="cs-flow-step">03 — Auto-post</p>
+                    <p class="cs-flow-title">Curated posts for you</p>
+                    <p class="cs-flow-cap">
+                      One photo at a time, picked at random, rotating every 24 hours.
+                      Posts expire in 36 hours, so no single photo has to be perfect.
+                    </p>
+                  </div>
+                </div>
+                <div class="cs-flow-slide">
+                  <video
+                    src="assets/curated-flow-4-decide.mp4"
+                    poster="assets/curated-flow-4-decide.jpg"
+                    muted
+                    loop
+                    playsinline
+                    preload="metadata"
+                    aria-label="End-of-week prompt asking what to do with the Curation, with options to keep on profile, archive, or discard, then the Curation saved to Lyne's profile"
+                  ></video>
+                  <div>
+                    <p class="cs-flow-step">04 — Decide</p>
+                    <p class="cs-flow-title">Decide later</p>
+                    <p class="cs-flow-cap">
+                      At week's end, one question: keep, archive, or discard. Control
+                      comes back after the moment, not during it.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="cs-flow-footer">
+              <button class="cs-flow-btn" id="flowPrev" aria-label="Previous step">
+                &#8592;
+              </button>
+              <button class="cs-flow-btn" id="flowNext" aria-label="Next step">
+                &#8594;
+              </button>
+              <div class="cs-flow-dots">
+                <button class="cs-flow-dot active" data-flow-dot="0" aria-label="Step 1"></button>
+                <button class="cs-flow-dot" data-flow-dot="1" aria-label="Step 2"></button>
+                <button class="cs-flow-dot" data-flow-dot="2" aria-label="Step 3"></button>
+                <button class="cs-flow-dot" data-flow-dot="3" aria-label="Step 4"></button>
+              </div>
+              <p class="cs-flow-count" id="flowCount">01 / 04</p>
+            </div>
           </div>
         </div>
 
@@ -1040,13 +1450,42 @@
             Built to prove one thing: <em>less deciding, less anxiety.</em>
           </h2>
           <p class="cs-text">
-            Curated's roadmap is staged to validate the core hypothesis and grow
-            from there: post-launch validation (does reducing decisions reduce
-            anxiety?), behavior optimization (refining how it curates and
-            shares), platform integration (auto-sharing to Instagram), and
-            expansion into a personal system that lives beyond posting.
+            Curated's roadmap is staged to validate the core hypothesis first,
+            then grow from there. Each phase only starts once the one before it
+            has earned it.
           </p>
-          <div class="cs-ph"><span>[ Roadmap — June → October ]</span></div>
+          <ol class="cs-roadmap" aria-label="Product roadmap">
+            <li class="cs-rm-phase" style="--span: 4; --tone: 1">
+              <span class="cs-rm-bar"></span>
+              <p class="cs-rm-num">01 · 2–4 weeks</p>
+              <p class="cs-rm-title">Post-Launch Validation</p>
+              <p class="cs-rm-goal">
+                Prove that reducing decision-making actually reduces anxiety.
+              </p>
+            </li>
+            <li class="cs-rm-phase" style="--span: 4; --tone: 0.7">
+              <span class="cs-rm-bar"></span>
+              <p class="cs-rm-num">02 · 2–4 weeks</p>
+              <p class="cs-rm-title">Behavior Optimization</p>
+              <p class="cs-rm-goal">Refine how the system curates and shares.</p>
+            </li>
+            <li class="cs-rm-phase" style="--span: 6; --tone: 0.45">
+              <span class="cs-rm-bar"></span>
+              <p class="cs-rm-num">03 · 5–6 weeks</p>
+              <p class="cs-rm-title">Platform Integration</p>
+              <p class="cs-rm-goal">
+                Integrate with platforms like Instagram for auto-sharing.
+              </p>
+            </li>
+            <li class="cs-rm-phase" style="--span: 4; --tone: 0.25">
+              <span class="cs-rm-bar"></span>
+              <p class="cs-rm-num">04 · 2–4 weeks</p>
+              <p class="cs-rm-title">Expansion &amp; Ecosystem</p>
+              <p class="cs-rm-goal">
+                Grow beyond posting into a personal system.
+              </p>
+            </li>
+          </ol>
         </div>
 
         <!-- LEARNINGS -->
@@ -1070,7 +1509,7 @@
       <div class="cs-next">
         <div>
           <p class="cs-next-label">Next project</p>
-          <a href="casekhoi.html" class="cs-next-link">KHOI App →</a>
+          <a href="caselabora.html" class="cs-next-link">Labora Cafe →</a>
         </div>
         <div class="cs-arrow">
           <svg viewBox="0 0 24 24" stroke-width="1.5">
@@ -1162,6 +1601,72 @@
       document.querySelectorAll(".cs-sec").forEach(function (el) {
         obs.observe(el);
       });
+
+      // Core flow carousel: one step at a time, only the current video plays
+      (function () {
+        var wrap = document.getElementById("flowCarousel");
+        var track = document.getElementById("flowTrack");
+        var videos = track.querySelectorAll("video");
+        var navBtns = wrap.querySelectorAll(".cs-flow-nav-btn");
+        var dots = wrap.querySelectorAll(".cs-flow-dot");
+        var count = document.getElementById("flowCount");
+        var total = videos.length;
+        var current = 0;
+        var inView = false;
+
+        function playCurrent() {
+          videos.forEach(function (v, i) {
+            if (i === current && inView) v.play().catch(function () {});
+            else v.pause();
+          });
+        }
+
+        function goTo(i) {
+          current = (i + total) % total;
+          track.style.transform = "translateX(-" + current * 100 + "%)";
+          navBtns.forEach(function (b, idx) {
+            b.classList.toggle("active", idx === current);
+          });
+          dots.forEach(function (d, idx) {
+            d.classList.toggle("active", idx === current);
+          });
+          count.textContent =
+            String(current + 1).padStart(2, "0") +
+            " / " +
+            String(total).padStart(2, "0");
+          videos[current].currentTime = 0;
+          playCurrent();
+        }
+
+        document.getElementById("flowPrev").addEventListener("click", function () {
+          goTo(current - 1);
+        });
+        document.getElementById("flowNext").addEventListener("click", function () {
+          goTo(current + 1);
+        });
+        navBtns.forEach(function (b) {
+          b.addEventListener("click", function () {
+            goTo(+b.dataset.flowIndex);
+          });
+        });
+        dots.forEach(function (d) {
+          d.addEventListener("click", function () {
+            goTo(+d.dataset.flowDot);
+          });
+        });
+        wrap.addEventListener("keydown", function (e) {
+          if (e.key === "ArrowLeft") goTo(current - 1);
+          if (e.key === "ArrowRight") goTo(current + 1);
+        });
+
+        new IntersectionObserver(
+          function (entries) {
+            inView = entries[0].isIntersecting;
+            playCurrent();
+          },
+          { threshold: 0.25 },
+        ).observe(wrap);
+      })();
 
       // Sidebar show / stop logic
       var csLayout = document.querySelector(".cs-layout");
